@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funi.filemove.dao.MgMapResultPoMapper">
+  <resultMap id="BaseResultMap" type="com.funi.filemove.po.MgMapResultPo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="PROJNAME" jdbcType="VARCHAR" property="projname" />
+    <result column="REGIONCODE" jdbcType="DECIMAL" property="regioncode" />
+    <result column="MAPCODE" jdbcType="VARCHAR" property="mapcode" />
+    <result column="IMAGESELFNO" jdbcType="VARCHAR" property="imageselfno" />
+    <result column="BUILDCODE" jdbcType="VARCHAR" property="buildcode" />
+    <result column="FORECASTMARK" jdbcType="VARCHAR" property="forecastmark" />
+    <result column="MAPSOFTMARK" jdbcType="VARCHAR" property="mapsoftmark" />
+    <result column="MGSTATUS" jdbcType="DECIMAL" property="mgstatus" />
+    <result column="REGITYPE" jdbcType="VARCHAR" property="regitype" />
+    <result column="INMAN" jdbcType="VARCHAR" property="inman" />
+    <result column="REGIDATE" jdbcType="DATE" property="regidate" />
+    <result column="CORRECTRESULT" jdbcType="VARCHAR" property="correctresult" />
+    <result column="CORRECTNOTE" jdbcType="VARCHAR" property="correctnote" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="CORRECTDATE" jdbcType="DATE" property="correctdate" />
+    <result column="CORRECTOR" jdbcType="VARCHAR" property="corrector" />
+    <result column="FLAG" jdbcType="DECIMAL" property="flag" />
+    <result column="LAYOUTNOS" jdbcType="VARCHAR" property="layoutnos" />
+    <result column="REPORTAREA" jdbcType="DECIMAL" property="reportarea" />
+    <result column="CHGCOUNT" jdbcType="DECIMAL" property="chgcount" />
+    <result column="PROJECTINFO" jdbcType="VARCHAR" property="projectinfo" />
+    <result column="SURVEYTYPE" jdbcType="DECIMAL" property="surveytype" />
+    <result column="DEALUSER" jdbcType="VARCHAR" property="dealuser" />
+    <result column="FTRIALUSER" jdbcType="VARCHAR" property="ftrialuser" />
+    <result column="REVIEWUSER" jdbcType="VARCHAR" property="reviewuser" />
+    <result column="CORUSER" jdbcType="VARCHAR" property="coruser" />
+    <result column="FTRIALDAYS" jdbcType="DECIMAL" property="ftrialdays" />
+    <result column="REVIEWDAYS" jdbcType="DECIMAL" property="reviewdays" />
+    <result column="CORDAYS" jdbcType="DECIMAL" property="cordays" />
+    <result column="FTRIALRELDAYS" jdbcType="DECIMAL" property="ftrialreldays" />
+    <result column="REVIEWRELDAYS" jdbcType="DECIMAL" property="reviewreldays" />
+    <result column="CORRELDAYS" jdbcType="DECIMAL" property="correldays" />
+    <result column="AFTERCOR" jdbcType="DECIMAL" property="aftercor" />
+    <result column="KEEPDATE" jdbcType="DATE" property="keepdate" />
+    <result column="KEEPUSER" jdbcType="VARCHAR" property="keepuser" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATETIME" jdbcType="DATE" property="createtime" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="UPDATETIME" jdbcType="DATE" property="updatetime" />
+    <result column="MOVETIME" jdbcType="DATE" property="movetime" />
+    <result column="CONTACT" jdbcType="VARCHAR" property="contact" />
+    <result column="PROJREACH" jdbcType="VARCHAR" property="projreach" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="PHASE" jdbcType="VARCHAR" property="phase" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="TMPRESULTSID" jdbcType="DECIMAL" property="tmpresultsid" />
+    <result column="TMPIMAGENAME" jdbcType="VARCHAR" property="tmpimagename" />
+    <result column="TMPIMAGETYPE" jdbcType="VARCHAR" property="tmpimagetype" />
+    <result column="TMPIMGSTYLE" jdbcType="VARCHAR" property="tmpimgstyle" />
+    <result column="TMPIMGFI01" jdbcType="DECIMAL" property="tmpimgfi01" />
+    <result column="TMPPID" jdbcType="VARCHAR" property="tmppid" />
+    <result column="TMPNOTE" jdbcType="VARCHAR" property="tmpnote" />
+    <result column="STATUSNO" jdbcType="DECIMAL" property="statusno" />
+    <result column="MGMAPER" jdbcType="VARCHAR" property="mgmaper" />
+    <result column="MGMAPERPHONE" jdbcType="VARCHAR" property="mgmaperphone" />
+    <result column="DOCNO" jdbcType="VARCHAR" property="docno" />
+    <result column="ACCEPSALECHECK" jdbcType="VARCHAR" property="accepsalecheck" />
+    <result column="PROJNO" jdbcType="VARCHAR" property="projno" />
+    <result column="INSPECTIONDATE" jdbcType="DATE" property="inspectiondate" />
+    <result column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="LOCAL_DATA_SOURCE" jdbcType="VARCHAR" property="localDataSource" />
+    <result column="PARENT_REG_ID" jdbcType="DECIMAL" property="parentRegId" />
+    <result column="PARENT_REG_UUID" jdbcType="VARCHAR" property="parentRegUuid" />
+    <result column="BIZ_UUID" jdbcType="VARCHAR" property="bizUuid" />
+    <result column="ISSTATIC" jdbcType="VARCHAR" property="isstatic" />
+    <result column="RESULT_STATUS" jdbcType="DECIMAL" property="resultStatus" />
+    <result column="VIRTUAL_REGION" jdbcType="VARCHAR" property="virtualRegion" />
+    <result column="START_WORK_LICENSE_KEY" jdbcType="VARCHAR" property="startWorkLicenseKey" />
+    <result column="REVIEW_ITEM_NUM" jdbcType="VARCHAR" property="reviewItemNum" />
+    <result column="BUILD_LINKMAN" jdbcType="VARCHAR" property="buildLinkman" />
+    <result column="BUILD_LINKMAN_NUM" jdbcType="VARCHAR" property="buildLinkmanNum" />
+    <result column="DECLARE_DEPT" jdbcType="VARCHAR" property="declareDept" />
+    <result column="PARENT_REC_UUID" jdbcType="VARCHAR" property="parentRecUuid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.funi.filemove.po.MgMapResultPo">
+    <result column="TMPIMAGE" jdbcType="BLOB" property="tmpimage" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PROJNAME, REGIONCODE, MAPCODE, IMAGESELFNO, BUILDCODE, FORECASTMARK, MAPSOFTMARK, 
+    MGSTATUS, REGITYPE, INMAN, REGIDATE, CORRECTRESULT, CORRECTNOTE, NOTE, CORRECTDATE, 
+    CORRECTOR, FLAG, LAYOUTNOS, REPORTAREA, CHGCOUNT, PROJECTINFO, SURVEYTYPE, DEALUSER, 
+    FTRIALUSER, REVIEWUSER, CORUSER, FTRIALDAYS, REVIEWDAYS, CORDAYS, FTRIALRELDAYS, 
+    REVIEWRELDAYS, CORRELDAYS, AFTERCOR, KEEPDATE, KEEPUSER, CREATER, CREATETIME, UPDATER, 
+    UPDATETIME, MOVETIME, CONTACT, PROJREACH, PHONE, PHASE, ADDRESS, TMPRESULTSID, TMPIMAGENAME, 
+    TMPIMAGETYPE, TMPIMGSTYLE, TMPIMGFI01, TMPPID, TMPNOTE, STATUSNO, MGMAPER, MGMAPERPHONE, 
+    DOCNO, ACCEPSALECHECK, PROJNO, INSPECTIONDATE, UUID, LOCAL_DATA_SOURCE, PARENT_REG_ID, 
+    PARENT_REG_UUID, BIZ_UUID, ISSTATIC, RESULT_STATUS, VIRTUAL_REGION, START_WORK_LICENSE_KEY, 
+    REVIEW_ITEM_NUM, BUILD_LINKMAN, BUILD_LINKMAN_NUM, DECLARE_DEPT, PARENT_REC_UUID
+  </sql>
+  <sql id="Blob_Column_List">
+    TMPIMAGE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from SURVEY.MGMAPRESULTS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from SURVEY.MGMAPRESULTS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.funi.filemove.po.MgMapResultPo">
+    insert into SURVEY.MGMAPRESULTS (ID, PROJNAME, REGIONCODE, 
+      MAPCODE, IMAGESELFNO, BUILDCODE, 
+      FORECASTMARK, MAPSOFTMARK, MGSTATUS, 
+      REGITYPE, INMAN, REGIDATE, 
+      CORRECTRESULT, CORRECTNOTE, NOTE, 
+      CORRECTDATE, CORRECTOR, FLAG, 
+      LAYOUTNOS, REPORTAREA, CHGCOUNT, 
+      PROJECTINFO, SURVEYTYPE, DEALUSER, 
+      FTRIALUSER, REVIEWUSER, CORUSER, 
+      FTRIALDAYS, REVIEWDAYS, CORDAYS, 
+      FTRIALRELDAYS, REVIEWRELDAYS, CORRELDAYS, 
+      AFTERCOR, KEEPDATE, KEEPUSER, 
+      CREATER, CREATETIME, UPDATER, 
+      UPDATETIME, MOVETIME, CONTACT, 
+      PROJREACH, PHONE, PHASE, 
+      ADDRESS, TMPRESULTSID, TMPIMAGENAME, 
+      TMPIMAGETYPE, TMPIMGSTYLE, TMPIMGFI01, 
+      TMPPID, TMPNOTE, STATUSNO, 
+      MGMAPER, MGMAPERPHONE, DOCNO, 
+      ACCEPSALECHECK, PROJNO, INSPECTIONDATE, 
+      UUID, LOCAL_DATA_SOURCE, PARENT_REG_ID, 
+      PARENT_REG_UUID, BIZ_UUID, ISSTATIC, 
+      RESULT_STATUS, VIRTUAL_REGION, START_WORK_LICENSE_KEY, 
+      REVIEW_ITEM_NUM, BUILD_LINKMAN, BUILD_LINKMAN_NUM, 
+      DECLARE_DEPT, PARENT_REC_UUID, TMPIMAGE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{projname,jdbcType=VARCHAR}, #{regioncode,jdbcType=DECIMAL}, 
+      #{mapcode,jdbcType=VARCHAR}, #{imageselfno,jdbcType=VARCHAR}, #{buildcode,jdbcType=VARCHAR}, 
+      #{forecastmark,jdbcType=VARCHAR}, #{mapsoftmark,jdbcType=VARCHAR}, #{mgstatus,jdbcType=DECIMAL}, 
+      #{regitype,jdbcType=VARCHAR}, #{inman,jdbcType=VARCHAR}, #{regidate,jdbcType=DATE}, 
+      #{correctresult,jdbcType=VARCHAR}, #{correctnote,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{correctdate,jdbcType=DATE}, #{corrector,jdbcType=VARCHAR}, #{flag,jdbcType=DECIMAL}, 
+      #{layoutnos,jdbcType=VARCHAR}, #{reportarea,jdbcType=DECIMAL}, #{chgcount,jdbcType=DECIMAL}, 
+      #{projectinfo,jdbcType=VARCHAR}, #{surveytype,jdbcType=DECIMAL}, #{dealuser,jdbcType=VARCHAR}, 
+      #{ftrialuser,jdbcType=VARCHAR}, #{reviewuser,jdbcType=VARCHAR}, #{coruser,jdbcType=VARCHAR}, 
+      #{ftrialdays,jdbcType=DECIMAL}, #{reviewdays,jdbcType=DECIMAL}, #{cordays,jdbcType=DECIMAL}, 
+      #{ftrialreldays,jdbcType=DECIMAL}, #{reviewreldays,jdbcType=DECIMAL}, #{correldays,jdbcType=DECIMAL}, 
+      #{aftercor,jdbcType=DECIMAL}, #{keepdate,jdbcType=DATE}, #{keepuser,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE}, #{updater,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=DATE}, #{movetime,jdbcType=DATE}, #{contact,jdbcType=VARCHAR}, 
+      #{projreach,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{phase,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{tmpresultsid,jdbcType=DECIMAL}, #{tmpimagename,jdbcType=VARCHAR}, 
+      #{tmpimagetype,jdbcType=VARCHAR}, #{tmpimgstyle,jdbcType=VARCHAR}, #{tmpimgfi01,jdbcType=DECIMAL}, 
+      #{tmppid,jdbcType=VARCHAR}, #{tmpnote,jdbcType=VARCHAR}, #{statusno,jdbcType=DECIMAL}, 
+      #{mgmaper,jdbcType=VARCHAR}, #{mgmaperphone,jdbcType=VARCHAR}, #{docno,jdbcType=VARCHAR}, 
+      #{accepsalecheck,jdbcType=VARCHAR}, #{projno,jdbcType=VARCHAR}, #{inspectiondate,jdbcType=DATE}, 
+      #{uuid,jdbcType=VARCHAR}, #{localDataSource,jdbcType=VARCHAR}, #{parentRegId,jdbcType=DECIMAL}, 
+      #{parentRegUuid,jdbcType=VARCHAR}, #{bizUuid,jdbcType=VARCHAR}, #{isstatic,jdbcType=VARCHAR}, 
+      #{resultStatus,jdbcType=DECIMAL}, #{virtualRegion,jdbcType=VARCHAR}, #{startWorkLicenseKey,jdbcType=VARCHAR}, 
+      #{reviewItemNum,jdbcType=VARCHAR}, #{buildLinkman,jdbcType=VARCHAR}, #{buildLinkmanNum,jdbcType=VARCHAR}, 
+      #{declareDept,jdbcType=VARCHAR}, #{parentRecUuid,jdbcType=VARCHAR}, #{tmpimage,jdbcType=BLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.funi.filemove.po.MgMapResultPo">
+    insert into SURVEY.MGMAPRESULTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projname != null">
+        PROJNAME,
+      </if>
+      <if test="regioncode != null">
+        REGIONCODE,
+      </if>
+      <if test="mapcode != null">
+        MAPCODE,
+      </if>
+      <if test="imageselfno != null">
+        IMAGESELFNO,
+      </if>
+      <if test="buildcode != null">
+        BUILDCODE,
+      </if>
+      <if test="forecastmark != null">
+        FORECASTMARK,
+      </if>
+      <if test="mapsoftmark != null">
+        MAPSOFTMARK,
+      </if>
+      <if test="mgstatus != null">
+        MGSTATUS,
+      </if>
+      <if test="regitype != null">
+        REGITYPE,
+      </if>
+      <if test="inman != null">
+        INMAN,
+      </if>
+      <if test="regidate != null">
+        REGIDATE,
+      </if>
+      <if test="correctresult != null">
+        CORRECTRESULT,
+      </if>
+      <if test="correctnote != null">
+        CORRECTNOTE,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="correctdate != null">
+        CORRECTDATE,
+      </if>
+      <if test="corrector != null">
+        CORRECTOR,
+      </if>
+      <if test="flag != null">
+        FLAG,
+      </if>
+      <if test="layoutnos != null">
+        LAYOUTNOS,
+      </if>
+      <if test="reportarea != null">
+        REPORTAREA,
+      </if>
+      <if test="chgcount != null">
+        CHGCOUNT,
+      </if>
+      <if test="projectinfo != null">
+        PROJECTINFO,
+      </if>
+      <if test="surveytype != null">
+        SURVEYTYPE,
+      </if>
+      <if test="dealuser != null">
+        DEALUSER,
+      </if>
+      <if test="ftrialuser != null">
+        FTRIALUSER,
+      </if>
+      <if test="reviewuser != null">
+        REVIEWUSER,
+      </if>
+      <if test="coruser != null">
+        CORUSER,
+      </if>
+      <if test="ftrialdays != null">
+        FTRIALDAYS,
+      </if>
+      <if test="reviewdays != null">
+        REVIEWDAYS,
+      </if>
+      <if test="cordays != null">
+        CORDAYS,
+      </if>
+      <if test="ftrialreldays != null">
+        FTRIALRELDAYS,
+      </if>
+      <if test="reviewreldays != null">
+        REVIEWRELDAYS,
+      </if>
+      <if test="correldays != null">
+        CORRELDAYS,
+      </if>
+      <if test="aftercor != null">
+        AFTERCOR,
+      </if>
+      <if test="keepdate != null">
+        KEEPDATE,
+      </if>
+      <if test="keepuser != null">
+        KEEPUSER,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="updater != null">
+        UPDATER,
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME,
+      </if>
+      <if test="movetime != null">
+        MOVETIME,
+      </if>
+      <if test="contact != null">
+        CONTACT,
+      </if>
+      <if test="projreach != null">
+        PROJREACH,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="phase != null">
+        PHASE,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="tmpresultsid != null">
+        TMPRESULTSID,
+      </if>
+      <if test="tmpimagename != null">
+        TMPIMAGENAME,
+      </if>
+      <if test="tmpimagetype != null">
+        TMPIMAGETYPE,
+      </if>
+      <if test="tmpimgstyle != null">
+        TMPIMGSTYLE,
+      </if>
+      <if test="tmpimgfi01 != null">
+        TMPIMGFI01,
+      </if>
+      <if test="tmppid != null">
+        TMPPID,
+      </if>
+      <if test="tmpnote != null">
+        TMPNOTE,
+      </if>
+      <if test="statusno != null">
+        STATUSNO,
+      </if>
+      <if test="mgmaper != null">
+        MGMAPER,
+      </if>
+      <if test="mgmaperphone != null">
+        MGMAPERPHONE,
+      </if>
+      <if test="docno != null">
+        DOCNO,
+      </if>
+      <if test="accepsalecheck != null">
+        ACCEPSALECHECK,
+      </if>
+      <if test="projno != null">
+        PROJNO,
+      </if>
+      <if test="inspectiondate != null">
+        INSPECTIONDATE,
+      </if>
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="localDataSource != null">
+        LOCAL_DATA_SOURCE,
+      </if>
+      <if test="parentRegId != null">
+        PARENT_REG_ID,
+      </if>
+      <if test="parentRegUuid != null">
+        PARENT_REG_UUID,
+      </if>
+      <if test="bizUuid != null">
+        BIZ_UUID,
+      </if>
+      <if test="isstatic != null">
+        ISSTATIC,
+      </if>
+      <if test="resultStatus != null">
+        RESULT_STATUS,
+      </if>
+      <if test="virtualRegion != null">
+        VIRTUAL_REGION,
+      </if>
+      <if test="startWorkLicenseKey != null">
+        START_WORK_LICENSE_KEY,
+      </if>
+      <if test="reviewItemNum != null">
+        REVIEW_ITEM_NUM,
+      </if>
+      <if test="buildLinkman != null">
+        BUILD_LINKMAN,
+      </if>
+      <if test="buildLinkmanNum != null">
+        BUILD_LINKMAN_NUM,
+      </if>
+      <if test="declareDept != null">
+        DECLARE_DEPT,
+      </if>
+      <if test="parentRecUuid != null">
+        PARENT_REC_UUID,
+      </if>
+      <if test="tmpimage != null">
+        TMPIMAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="projname != null">
+        #{projname,jdbcType=VARCHAR},
+      </if>
+      <if test="regioncode != null">
+        #{regioncode,jdbcType=DECIMAL},
+      </if>
+      <if test="mapcode != null">
+        #{mapcode,jdbcType=VARCHAR},
+      </if>
+      <if test="imageselfno != null">
+        #{imageselfno,jdbcType=VARCHAR},
+      </if>
+      <if test="buildcode != null">
+        #{buildcode,jdbcType=VARCHAR},
+      </if>
+      <if test="forecastmark != null">
+        #{forecastmark,jdbcType=VARCHAR},
+      </if>
+      <if test="mapsoftmark != null">
+        #{mapsoftmark,jdbcType=VARCHAR},
+      </if>
+      <if test="mgstatus != null">
+        #{mgstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="regitype != null">
+        #{regitype,jdbcType=VARCHAR},
+      </if>
+      <if test="inman != null">
+        #{inman,jdbcType=VARCHAR},
+      </if>
+      <if test="regidate != null">
+        #{regidate,jdbcType=DATE},
+      </if>
+      <if test="correctresult != null">
+        #{correctresult,jdbcType=VARCHAR},
+      </if>
+      <if test="correctnote != null">
+        #{correctnote,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="correctdate != null">
+        #{correctdate,jdbcType=DATE},
+      </if>
+      <if test="corrector != null">
+        #{corrector,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=DECIMAL},
+      </if>
+      <if test="layoutnos != null">
+        #{layoutnos,jdbcType=VARCHAR},
+      </if>
+      <if test="reportarea != null">
+        #{reportarea,jdbcType=DECIMAL},
+      </if>
+      <if test="chgcount != null">
+        #{chgcount,jdbcType=DECIMAL},
+      </if>
+      <if test="projectinfo != null">
+        #{projectinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="surveytype != null">
+        #{surveytype,jdbcType=DECIMAL},
+      </if>
+      <if test="dealuser != null">
+        #{dealuser,jdbcType=VARCHAR},
+      </if>
+      <if test="ftrialuser != null">
+        #{ftrialuser,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewuser != null">
+        #{reviewuser,jdbcType=VARCHAR},
+      </if>
+      <if test="coruser != null">
+        #{coruser,jdbcType=VARCHAR},
+      </if>
+      <if test="ftrialdays != null">
+        #{ftrialdays,jdbcType=DECIMAL},
+      </if>
+      <if test="reviewdays != null">
+        #{reviewdays,jdbcType=DECIMAL},
+      </if>
+      <if test="cordays != null">
+        #{cordays,jdbcType=DECIMAL},
+      </if>
+      <if test="ftrialreldays != null">
+        #{ftrialreldays,jdbcType=DECIMAL},
+      </if>
+      <if test="reviewreldays != null">
+        #{reviewreldays,jdbcType=DECIMAL},
+      </if>
+      <if test="correldays != null">
+        #{correldays,jdbcType=DECIMAL},
+      </if>
+      <if test="aftercor != null">
+        #{aftercor,jdbcType=DECIMAL},
+      </if>
+      <if test="keepdate != null">
+        #{keepdate,jdbcType=DATE},
+      </if>
+      <if test="keepuser != null">
+        #{keepuser,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="movetime != null">
+        #{movetime,jdbcType=DATE},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="projreach != null">
+        #{projreach,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="phase != null">
+        #{phase,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpresultsid != null">
+        #{tmpresultsid,jdbcType=DECIMAL},
+      </if>
+      <if test="tmpimagename != null">
+        #{tmpimagename,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpimagetype != null">
+        #{tmpimagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpimgstyle != null">
+        #{tmpimgstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpimgfi01 != null">
+        #{tmpimgfi01,jdbcType=DECIMAL},
+      </if>
+      <if test="tmppid != null">
+        #{tmppid,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpnote != null">
+        #{tmpnote,jdbcType=VARCHAR},
+      </if>
+      <if test="statusno != null">
+        #{statusno,jdbcType=DECIMAL},
+      </if>
+      <if test="mgmaper != null">
+        #{mgmaper,jdbcType=VARCHAR},
+      </if>
+      <if test="mgmaperphone != null">
+        #{mgmaperphone,jdbcType=VARCHAR},
+      </if>
+      <if test="docno != null">
+        #{docno,jdbcType=VARCHAR},
+      </if>
+      <if test="accepsalecheck != null">
+        #{accepsalecheck,jdbcType=VARCHAR},
+      </if>
+      <if test="projno != null">
+        #{projno,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectiondate != null">
+        #{inspectiondate,jdbcType=DATE},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="localDataSource != null">
+        #{localDataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="parentRegId != null">
+        #{parentRegId,jdbcType=DECIMAL},
+      </if>
+      <if test="parentRegUuid != null">
+        #{parentRegUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="bizUuid != null">
+        #{bizUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isstatic != null">
+        #{isstatic,jdbcType=VARCHAR},
+      </if>
+      <if test="resultStatus != null">
+        #{resultStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="virtualRegion != null">
+        #{virtualRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="startWorkLicenseKey != null">
+        #{startWorkLicenseKey,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewItemNum != null">
+        #{reviewItemNum,jdbcType=VARCHAR},
+      </if>
+      <if test="buildLinkman != null">
+        #{buildLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="buildLinkmanNum != null">
+        #{buildLinkmanNum,jdbcType=VARCHAR},
+      </if>
+      <if test="declareDept != null">
+        #{declareDept,jdbcType=VARCHAR},
+      </if>
+      <if test="parentRecUuid != null">
+        #{parentRecUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpimage != null">
+        #{tmpimage,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.MgMapResultPo">
+    update SURVEY.MGMAPRESULTS
+    <set>
+      <if test="projname != null">
+        PROJNAME = #{projname,jdbcType=VARCHAR},
+      </if>
+      <if test="regioncode != null">
+        REGIONCODE = #{regioncode,jdbcType=DECIMAL},
+      </if>
+      <if test="mapcode != null">
+        MAPCODE = #{mapcode,jdbcType=VARCHAR},
+      </if>
+      <if test="imageselfno != null">
+        IMAGESELFNO = #{imageselfno,jdbcType=VARCHAR},
+      </if>
+      <if test="buildcode != null">
+        BUILDCODE = #{buildcode,jdbcType=VARCHAR},
+      </if>
+      <if test="forecastmark != null">
+        FORECASTMARK = #{forecastmark,jdbcType=VARCHAR},
+      </if>
+      <if test="mapsoftmark != null">
+        MAPSOFTMARK = #{mapsoftmark,jdbcType=VARCHAR},
+      </if>
+      <if test="mgstatus != null">
+        MGSTATUS = #{mgstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="regitype != null">
+        REGITYPE = #{regitype,jdbcType=VARCHAR},
+      </if>
+      <if test="inman != null">
+        INMAN = #{inman,jdbcType=VARCHAR},
+      </if>
+      <if test="regidate != null">
+        REGIDATE = #{regidate,jdbcType=DATE},
+      </if>
+      <if test="correctresult != null">
+        CORRECTRESULT = #{correctresult,jdbcType=VARCHAR},
+      </if>
+      <if test="correctnote != null">
+        CORRECTNOTE = #{correctnote,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="correctdate != null">
+        CORRECTDATE = #{correctdate,jdbcType=DATE},
+      </if>
+      <if test="corrector != null">
+        CORRECTOR = #{corrector,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        FLAG = #{flag,jdbcType=DECIMAL},
+      </if>
+      <if test="layoutnos != null">
+        LAYOUTNOS = #{layoutnos,jdbcType=VARCHAR},
+      </if>
+      <if test="reportarea != null">
+        REPORTAREA = #{reportarea,jdbcType=DECIMAL},
+      </if>
+      <if test="chgcount != null">
+        CHGCOUNT = #{chgcount,jdbcType=DECIMAL},
+      </if>
+      <if test="projectinfo != null">
+        PROJECTINFO = #{projectinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="surveytype != null">
+        SURVEYTYPE = #{surveytype,jdbcType=DECIMAL},
+      </if>
+      <if test="dealuser != null">
+        DEALUSER = #{dealuser,jdbcType=VARCHAR},
+      </if>
+      <if test="ftrialuser != null">
+        FTRIALUSER = #{ftrialuser,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewuser != null">
+        REVIEWUSER = #{reviewuser,jdbcType=VARCHAR},
+      </if>
+      <if test="coruser != null">
+        CORUSER = #{coruser,jdbcType=VARCHAR},
+      </if>
+      <if test="ftrialdays != null">
+        FTRIALDAYS = #{ftrialdays,jdbcType=DECIMAL},
+      </if>
+      <if test="reviewdays != null">
+        REVIEWDAYS = #{reviewdays,jdbcType=DECIMAL},
+      </if>
+      <if test="cordays != null">
+        CORDAYS = #{cordays,jdbcType=DECIMAL},
+      </if>
+      <if test="ftrialreldays != null">
+        FTRIALRELDAYS = #{ftrialreldays,jdbcType=DECIMAL},
+      </if>
+      <if test="reviewreldays != null">
+        REVIEWRELDAYS = #{reviewreldays,jdbcType=DECIMAL},
+      </if>
+      <if test="correldays != null">
+        CORRELDAYS = #{correldays,jdbcType=DECIMAL},
+      </if>
+      <if test="aftercor != null">
+        AFTERCOR = #{aftercor,jdbcType=DECIMAL},
+      </if>
+      <if test="keepdate != null">
+        KEEPDATE = #{keepdate,jdbcType=DATE},
+      </if>
+      <if test="keepuser != null">
+        KEEPUSER = #{keepuser,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="updater != null">
+        UPDATER = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UPDATETIME = #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="movetime != null">
+        MOVETIME = #{movetime,jdbcType=DATE},
+      </if>
+      <if test="contact != null">
+        CONTACT = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="projreach != null">
+        PROJREACH = #{projreach,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="phase != null">
+        PHASE = #{phase,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpresultsid != null">
+        TMPRESULTSID = #{tmpresultsid,jdbcType=DECIMAL},
+      </if>
+      <if test="tmpimagename != null">
+        TMPIMAGENAME = #{tmpimagename,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpimagetype != null">
+        TMPIMAGETYPE = #{tmpimagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpimgstyle != null">
+        TMPIMGSTYLE = #{tmpimgstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpimgfi01 != null">
+        TMPIMGFI01 = #{tmpimgfi01,jdbcType=DECIMAL},
+      </if>
+      <if test="tmppid != null">
+        TMPPID = #{tmppid,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpnote != null">
+        TMPNOTE = #{tmpnote,jdbcType=VARCHAR},
+      </if>
+      <if test="statusno != null">
+        STATUSNO = #{statusno,jdbcType=DECIMAL},
+      </if>
+      <if test="mgmaper != null">
+        MGMAPER = #{mgmaper,jdbcType=VARCHAR},
+      </if>
+      <if test="mgmaperphone != null">
+        MGMAPERPHONE = #{mgmaperphone,jdbcType=VARCHAR},
+      </if>
+      <if test="docno != null">
+        DOCNO = #{docno,jdbcType=VARCHAR},
+      </if>
+      <if test="accepsalecheck != null">
+        ACCEPSALECHECK = #{accepsalecheck,jdbcType=VARCHAR},
+      </if>
+      <if test="projno != null">
+        PROJNO = #{projno,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectiondate != null">
+        INSPECTIONDATE = #{inspectiondate,jdbcType=DATE},
+      </if>
+      <if test="uuid != null">
+        UUID = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="localDataSource != null">
+        LOCAL_DATA_SOURCE = #{localDataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="parentRegId != null">
+        PARENT_REG_ID = #{parentRegId,jdbcType=DECIMAL},
+      </if>
+      <if test="parentRegUuid != null">
+        PARENT_REG_UUID = #{parentRegUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="bizUuid != null">
+        BIZ_UUID = #{bizUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isstatic != null">
+        ISSTATIC = #{isstatic,jdbcType=VARCHAR},
+      </if>
+      <if test="resultStatus != null">
+        RESULT_STATUS = #{resultStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="virtualRegion != null">
+        VIRTUAL_REGION = #{virtualRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="startWorkLicenseKey != null">
+        START_WORK_LICENSE_KEY = #{startWorkLicenseKey,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewItemNum != null">
+        REVIEW_ITEM_NUM = #{reviewItemNum,jdbcType=VARCHAR},
+      </if>
+      <if test="buildLinkman != null">
+        BUILD_LINKMAN = #{buildLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="buildLinkmanNum != null">
+        BUILD_LINKMAN_NUM = #{buildLinkmanNum,jdbcType=VARCHAR},
+      </if>
+      <if test="declareDept != null">
+        DECLARE_DEPT = #{declareDept,jdbcType=VARCHAR},
+      </if>
+      <if test="parentRecUuid != null">
+        PARENT_REC_UUID = #{parentRecUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpimage != null">
+        TMPIMAGE = #{tmpimage,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.funi.filemove.po.MgMapResultPo">
+    update SURVEY.MGMAPRESULTS
+    set PROJNAME = #{projname,jdbcType=VARCHAR},
+      REGIONCODE = #{regioncode,jdbcType=DECIMAL},
+      MAPCODE = #{mapcode,jdbcType=VARCHAR},
+      IMAGESELFNO = #{imageselfno,jdbcType=VARCHAR},
+      BUILDCODE = #{buildcode,jdbcType=VARCHAR},
+      FORECASTMARK = #{forecastmark,jdbcType=VARCHAR},
+      MAPSOFTMARK = #{mapsoftmark,jdbcType=VARCHAR},
+      MGSTATUS = #{mgstatus,jdbcType=DECIMAL},
+      REGITYPE = #{regitype,jdbcType=VARCHAR},
+      INMAN = #{inman,jdbcType=VARCHAR},
+      REGIDATE = #{regidate,jdbcType=DATE},
+      CORRECTRESULT = #{correctresult,jdbcType=VARCHAR},
+      CORRECTNOTE = #{correctnote,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      CORRECTDATE = #{correctdate,jdbcType=DATE},
+      CORRECTOR = #{corrector,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=DECIMAL},
+      LAYOUTNOS = #{layoutnos,jdbcType=VARCHAR},
+      REPORTAREA = #{reportarea,jdbcType=DECIMAL},
+      CHGCOUNT = #{chgcount,jdbcType=DECIMAL},
+      PROJECTINFO = #{projectinfo,jdbcType=VARCHAR},
+      SURVEYTYPE = #{surveytype,jdbcType=DECIMAL},
+      DEALUSER = #{dealuser,jdbcType=VARCHAR},
+      FTRIALUSER = #{ftrialuser,jdbcType=VARCHAR},
+      REVIEWUSER = #{reviewuser,jdbcType=VARCHAR},
+      CORUSER = #{coruser,jdbcType=VARCHAR},
+      FTRIALDAYS = #{ftrialdays,jdbcType=DECIMAL},
+      REVIEWDAYS = #{reviewdays,jdbcType=DECIMAL},
+      CORDAYS = #{cordays,jdbcType=DECIMAL},
+      FTRIALRELDAYS = #{ftrialreldays,jdbcType=DECIMAL},
+      REVIEWRELDAYS = #{reviewreldays,jdbcType=DECIMAL},
+      CORRELDAYS = #{correldays,jdbcType=DECIMAL},
+      AFTERCOR = #{aftercor,jdbcType=DECIMAL},
+      KEEPDATE = #{keepdate,jdbcType=DATE},
+      KEEPUSER = #{keepuser,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=DATE},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=DATE},
+      MOVETIME = #{movetime,jdbcType=DATE},
+      CONTACT = #{contact,jdbcType=VARCHAR},
+      PROJREACH = #{projreach,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      PHASE = #{phase,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      TMPRESULTSID = #{tmpresultsid,jdbcType=DECIMAL},
+      TMPIMAGENAME = #{tmpimagename,jdbcType=VARCHAR},
+      TMPIMAGETYPE = #{tmpimagetype,jdbcType=VARCHAR},
+      TMPIMGSTYLE = #{tmpimgstyle,jdbcType=VARCHAR},
+      TMPIMGFI01 = #{tmpimgfi01,jdbcType=DECIMAL},
+      TMPPID = #{tmppid,jdbcType=VARCHAR},
+      TMPNOTE = #{tmpnote,jdbcType=VARCHAR},
+      STATUSNO = #{statusno,jdbcType=DECIMAL},
+      MGMAPER = #{mgmaper,jdbcType=VARCHAR},
+      MGMAPERPHONE = #{mgmaperphone,jdbcType=VARCHAR},
+      DOCNO = #{docno,jdbcType=VARCHAR},
+      ACCEPSALECHECK = #{accepsalecheck,jdbcType=VARCHAR},
+      PROJNO = #{projno,jdbcType=VARCHAR},
+      INSPECTIONDATE = #{inspectiondate,jdbcType=DATE},
+      UUID = #{uuid,jdbcType=VARCHAR},
+      LOCAL_DATA_SOURCE = #{localDataSource,jdbcType=VARCHAR},
+      PARENT_REG_ID = #{parentRegId,jdbcType=DECIMAL},
+      PARENT_REG_UUID = #{parentRegUuid,jdbcType=VARCHAR},
+      BIZ_UUID = #{bizUuid,jdbcType=VARCHAR},
+      ISSTATIC = #{isstatic,jdbcType=VARCHAR},
+      RESULT_STATUS = #{resultStatus,jdbcType=DECIMAL},
+      VIRTUAL_REGION = #{virtualRegion,jdbcType=VARCHAR},
+      START_WORK_LICENSE_KEY = #{startWorkLicenseKey,jdbcType=VARCHAR},
+      REVIEW_ITEM_NUM = #{reviewItemNum,jdbcType=VARCHAR},
+      BUILD_LINKMAN = #{buildLinkman,jdbcType=VARCHAR},
+      BUILD_LINKMAN_NUM = #{buildLinkmanNum,jdbcType=VARCHAR},
+      DECLARE_DEPT = #{declareDept,jdbcType=VARCHAR},
+      PARENT_REC_UUID = #{parentRecUuid,jdbcType=VARCHAR},
+      TMPIMAGE = #{tmpimage,jdbcType=BLOB}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.MgMapResultPo">
+    update SURVEY.MGMAPRESULTS
+    set PROJNAME = #{projname,jdbcType=VARCHAR},
+      REGIONCODE = #{regioncode,jdbcType=DECIMAL},
+      MAPCODE = #{mapcode,jdbcType=VARCHAR},
+      IMAGESELFNO = #{imageselfno,jdbcType=VARCHAR},
+      BUILDCODE = #{buildcode,jdbcType=VARCHAR},
+      FORECASTMARK = #{forecastmark,jdbcType=VARCHAR},
+      MAPSOFTMARK = #{mapsoftmark,jdbcType=VARCHAR},
+      MGSTATUS = #{mgstatus,jdbcType=DECIMAL},
+      REGITYPE = #{regitype,jdbcType=VARCHAR},
+      INMAN = #{inman,jdbcType=VARCHAR},
+      REGIDATE = #{regidate,jdbcType=DATE},
+      CORRECTRESULT = #{correctresult,jdbcType=VARCHAR},
+      CORRECTNOTE = #{correctnote,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      CORRECTDATE = #{correctdate,jdbcType=DATE},
+      CORRECTOR = #{corrector,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=DECIMAL},
+      LAYOUTNOS = #{layoutnos,jdbcType=VARCHAR},
+      REPORTAREA = #{reportarea,jdbcType=DECIMAL},
+      CHGCOUNT = #{chgcount,jdbcType=DECIMAL},
+      PROJECTINFO = #{projectinfo,jdbcType=VARCHAR},
+      SURVEYTYPE = #{surveytype,jdbcType=DECIMAL},
+      DEALUSER = #{dealuser,jdbcType=VARCHAR},
+      FTRIALUSER = #{ftrialuser,jdbcType=VARCHAR},
+      REVIEWUSER = #{reviewuser,jdbcType=VARCHAR},
+      CORUSER = #{coruser,jdbcType=VARCHAR},
+      FTRIALDAYS = #{ftrialdays,jdbcType=DECIMAL},
+      REVIEWDAYS = #{reviewdays,jdbcType=DECIMAL},
+      CORDAYS = #{cordays,jdbcType=DECIMAL},
+      FTRIALRELDAYS = #{ftrialreldays,jdbcType=DECIMAL},
+      REVIEWRELDAYS = #{reviewreldays,jdbcType=DECIMAL},
+      CORRELDAYS = #{correldays,jdbcType=DECIMAL},
+      AFTERCOR = #{aftercor,jdbcType=DECIMAL},
+      KEEPDATE = #{keepdate,jdbcType=DATE},
+      KEEPUSER = #{keepuser,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=DATE},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=DATE},
+      MOVETIME = #{movetime,jdbcType=DATE},
+      CONTACT = #{contact,jdbcType=VARCHAR},
+      PROJREACH = #{projreach,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      PHASE = #{phase,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      TMPRESULTSID = #{tmpresultsid,jdbcType=DECIMAL},
+      TMPIMAGENAME = #{tmpimagename,jdbcType=VARCHAR},
+      TMPIMAGETYPE = #{tmpimagetype,jdbcType=VARCHAR},
+      TMPIMGSTYLE = #{tmpimgstyle,jdbcType=VARCHAR},
+      TMPIMGFI01 = #{tmpimgfi01,jdbcType=DECIMAL},
+      TMPPID = #{tmppid,jdbcType=VARCHAR},
+      TMPNOTE = #{tmpnote,jdbcType=VARCHAR},
+      STATUSNO = #{statusno,jdbcType=DECIMAL},
+      MGMAPER = #{mgmaper,jdbcType=VARCHAR},
+      MGMAPERPHONE = #{mgmaperphone,jdbcType=VARCHAR},
+      DOCNO = #{docno,jdbcType=VARCHAR},
+      ACCEPSALECHECK = #{accepsalecheck,jdbcType=VARCHAR},
+      PROJNO = #{projno,jdbcType=VARCHAR},
+      INSPECTIONDATE = #{inspectiondate,jdbcType=DATE},
+      UUID = #{uuid,jdbcType=VARCHAR},
+      LOCAL_DATA_SOURCE = #{localDataSource,jdbcType=VARCHAR},
+      PARENT_REG_ID = #{parentRegId,jdbcType=DECIMAL},
+      PARENT_REG_UUID = #{parentRegUuid,jdbcType=VARCHAR},
+      BIZ_UUID = #{bizUuid,jdbcType=VARCHAR},
+      ISSTATIC = #{isstatic,jdbcType=VARCHAR},
+      RESULT_STATUS = #{resultStatus,jdbcType=DECIMAL},
+      VIRTUAL_REGION = #{virtualRegion,jdbcType=VARCHAR},
+      START_WORK_LICENSE_KEY = #{startWorkLicenseKey,jdbcType=VARCHAR},
+      REVIEW_ITEM_NUM = #{reviewItemNum,jdbcType=VARCHAR},
+      BUILD_LINKMAN = #{buildLinkman,jdbcType=VARCHAR},
+      BUILD_LINKMAN_NUM = #{buildLinkmanNum,jdbcType=VARCHAR},
+      DECLARE_DEPT = #{declareDept,jdbcType=VARCHAR},
+      PARENT_REC_UUID = #{parentRecUuid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+
+  <select id="selectMgResultListByFileQuery" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from SURVEY.MGMAPRESULTS
+    <where>
+      <if test="id!=null">
+        ID = #{id,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </select>
+</mapper>

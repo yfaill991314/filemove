@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funi.filemove.dao.CfFileDescPoMapper">
+  <resultMap id="BaseResultMap" type="com.funi.filemove.po.CfFileDescPo">
+    <id column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="FILE_STORE_ID" jdbcType="VARCHAR" property="fileStoreId" />
+    <result column="STORE_TYPE" jdbcType="DECIMAL" property="storeType" />
+    <result column="FILE_SIZE" jdbcType="DECIMAL" property="fileSize" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="EXT_NAME" jdbcType="VARCHAR" property="extName" />
+    <result column="IS_USE" jdbcType="DECIMAL" property="isUse" />
+    <result column="SYSTEM_CODE" jdbcType="VARCHAR" property="systemCode" />
+    <result column="BUSINESS_TABLE" jdbcType="VARCHAR" property="businessTable" />
+    <result column="BUSINESS_UUID" jdbcType="VARCHAR" property="businessUuid" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR_ID" jdbcType="VARCHAR" property="creatorId" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATER_ID" jdbcType="VARCHAR" property="updaterId" />
+    <result column="DELETE_TIME" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="DELETER_ID" jdbcType="VARCHAR" property="deleterId" />
+    <result column="BUSINESS_DESC" jdbcType="VARCHAR" property="businessDesc" />
+    <result column="BUSINESS_TYPE" jdbcType="VARCHAR" property="businessType" />
+    <result column="BUSINESS_NAME" jdbcType="VARCHAR" property="businessName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UUID, FILE_STORE_ID, STORE_TYPE, FILE_SIZE, FILE_NAME, EXT_NAME, IS_USE, SYSTEM_CODE, 
+    BUSINESS_TABLE, BUSINESS_UUID, STATUS, CREATE_TIME, CREATOR_ID, UPDATE_TIME, UPDATER_ID, 
+    DELETE_TIME, DELETER_ID, BUSINESS_DESC, BUSINESS_TYPE, BUSINESS_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CCS.CF_FILE_DESC
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CCS.CF_FILE_DESC
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.funi.filemove.po.CfFileDescPo">
+    insert into CCS.CF_FILE_DESC (UUID, FILE_STORE_ID, STORE_TYPE, 
+      FILE_SIZE, FILE_NAME, EXT_NAME, 
+      IS_USE, SYSTEM_CODE, BUSINESS_TABLE, 
+      BUSINESS_UUID, STATUS, CREATE_TIME, 
+      CREATOR_ID, UPDATE_TIME, UPDATER_ID, 
+      DELETE_TIME, DELETER_ID, BUSINESS_DESC, 
+      BUSINESS_TYPE, BUSINESS_NAME)
+    values (#{uuid,jdbcType=VARCHAR}, #{fileStoreId,jdbcType=VARCHAR}, #{storeType,jdbcType=DECIMAL}, 
+      #{fileSize,jdbcType=DECIMAL}, #{fileName,jdbcType=VARCHAR}, #{extName,jdbcType=VARCHAR}, 
+      #{isUse,jdbcType=DECIMAL}, #{systemCode,jdbcType=VARCHAR}, #{businessTable,jdbcType=VARCHAR}, 
+      #{businessUuid,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+      #{creatorId,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, #{updaterId,jdbcType=VARCHAR}, 
+      #{deleteTime,jdbcType=TIMESTAMP}, #{deleterId,jdbcType=VARCHAR}, #{businessDesc,jdbcType=VARCHAR},
+      #{businessType,jdbcType=VARCHAR}, #{businessName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.funi.filemove.po.CfFileDescPo">
+    insert into CCS.CF_FILE_DESC
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="fileStoreId != null">
+        FILE_STORE_ID,
+      </if>
+      <if test="storeType != null">
+        STORE_TYPE,
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="extName != null">
+        EXT_NAME,
+      </if>
+      <if test="isUse != null">
+        IS_USE,
+      </if>
+      <if test="systemCode != null">
+        SYSTEM_CODE,
+      </if>
+      <if test="businessTable != null">
+        BUSINESS_TABLE,
+      </if>
+      <if test="businessUuid != null">
+        BUSINESS_UUID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID,
+      </if>
+      <if test="deleteTime != null">
+        DELETE_TIME,
+      </if>
+      <if test="deleterId != null">
+        DELETER_ID,
+      </if>
+      <if test="businessDesc != null">
+        BUSINESS_DESC,
+      </if>
+      <if test="businessType != null">
+        BUSINESS_TYPE,
+      </if>
+      <if test="businessName != null">
+        BUSINESS_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="fileStoreId != null">
+        #{fileStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeType != null">
+        #{storeType,jdbcType=DECIMAL},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=DECIMAL},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="extName != null">
+        #{extName,jdbcType=VARCHAR},
+      </if>
+      <if test="isUse != null">
+        #{isUse,jdbcType=DECIMAL},
+      </if>
+      <if test="systemCode != null">
+        #{systemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessTable != null">
+        #{businessTable,jdbcType=VARCHAR},
+      </if>
+      <if test="businessUuid != null">
+        #{businessUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleterId != null">
+        #{deleterId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDesc != null">
+        #{businessDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null">
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.CfFileDescPo">
+    update CCS.CF_FILE_DESC
+    <set>
+      <if test="fileStoreId != null">
+        FILE_STORE_ID = #{fileStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeType != null">
+        STORE_TYPE = #{storeType,jdbcType=DECIMAL},
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
+      </if>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="extName != null">
+        EXT_NAME = #{extName,jdbcType=VARCHAR},
+      </if>
+      <if test="isUse != null">
+        IS_USE = #{isUse,jdbcType=DECIMAL},
+      </if>
+      <if test="systemCode != null">
+        SYSTEM_CODE = #{systemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessTable != null">
+        BUSINESS_TABLE = #{businessTable,jdbcType=VARCHAR},
+      </if>
+      <if test="businessUuid != null">
+        BUSINESS_UUID = #{businessUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID = #{creatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID = #{updaterId,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        DELETE_TIME = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleterId != null">
+        DELETER_ID = #{deleterId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDesc != null">
+        BUSINESS_DESC = #{businessDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null">
+        BUSINESS_NAME = #{businessName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.CfFileDescPo">
+    update CCS.CF_FILE_DESC
+    set FILE_STORE_ID = #{fileStoreId,jdbcType=VARCHAR},
+      STORE_TYPE = #{storeType,jdbcType=DECIMAL},
+      FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      EXT_NAME = #{extName,jdbcType=VARCHAR},
+      IS_USE = #{isUse,jdbcType=DECIMAL},
+      SYSTEM_CODE = #{systemCode,jdbcType=VARCHAR},
+      BUSINESS_TABLE = #{businessTable,jdbcType=VARCHAR},
+      BUSINESS_UUID = #{businessUuid,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{creatorId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATER_ID = #{updaterId,jdbcType=VARCHAR},
+      DELETE_TIME = #{deleteTime,jdbcType=TIMESTAMP},
+      DELETER_ID = #{deleterId,jdbcType=VARCHAR},
+      BUSINESS_DESC = #{businessDesc,jdbcType=VARCHAR},
+      BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      BUSINESS_NAME = #{businessName,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="selectFileListByFileQuery" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CCS.CF_FILE_DESC f
+    <where>
+      <if test="uuid != null">
+        and UUID = #{uuid,jdbcType=VARCHAR}
+      </if>
+      <if test="fileStoreId != null">
+        <bind name="fileStoreIdLike" value="'%' + fileStoreId + '%'" />
+        and FILE_STORE_ID like #{fileStoreIdLike,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by
+    f.create_time desc
+  </select>
+
+  <select id="selectFileListByFigIdAndBusUuid" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CCS.CF_FILE_DESC f
+    <where>
+      <if test="busUuid != null">
+        and BUSINESS_UUID = #{busUuid,jdbcType=VARCHAR}
+      </if>
+      <if test="storeId != null">
+        and FILE_STORE_ID = #{storeId,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by
+    f.create_time desc
+  </select>
+
+</mapper>

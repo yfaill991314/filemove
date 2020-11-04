@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+
+dynamic:
+  datasource:
+    cd:
+      driver-class-name: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@172.29.251.206:1521:ora750ab
+      username: eistrong
+      password: eistrong
+    lq:
+      driver-class-name: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@172.29.251.46:1521:orcl
+      username: sysdeerp
+      password: yc$2015
+
+
+mybatis:
+  #配置SQL映射文件路径
+  mapper-locations: classpath:mapper/*.xml
+  #配置别名
+  type-aliases-package: com.funi.filemove.dao
+  #驼峰命名
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+
+
+# 打印sql
+logging:
+  level:
+    com.funi.filemove.dao: debug
+
+
+server:
+  port: 8088
+  servlet:
+    context-path: /filemove/
