@@ -45,7 +45,7 @@
 <!--            <generatedKey column="ID" sqlStatement="select survey.seqmgunitsid.nextval from dual"/>-->
 <!--        </table>-->
 
-      <table schema="SURVEY" tableName="Mgmapresults" domainObjectName="MgMapResultPo"
+      <table schema="CCS" tableName="cf_dict" domainObjectName="CfDictPo"
               enableCountByExample="false"
               enableUpdateByExample="false"
               enableDeleteByExample="false"

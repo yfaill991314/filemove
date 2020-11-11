@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funi.filemove.dao.FileMoveRecordPoMapper">
+  <resultMap id="BaseResultMap" type="com.funi.filemove.po.FileMoveRecordPo">
+    <id column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="FILE_STORE_ID" jdbcType="VARCHAR" property="fileStoreId" />
+    <result column="FILE_UUID" jdbcType="VARCHAR" property="fileUuid" />
+    <result column="BIZID" jdbcType="VARCHAR" property="bizid" />
+    <result column="TABLENAME" jdbcType="VARCHAR" property="tablename" />
+    <result column="DATA_SOURCE" jdbcType="VARCHAR" property="dataSource" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="MOVERESULT" jdbcType="VARCHAR" property="moveresult" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="THREAD_ID" jdbcType="VARCHAR" property="threadId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UUID, FILE_STORE_ID, FILE_UUID, BIZID, TABLENAME, DATA_SOURCE, CREATETIME, MOVERESULT, 
+    REMARK, THREAD_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SURVEY.FILE_MOVE_RECORD
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SURVEY.FILE_MOVE_RECORD
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.funi.filemove.po.FileMoveRecordPo">
+    insert into SURVEY.FILE_MOVE_RECORD (UUID, FILE_STORE_ID, FILE_UUID, 
+      BIZID, TABLENAME, DATA_SOURCE, 
+      CREATETIME, MOVERESULT, REMARK, 
+      THREAD_ID)
+    values (#{uuid,jdbcType=VARCHAR}, #{fileStoreId,jdbcType=VARCHAR}, #{fileUuid,jdbcType=VARCHAR}, 
+      #{bizid,jdbcType=VARCHAR}, #{tablename,jdbcType=VARCHAR}, #{dataSource,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{moveresult,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{threadId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.funi.filemove.po.FileMoveRecordPo">
+    insert into SURVEY.FILE_MOVE_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="fileStoreId != null">
+        FILE_STORE_ID,
+      </if>
+      <if test="fileUuid != null">
+        FILE_UUID,
+      </if>
+      <if test="bizid != null">
+        BIZID,
+      </if>
+      <if test="tablename != null">
+        TABLENAME,
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="moveresult != null">
+        MOVERESULT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="threadId != null">
+        THREAD_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="fileStoreId != null">
+        #{fileStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUuid != null">
+        #{fileUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="bizid != null">
+        #{bizid,jdbcType=VARCHAR},
+      </if>
+      <if test="tablename != null">
+        #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSource != null">
+        #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="moveresult != null">
+        #{moveresult,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="threadId != null">
+        #{threadId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.FileMoveRecordPo">
+    update SURVEY.FILE_MOVE_RECORD
+    <set>
+      <if test="fileStoreId != null">
+        FILE_STORE_ID = #{fileStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUuid != null">
+        FILE_UUID = #{fileUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="bizid != null">
+        BIZID = #{bizid,jdbcType=VARCHAR},
+      </if>
+      <if test="tablename != null">
+        TABLENAME = #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSource != null">
+        DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="moveresult != null">
+        MOVERESULT = #{moveresult,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="threadId != null">
+        THREAD_ID = #{threadId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.FileMoveRecordPo">
+    update SURVEY.FILE_MOVE_RECORD
+    set FILE_STORE_ID = #{fileStoreId,jdbcType=VARCHAR},
+      FILE_UUID = #{fileUuid,jdbcType=VARCHAR},
+      BIZID = #{bizid,jdbcType=VARCHAR},
+      TABLENAME = #{tablename,jdbcType=VARCHAR},
+      DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      MOVERESULT = #{moveresult,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      THREAD_ID = #{threadId,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectListRecord" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from SURVEY.FILE_MOVE_RECORD
+  </select>
+
+</mapper>

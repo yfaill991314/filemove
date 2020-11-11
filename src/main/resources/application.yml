@@ -1,16 +1,14 @@
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.alibaba.druid.pool.xa.DruidXADataSource
 
 dynamic:
   datasource:
     cd:
-      driver-class-name: oracle.jdbc.OracleDriver
       url: jdbc:oracle:thin:@172.29.251.206:1521:ora750ab
       username: eistrong
       password: eistrong
     lq:
-      driver-class-name: oracle.jdbc.OracleDriver
       url: jdbc:oracle:thin:@172.29.251.46:1521:orcl
       username: sysdeerp
       password: yc$2015

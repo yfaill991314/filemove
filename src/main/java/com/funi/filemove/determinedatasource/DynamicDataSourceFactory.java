@@ -1,8 +1,11 @@
 package com.funi.filemove.determinedatasource;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.xa.DruidXADataSource;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * @ClassName DynamicDataSourceFactory
@@ -15,34 +18,22 @@ public class DynamicDataSourceFactory {
     /**
      * 通过自定义建立 Druid的数据源
      * */
-    public static DruidDataSource buildDruidDataSource(DataSourceProperties properties) {
-        DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setDriverClassName(properties.getDriverClassName());
-        druidDataSource.setUrl(properties.getUrl());
-        druidDataSource.setUsername(properties.getUsername());
-        druidDataSource.setPassword(properties.getPassword());
+    public static DataSource buildAtomikosDataSource(String dataSourceName,DataSourceProperties properties) {
+        AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
+        Properties prop = new Properties();
+        prop.put("URL",properties.getUrl());
+        prop.put("user",properties.getUsername());
+        prop.put("password",properties.getPassword());
+        xaDataSource.setXaProperties(prop);
 
-        druidDataSource.setInitialSize(properties.getInitialSize());
-        druidDataSource.setMaxActive(properties.getMaxActive());
-        druidDataSource.setMinIdle(properties.getMinIdle());
-        druidDataSource.setMaxWait(properties.getMaxWait());
-        druidDataSource.setTimeBetweenEvictionRunsMillis(properties.getTimeBetweenEvictionRunsMillis());
-        druidDataSource.setMinEvictableIdleTimeMillis(properties.getMinEvictableIdleTimeMillis());
-        druidDataSource.setMaxEvictableIdleTimeMillis(properties.getMaxEvictableIdleTimeMillis());
-        druidDataSource.setValidationQuery(properties.getValidationQuery());
-        druidDataSource.setValidationQueryTimeout(properties.getValidationQueryTimeout());
-        druidDataSource.setTestOnBorrow(properties.isTestOnBorrow());
-        druidDataSource.setTestOnReturn(properties.isTestOnReturn());
-        druidDataSource.setPoolPreparedStatements(properties.isPoolPreparedStatements());
-        druidDataSource.setMaxOpenPreparedStatements(properties.getMaxOpenPreparedStatements());
-        druidDataSource.setSharePreparedStatements(properties.isSharePreparedStatements());
-
-        try {
-            druidDataSource.setFilters(properties.getFilters());
-            druidDataSource.init();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return druidDataSource;
+        xaDataSource.setUniqueResourceName("xaDataSource"+dataSourceName);
+        xaDataSource.setXaDataSourceClassName(properties.getXaDataSourceClassName());
+        xaDataSource.setMinPoolSize(properties.getMinPoolSize());
+        xaDataSource.setMaxPoolSize(properties.getMaxPoolSize());
+        xaDataSource.setBorrowConnectionTimeout(properties.getBorrowConnectionTimeout());
+        xaDataSource.setTestQuery(properties.getTestQuery());
+        xaDataSource.setMaintenanceInterval(properties.getMaintenanceInterval());
+        xaDataSource.setMaxIdleTime(properties.getMaxIdleTime());
+        return xaDataSource;
     }
 }

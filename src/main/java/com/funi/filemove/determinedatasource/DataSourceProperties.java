@@ -5,40 +5,20 @@ package com.funi.filemove.determinedatasource;
  *
  */
 public class DataSourceProperties {
-    private String driverClassName;
     private String url;
     private String username;
     private String password;
 
-    /**
-     * Druid默认参数
-     */
-    private int initialSize = 2;
-    private int maxActive = 10;
-    private int minIdle = 2;
-    private long maxWait = 60 * 1000L;
-    private long timeBetweenEvictionRunsMillis = 60 * 1000L;
-    private long minEvictableIdleTimeMillis = 1000L * 60L * 30L;
-    private long maxEvictableIdleTimeMillis = 1000L * 60L * 60L * 7;
-    private String validationQuery = "SELECT 1 FROM DUAL";
-    private int validationQueryTimeout = -1;
-    private boolean testOnBorrow = false;
-    private boolean testOnReturn = false;
-    private boolean testWhileIdle = true;
-    private boolean poolPreparedStatements = false;
-    private int maxOpenPreparedStatements = -1;
-    private boolean sharePreparedStatements = false;
-    private String filters = "stat,wall";
+    private String uniqueResourceName;
 
-    /* 省略自动化生成部分 */
+    private String xaDataSourceClassName="oracle.jdbc.xa.client.OracleXADataSource";
 
-    public String getDriverClassName() {
-        return driverClassName;
-    }
-
-    public void setDriverClassName(String driverClassName) {
-        this.driverClassName = driverClassName;
-    }
+    private int minPoolSize = 3;
+    private int maxPoolSize = 15;
+    private int borrowConnectionTimeout = 100;
+    private String testQuery = "SELECT 1 FROM DUAL";
+    private int maintenanceInterval=60;
+    private int maxIdleTime=60;
 
     public String getUrl() {
         return url;
@@ -64,131 +44,67 @@ public class DataSourceProperties {
         this.password = password;
     }
 
-    public int getInitialSize() {
-        return initialSize;
+    public String getUniqueResourceName() {
+        return uniqueResourceName;
     }
 
-    public void setInitialSize(int initialSize) {
-        this.initialSize = initialSize;
+    public void setUniqueResourceName(String uniqueResourceName) {
+        this.uniqueResourceName = uniqueResourceName;
     }
 
-    public int getMaxActive() {
-        return maxActive;
+    public String getXaDataSourceClassName() {
+        return xaDataSourceClassName;
     }
 
-    public void setMaxActive(int maxActive) {
-        this.maxActive = maxActive;
+    public void setXaDataSourceClassName(String xaDataSourceClassName) {
+        this.xaDataSourceClassName = xaDataSourceClassName;
     }
 
-    public int getMinIdle() {
-        return minIdle;
+    public int getMinPoolSize() {
+        return minPoolSize;
     }
 
-    public void setMinIdle(int minIdle) {
-        this.minIdle = minIdle;
+    public void setMinPoolSize(int minPoolSize) {
+        this.minPoolSize = minPoolSize;
     }
 
-    public long getMaxWait() {
-        return maxWait;
+    public int getMaxPoolSize() {
+        return maxPoolSize;
     }
 
-    public void setMaxWait(long maxWait) {
-        this.maxWait = maxWait;
+    public void setMaxPoolSize(int maxPoolSize) {
+        this.maxPoolSize = maxPoolSize;
     }
 
-    public long getTimeBetweenEvictionRunsMillis() {
-        return timeBetweenEvictionRunsMillis;
+    public int getBorrowConnectionTimeout() {
+        return borrowConnectionTimeout;
     }
 
-    public void setTimeBetweenEvictionRunsMillis(long timeBetweenEvictionRunsMillis) {
-        this.timeBetweenEvictionRunsMillis = timeBetweenEvictionRunsMillis;
+    public void setBorrowConnectionTimeout(int borrowConnectionTimeout) {
+        this.borrowConnectionTimeout = borrowConnectionTimeout;
     }
 
-    public long getMinEvictableIdleTimeMillis() {
-        return minEvictableIdleTimeMillis;
+    public String getTestQuery() {
+        return testQuery;
     }
 
-    public void setMinEvictableIdleTimeMillis(long minEvictableIdleTimeMillis) {
-        this.minEvictableIdleTimeMillis = minEvictableIdleTimeMillis;
+    public void setTestQuery(String testQuery) {
+        this.testQuery = testQuery;
     }
 
-    public long getMaxEvictableIdleTimeMillis() {
-        return maxEvictableIdleTimeMillis;
+    public int getMaintenanceInterval() {
+        return maintenanceInterval;
     }
 
-    public void setMaxEvictableIdleTimeMillis(long maxEvictableIdleTimeMillis) {
-        this.maxEvictableIdleTimeMillis = maxEvictableIdleTimeMillis;
+    public void setMaintenanceInterval(int maintenanceInterval) {
+        this.maintenanceInterval = maintenanceInterval;
     }
 
-    public String getValidationQuery() {
-        return validationQuery;
+    public int getMaxIdleTime() {
+        return maxIdleTime;
     }
 
-    public void setValidationQuery(String validationQuery) {
-        this.validationQuery = validationQuery;
-    }
-
-    public int getValidationQueryTimeout() {
-        return validationQueryTimeout;
-    }
-
-    public void setValidationQueryTimeout(int validationQueryTimeout) {
-        this.validationQueryTimeout = validationQueryTimeout;
-    }
-
-    public boolean isTestOnBorrow() {
-        return testOnBorrow;
-    }
-
-    public void setTestOnBorrow(boolean testOnBorrow) {
-        this.testOnBorrow = testOnBorrow;
-    }
-
-    public boolean isTestOnReturn() {
-        return testOnReturn;
-    }
-
-    public void setTestOnReturn(boolean testOnReturn) {
-        this.testOnReturn = testOnReturn;
-    }
-
-    public boolean isTestWhileIdle() {
-        return testWhileIdle;
-    }
-
-    public void setTestWhileIdle(boolean testWhileIdle) {
-        this.testWhileIdle = testWhileIdle;
-    }
-
-    public boolean isPoolPreparedStatements() {
-        return poolPreparedStatements;
-    }
-
-    public void setPoolPreparedStatements(boolean poolPreparedStatements) {
-        this.poolPreparedStatements = poolPreparedStatements;
-    }
-
-    public int getMaxOpenPreparedStatements() {
-        return maxOpenPreparedStatements;
-    }
-
-    public void setMaxOpenPreparedStatements(int maxOpenPreparedStatements) {
-        this.maxOpenPreparedStatements = maxOpenPreparedStatements;
-    }
-
-    public boolean isSharePreparedStatements() {
-        return sharePreparedStatements;
-    }
-
-    public void setSharePreparedStatements(boolean sharePreparedStatements) {
-        this.sharePreparedStatements = sharePreparedStatements;
-    }
-
-    public String getFilters() {
-        return filters;
-    }
-
-    public void setFilters(String filters) {
-        this.filters = filters;
+    public void setMaxIdleTime(int maxIdleTime) {
+        this.maxIdleTime = maxIdleTime;
     }
 }

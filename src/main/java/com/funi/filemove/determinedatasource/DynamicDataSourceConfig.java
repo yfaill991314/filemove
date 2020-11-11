@@ -9,12 +9,19 @@ package com.funi.filemove.determinedatasource;
  */
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.atomikos.icatch.jta.UserTransactionImp;
+import com.atomikos.icatch.jta.UserTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.jta.JtaTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,32 +47,40 @@ public class DynamicDataSourceConfig {
         dynamicDataSource.setTargetDataSources(getDynamicDataSource());
 
         //默认数据源
-        DruidDataSource defaultDataSource = getdefaultDynamicDataSource();
-        dynamicDataSource.setDefaultTargetDataSource(defaultDataSource);
+        DataSource defaultXaDataSource = getdefaultDynamicDataSource();
+        dynamicDataSource.setDefaultTargetDataSource(defaultXaDataSource);
 
         return dynamicDataSource;
     }
 
-    private DruidDataSource getdefaultDynamicDataSource() throws Exception {
+    @Bean(name = "jtaTransactionManager")
+    public JtaTransactionManager regTransactionManager () {
+        UserTransactionManager userTransactionManager = new UserTransactionManager();
+        UserTransaction userTransaction = new UserTransactionImp();
+        return new JtaTransactionManager(userTransaction, userTransactionManager);
+    }
+
+
+    private DataSource getdefaultDynamicDataSource() throws Exception {
         Map<String, DataSourceProperties> dataSourcePropertiesMap = properties.getDatasource();
-        DruidDataSource defaultDruidDataSource =null;
+        DataSource defaultXaDataSource =null;
         for (Map.Entry<String, DataSourceProperties> entry:dataSourcePropertiesMap.entrySet()){
             if ("cd".equals(entry.getKey())){
-                defaultDruidDataSource = DynamicDataSourceFactory.buildDruidDataSource(entry.getValue());
+                defaultXaDataSource = DynamicDataSourceFactory.buildAtomikosDataSource(entry.getKey(),entry.getValue());
             }
         }
-        if (defaultDruidDataSource==null){
+        if (defaultXaDataSource==null){
             throw new Exception("default DataSource is null");
         }
-        return defaultDruidDataSource;
+        return defaultXaDataSource;
     }
 
     private Map<Object, Object> getDynamicDataSource(){
         Map<String, DataSourceProperties> dataSourcePropertiesMap = properties.getDatasource();
         Map<Object, Object> targetDataSources = new HashMap<>(dataSourcePropertiesMap.size());
         dataSourcePropertiesMap.forEach((k, v) -> {
-            DruidDataSource druidDataSource = DynamicDataSourceFactory.buildDruidDataSource(v);
-            targetDataSources.put(k, druidDataSource);
+            DataSource xaDataSource = DynamicDataSourceFactory.buildAtomikosDataSource(k,v);
+            targetDataSources.put(k, xaDataSource);
         });
 
         return targetDataSources;

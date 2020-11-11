@@ -9,11 +9,11 @@ package com.funi.filemove.service;
  */
 public interface FileMoveService {
 
-    void testquery();
-
-    void fileMoveStart();
+    void fileMove() throws Exception;
 
     boolean stopMove();
 
     boolean startMove();
+
+    void testDataClear() throws Exception;
 }

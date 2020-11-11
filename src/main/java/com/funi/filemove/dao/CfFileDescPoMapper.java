@@ -20,5 +20,5 @@ public interface CfFileDescPoMapper {
 
     List<CfFileDescPo> selectFileListByFileQuery(Map<String, Object> queryParams);
 
-    List<CfFileDescPo> selectFileListByFigIdAndBusUuid(Map<String, Object> fileQueryParams);
+    CfFileDescPo selectFileListByFigIdAndBusUuid(Map<String, Object> fileQueryParams);
 }

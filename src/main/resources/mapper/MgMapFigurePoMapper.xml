@@ -604,16 +604,25 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 
-  <select id="selectFileByFileQuery" parameterType="map" resultMap="BaseResultMap">
-    select re.id
+  <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
      from (
-            select m.id, rownum rn
+            select m.*, rownum rn
             from SURVEY.MGMAPFIGURE m
-            where Mod(m.id, 6) = #{theadId,jdbcType=DECIMAL}
+            where Mod(m.id, #{theadSum,jdbcType=DECIMAL}) = #{theadId,jdbcType=DECIMAL}
                 and not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
             order by m.id
             ) re
     where re.rn = 1
+  </select>
+
+  <select id="selectUnfinishCount"  resultType="int">
+    select count(1)
+    from SURVEY.MGMAPFIGURE m
+    where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
   </select>
 
 </mapper>

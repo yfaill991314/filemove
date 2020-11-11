@@ -44,13 +44,12 @@ public class FileMoveTask {
 
 
 
-    @Scheduled(cron = "0 31 11 * * ?")
+    @Scheduled(cron = "0 8 11 * * ?")
     public void startFileMoveTasks() {
-//        System.err.println(df.format(System.currentTimeMillis()));
         fileMoveService.startMove();
     }
 
-    @Scheduled(cron = "59 31 11 * * ?")
+    @Scheduled(cron = "0 10 11 * * ?")
     public void stopFileMoveTasks() {
         fileMoveService.stopMove();
     }

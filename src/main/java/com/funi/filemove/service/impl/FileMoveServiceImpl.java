@@ -1,41 +1,28 @@
 package com.funi.filemove.service.impl;
 
 import com.funi.fastdfs.upload.FastDfsFileUpload;
-import com.funi.filemove.annotation.DataSource;
-import com.funi.filemove.dao.CfFileDescPoMapper;
-import com.funi.filemove.dao.CommonMapper;
-import com.funi.filemove.dao.MgMapFigurePoMapper;
-import com.funi.filemove.dao.MgMapResultPoMapper;
+import com.funi.filemove.Constants;
+import com.funi.filemove.dao.*;
 import com.funi.filemove.determinedatasource.ContextSynchronizationManager;
 import com.funi.filemove.movethread.MyThreadFacthory;
-import com.funi.filemove.po.CfFileDescPo;
-import com.funi.filemove.po.MgMapFigurePo;
-import com.funi.filemove.po.MgMapResultPo;
+import com.funi.filemove.po.*;
+import com.funi.filemove.service.DataSourceChange;
 import com.funi.filemove.service.FileMoveService;
-import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
 import javax.annotation.Resource;
+import javax.transaction.*;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
+
 
 /**
  * @ClassName FileMoveServiceImpl
@@ -44,7 +31,6 @@ import java.util.stream.Stream;
  * @Date 2020/10/29 14:33
  * @Version 1.0
  */
-@Transactional
 @Service
 public class FileMoveServiceImpl implements FileMoveService {
     @Resource
@@ -57,115 +43,171 @@ public class FileMoveServiceImpl implements FileMoveService {
     private MgMapResultPoMapper mgMapResultPoMapper;
     @Resource
     private CommonMapper commonMapper;
-    @Autowired
-    private DataSourceTransactionManager dataSourceTransactionManager;
-    @Autowired
-    private TransactionDefinition transactionDefinition;
+    @Resource
+    private CfDictPoMapper cfDictPoMapper;
+    @Resource
+    private JtaTransactionManager jtaTransactionManager;
+    @Resource
+    private FileMoveRecordPoMapper fileMoveRecordPoMapper;
+    @Resource
+    private DataSourceChange dataSourceChange;
 
-
-    public static final String FAST_DFS_PREFIX = "fastdfs://";
-    public static final String SYSTEM_CODE = "surveyInner";
-    private static Integer pageNum = 1;
-    private static Integer pageSize = 20;
 
     private static volatile boolean inMoveTime = false;
     private static ExecutorService executorService = null;
-
     private AtomicInteger atomicInteger = new AtomicInteger(0);
 
     @Override
-//    @DataSource("cd")
-    public void testquery() {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        while (inMoveTime) {
-            System.err.println(df.format(System.currentTimeMillis()));
-            fileMoveStart();
-        }
-
-//        ContextSynchronizationManager.bindResource("datasource","lq");
-//        Map<String, Object> queryParams = new HashMap<>();
-//        PageHelper.startPage(pageNum, pageSize);
-//        List<MgMapResultPo> mgMapResultPos = mgMapResultPoMapper.selectMgResultListByFileQuery(queryParams);
-//        mgMapResultPos.forEach(item->{
-//            System.out.println("id:"+item.getId()+"-----"+item.getProjname());
-//        });
-    }
-
-
-    public void test2() {
-        while (inMoveTime) {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            System.out.println(Thread.currentThread().getName() + ":" + df.format(System.currentTimeMillis()));
+    public void testDataClear() throws Exception {
+        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
+        while (true) {
             try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                userTransaction.begin();
+                Map<String, Object> queryMap = new HashMap<>();
+                PageHelper.startPage(1, 20);
+                ContextSynchronizationManager.bindResource("datasource", "cd");
+                List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(queryMap);
+                if (fileMoveRecordPos == null || fileMoveRecordPos.size() <= 0) {
+                    break;
+                }
+                for (FileMoveRecordPo fileMoveRecordPo : fileMoveRecordPos) {
+                    if ("成功".equals(fileMoveRecordPo.getMoveresult())) {
+                        ContextSynchronizationManager.bindResource("datasource", "cd");
+                        cfFileDescPoMapper.deleteByPrimaryKey(fileMoveRecordPo.getFileUuid());
+                        int i = fastDfsFileUpload.fileDelete(fileMoveRecordPo.getFileStoreId());
+                    }
+                    ContextSynchronizationManager.bindResource("datasource", "cd");
+                    fileMoveRecordPoMapper.deleteByPrimaryKey(fileMoveRecordPo.getUuid());
+                }
+            } catch (Exception e) {
+                userTransaction.rollback();
             }
+            userTransaction.commit();
+
         }
+
+
     }
+
 
     @Override
-    public void fileMoveStart() {
-        TransactionStatus transactionStatus = null;
-        String theadId = null;
-        while (FileMoveServiceImpl.inMoveTime) {
-            try {
-                //手动开启事务
-                transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
-                theadId = Thread.currentThread().getName();
-                Map<String, Object> queryParams = new HashMap<>();
-                queryParams.put("theadId", Integer.valueOf(theadId));ContextSynchronizationManager.bindResource("datasource","lq");
-                MgMapFigurePo mgMapFigurePo = mgMapFigurePoMapper.selectFileByFileQuery(queryParams);
-                if (mgMapFigurePo == null) {
-                    System.out.println("数据迁移完毕！！！");
-                    return;
-                }
+    public void fileMove() {
+        String theadId = Thread.currentThread().getName();
+        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
+        String fileExe = "";
+        String fileTypeName="";
 
-                InputStream fileInputStream = new ByteArrayInputStream(mgMapFigurePo.getImage());
-                String s = fastDfsFileUpload.fileUpload(fileInputStream, mgMapFigurePo.getImgstyle());
+        while (FileMoveServiceImpl.inMoveTime) {
+            Map<String, Object> queryParams = new HashMap<>();
+            queryParams.put("theadId", Integer.valueOf(theadId));
+            queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
+            ContextSynchronizationManager.bindResource("datasource", DataSourceChangeImpl.getCurrentMoveDataSource());
+            MgMapFigurePo mgMapFigurePo = mgMapFigurePoMapper.selectFileByFileQuery(queryParams);
+            if (mgMapFigurePo == null) {
+                System.out.println( DataSourceChangeImpl.getCurrentMoveDataSource()+"数据源----"+"线程:"+theadId+":数据已迁移完毕！！！");
+                return;
+            }
+
+
+//          无论迁移是否成功都向日志表中写入该数据，保证不再查询到该数据，防止异常数据阻塞迁移线程
+            FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
+            fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
+            fileMoveRecordPo.setTablename("mgmapfigure");
+            fileMoveRecordPo.setBizid(mgMapFigurePo.getId().toString());
+            fileMoveRecordPo.setCreatetime(new Date());
+            fileMoveRecordPo.setThreadId(theadId);
+            fileMoveRecordPo.setMoveresult("失败");
+            if (mgMapFigurePo.getResultsid() == null) {
+                fileMoveRecordPo.setRemark("Resultsid为空");
+                continue;
+            }else if (mgMapFigurePo.getImage()==null){
+                fileMoveRecordPo.setRemark("文件不存在,文件大字段为空");
+                continue;
+            }
+            fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
+            try {
                 //根据mgMapFigurePo 查询对应的成果
                 MgMapResultPo mgMapResultPo = mgMapResultPoMapper.selectByPrimaryKey(mgMapFigurePo.getResultsid());
-                //判断是否有对应的 成果业务件
+                //判断是否有对应的 成果业务件 没有对应成果 件放弃迁移
                 if (mgMapResultPo == null) {
+                    fileMoveRecordPo.setRemark("未查找到对应成果");
+                    fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
+                    System.out.println("成果不存在");
                     continue;
                 }
 
+                InputStream fileInputStream = new ByteArrayInputStream(mgMapFigurePo.getImage());
+                fileExe = mgMapFigurePo.getImgstyle();
+                int lc = fileExe.lastIndexOf(".");
+                if (lc >= 0) {
+                    fileExe = fileExe.substring(lc + 1);
+                }
+                String storeId = Constants.FAST_DFS_PREFIX+fastDfsFileUpload.fileUpload(fileInputStream, fileExe);
+
+                //开启事务
+                userTransaction.begin();
                 //通过mgMapFigure id及其对应的成果业务件uuid 查询是都已经存 对应的文件关联关系
                 Map<String, Object> fileQueryParams = new HashMap<>();
                 fileQueryParams.put("busUuid", mgMapResultPo.getUuid());
                 fileQueryParams.put("storeId", mgMapFigurePo.getId().toString());
-                //可能存在一个mgMapFigure id 被同一个 成果业务件关联多次的 问题  所用列表接收
-                ContextSynchronizationManager.bindResource("datasource","cd");
-                List<CfFileDescPo> cfFileDescPos = cfFileDescPoMapper.selectFileListByFigIdAndBusUuid(fileQueryParams);
+                ContextSynchronizationManager.bindResource("datasource", "cd");
+                CfFileDescPo cfFileDescPo = cfFileDescPoMapper.selectFileListByFigIdAndBusUuid(fileQueryParams);
                 //存在就修改FileStoreId 为文件服务器文件地址 否则新建关联关系
-                if (cfFileDescPos != null && cfFileDescPos.size() > 0) {
-                    for (CfFileDescPo cfFileDescPo : cfFileDescPos) {
-                        cfFileDescPo.setFileStoreId(FileMoveServiceImpl.FAST_DFS_PREFIX + s);
+                if (cfFileDescPo != null) {
+                        cfFileDescPo.setFileStoreId(storeId);
                         cfFileDescPoMapper.updateByPrimaryKeySelective(cfFileDescPo);
-                    }
                 } else {
-                    CfFileDescPo cfFileDescPo = new CfFileDescPo();
+                    cfFileDescPo = new CfFileDescPo();
                     cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
-                    cfFileDescPo.setFileStoreId(FileMoveServiceImpl.FAST_DFS_PREFIX + s);
+                    cfFileDescPo.setFileStoreId(storeId);
                     cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
                     cfFileDescPo.setFileSize(mgMapFigurePo.getImgfilesize());
                     cfFileDescPo.setFileName(mgMapFigurePo.getImagename());
-                    cfFileDescPo.setExtName(mgMapFigurePo.getImgstyle());
+                    cfFileDescPo.setExtName(fileExe);
                     cfFileDescPo.setIsUse((short) 1);
-                    cfFileDescPo.setSystemCode(FileMoveServiceImpl.SYSTEM_CODE);
+                    cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
                     cfFileDescPo.setBusinessTable(null);
                     cfFileDescPo.setBusinessUuid(mgMapResultPo.getUuid());
+
+
+                    fileTypeName=mgMapFigurePo.getImagetype();
+                    if ("地块及楼栋图".equals(fileTypeName)){
+                        fileTypeName="楼栋及地块图";
+                    }
+                    cfFileDescPo.setBusinessName(fileTypeName);
+                    if (fileTypeName!=null&&!"".equals(fileTypeName.trim())){
+                        Map<String,Object> queryMap=new HashMap<String,Object>(){{
+                            put("fileTypeName",mgMapFigurePo.getImagetype());
+                        }};
+                        CfDictPo cfDictPo= cfDictPoMapper.selectByMapParame(queryMap);
+                        if (cfDictPo!=null){
+                            cfFileDescPo.setBusinessType(cfDictPo.getUuid());
+                        }
+                    }
+
                     cfFileDescPo.setStatus((short) 1);
-                    cfFileDescPo.setCreateTime(new Date());
-                    cfFileDescPo.setCreatorId("老文件迁入");
+                    cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
+                    cfFileDescPo.setCreatorId("历史文件迁入");
                     cfFileDescPoMapper.insertSelective(cfFileDescPo);
                 }
+
+                ContextSynchronizationManager.bindResource("datasource", DataSourceChangeImpl.getCurrentMoveDataSource());
+                fileMoveRecordPo.setFileUuid(cfFileDescPo.getUuid());
+                fileMoveRecordPo.setFileStoreId(storeId);
+                fileMoveRecordPo.setMoveresult("成功");
+                fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                System.out.println("成果号"+mgMapResultPo.getId()+"迁移件："+mgMapFigurePo.getId()+"迁移完成;文件storeId"+storeId);
+                //手动提交事务
+                userTransaction.commit();
             } catch (Exception e) {
+                e.printStackTrace();
                 //手动回滚事务
-                dataSourceTransactionManager.rollback(transactionStatus);//最好是放在catch 里面,防止程序异常而事务一直卡在哪里未提交
+                try {
+                    userTransaction.rollback();
+                } catch (SystemException systemException) {
+                    systemException.printStackTrace();
+                }
             }
-//          手动提交事务
-            dataSourceTransactionManager.commit(transactionStatus);//提交
         }
     }
 
@@ -176,25 +218,27 @@ public class FileMoveServiceImpl implements FileMoveService {
         if (executorService != null && !executorService.isShutdown()) {
             FileMoveServiceImpl.inMoveTime = false;
             executorService.shutdown();
+            executorService = null;
         }
-        System.out.println("123");
         return true;
     }
 
     @Override
     public boolean startMove() {
-        MyThreadFacthory threadFactory = new MyThreadFacthory();
-        executorService = Executors.newFixedThreadPool(6, threadFactory);
-        FileMoveServiceImpl.inMoveTime = true;
-        for (int i = 0; i < 6; i++) {
-            executorService.submit(this::test2);
-        }
+        dataSourceChange.setTodayMoveDataSource();
 
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
+        MyThreadFacthory threadFactory = new MyThreadFacthory();
+//        executorService = Executors.newFixedThreadPool(Constants.CPU_CORE_SIZE_IO, threadFactory);
+        executorService = new ThreadPoolExecutor(Constants.CPU_CORE_SIZE_IO, Constants.CPU_CORE_SIZE_IO,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(),
+                threadFactory, new ThreadPoolExecutor.CallerRunsPolicy());
+        FileMoveServiceImpl.inMoveTime = true;
+        for (int i = 0; i < Constants.CPU_CORE_SIZE_IO; i++) {
+//            executorService.submit(this::test2);
+            executorService.submit(this::fileMove);
         }
         return true;
     }
+
 }

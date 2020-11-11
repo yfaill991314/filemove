@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funi.filemove.dao.CfDictPoMapper">
+  <resultMap id="BaseResultMap" type="com.funi.filemove.po.CfDictPo">
+    <id column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="DICTYPE" jdbcType="VARCHAR" property="dictype" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="REGIONCODE" jdbcType="VARCHAR" property="regioncode" />
+    <result column="SORT_WEIGHT" jdbcType="DECIMAL" property="sortWeight" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UUID, CODE, NAME, DICTYPE, STATUS, DESCRIPTION, REGIONCODE, SORT_WEIGHT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CCS.CF_DICT
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CCS.CF_DICT
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.funi.filemove.po.CfDictPo">
+    insert into CCS.CF_DICT (UUID, CODE, NAME, 
+      DICTYPE, STATUS, DESCRIPTION, 
+      REGIONCODE, SORT_WEIGHT)
+    values (#{uuid,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{dictype,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, 
+      #{regioncode,jdbcType=VARCHAR}, #{sortWeight,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.funi.filemove.po.CfDictPo">
+    insert into CCS.CF_DICT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="dictype != null">
+        DICTYPE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="regioncode != null">
+        REGIONCODE,
+      </if>
+      <if test="sortWeight != null">
+        SORT_WEIGHT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dictype != null">
+        #{dictype,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="regioncode != null">
+        #{regioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortWeight != null">
+        #{sortWeight,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.CfDictPo">
+    update CCS.CF_DICT
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dictype != null">
+        DICTYPE = #{dictype,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="regioncode != null">
+        REGIONCODE = #{regioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortWeight != null">
+        SORT_WEIGHT = #{sortWeight,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.CfDictPo">
+    update CCS.CF_DICT
+    set CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      DICTYPE = #{dictype,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      REGIONCODE = #{regioncode,jdbcType=VARCHAR},
+      SORT_WEIGHT = #{sortWeight,jdbcType=DECIMAL}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByMapParame" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CCS.CF_DICT d
+    <where>
+      <if test="fileTypeName!=null">
+        and d.name =  #{fileTypeName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>

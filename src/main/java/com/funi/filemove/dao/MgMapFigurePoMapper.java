@@ -21,4 +21,6 @@ public interface MgMapFigurePoMapper {
     int updateByPrimaryKey(MgMapFigurePo record);
 
     MgMapFigurePo selectFileByFileQuery(Map<String, Object> queryParams);
+
+    int selectUnfinishCount();
 }
