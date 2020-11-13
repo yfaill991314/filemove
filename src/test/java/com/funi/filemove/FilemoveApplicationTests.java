@@ -24,14 +24,14 @@ class FilemoveApplicationTests {
 //    }
 
 
-    @Test
-    void testDataClear(){
-        try {
-            fileMoveService.testDataClear();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Test
+//    void testDataClear(){
+//        try {
+//            fileMoveService.testDataClear();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 //    @Test
 //    void fileDownLoad(){

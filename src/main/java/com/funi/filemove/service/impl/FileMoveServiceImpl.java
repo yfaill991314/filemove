@@ -67,7 +67,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 userTransaction.begin();
                 Map<String, Object> queryMap = new HashMap<>();
                 PageHelper.startPage(1, 20);
-                ContextSynchronizationManager.bindResource("datasource", "lq");
+                ContextSynchronizationManager.bindResource("datasource", "cd");
                 List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(queryMap);
                 if (fileMoveRecordPos == null || fileMoveRecordPos.size() <= 0) {
                     break;
@@ -78,7 +78,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                         cfFileDescPoMapper.deleteByPrimaryKey(fileMoveRecordPo.getFileUuid());
                         int i = fastDfsFileUpload.fileDelete(fileMoveRecordPo.getFileStoreId());
                     }
-                    ContextSynchronizationManager.bindResource("datasource", "lq");
+                    ContextSynchronizationManager.bindResource("datasource", "cd");
                     fileMoveRecordPoMapper.deleteByPrimaryKey(fileMoveRecordPo.getUuid());
                 }
             } catch (Exception e) {
