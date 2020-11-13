@@ -33,21 +33,21 @@ public final class Constants {
         dataSource=new ArrayList<Map<String,String>>(){{
             add(new HashMap<String,String>() {{ put("dataSourceName","cd");}});
             add(new HashMap<String,String>() {{ put("dataSourceName","lq");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","qbj");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","xd");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","wj");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","jt");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","sl");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","px");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","dy");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","pj");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","xj");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","tf");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","jy");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","djy");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","pz");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","ql");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","cz");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","qbj");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","xd");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","wj");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","jt");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","sl");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","px");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","dy");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","pj");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","xj");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","tf");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","jy");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","djy");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","pz");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","ql");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","cz");}});
         }};
     }
 }

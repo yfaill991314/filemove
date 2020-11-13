@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class MyThreadFacthory implements ThreadFactory {
 
-    private static AtomicInteger currentThreadId=new AtomicInteger(0);
+    private AtomicInteger currentThreadId=new AtomicInteger(0);
     @Override
     public Thread newThread(Runnable r) {
         if (currentThreadId.get()>= Constants.CPU_CORE_SIZE_IO){

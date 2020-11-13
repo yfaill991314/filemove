@@ -1,16 +1,13 @@
 package com.funi.filemove.timer;
 
 import com.funi.filemove.service.FileMoveService;
-import com.funi.filemove.service.impl.FileMoveServiceImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.Resource;
-import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @ClassName SaticScheduleTask
@@ -44,13 +41,16 @@ public class FileMoveTask {
 
 
 
-    @Scheduled(cron = "0 8 11 * * ?")
+    @Scheduled(cron = "0 0,20,40 * * * ?")
     public void startFileMoveTasks() {
+        System.out.println(df.format(System.currentTimeMillis())+"---迁移开始");
         fileMoveService.startMove();
     }
 
-    @Scheduled(cron = "0 10 11 * * ?")
+    @Scheduled(cron = "0 17,37,57 * * * ?")
     public void stopFileMoveTasks() {
+        System.out.println(df.format(System.currentTimeMillis())+"---迁移结束");
         fileMoveService.stopMove();
     }
+
 }

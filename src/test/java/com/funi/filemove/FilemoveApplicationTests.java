@@ -13,15 +13,15 @@ class FilemoveApplicationTests {
 
 
 
-    @Test
-    void contextLoads() {
-//        fileMoveService.testquery();
-        try {
-            fileMoveService.fileMove();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Test
+//    void contextLoads() {
+////        fileMoveService.testquery();
+//        try {
+//            fileMoveService.fileMove();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     @Test
@@ -33,10 +33,11 @@ class FilemoveApplicationTests {
         }
     }
 
-    @Test
-    void fileDownLoad(){
+//    @Test
+//    void fileDownLoad(){
+//
+////        fileMoveService.fileDownLoad();
+//
+//    }
 
-//        fileMoveService.fileDownLoad();
-
-    }
 }
