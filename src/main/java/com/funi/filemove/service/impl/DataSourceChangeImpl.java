@@ -12,23 +12,24 @@ import java.util.Map;
 
 /**
  * @ClassName DataSourceChangeUtil
- * @Description TODO
+ * @Description 数据源修改
  * @Author Feng.Yang
  * @Date 2020/11/10 19:04
  * @Version 1.0
  */
 @Service
 public class DataSourceChangeImpl implements DataSourceChange {
+
+    private static volatile String CurrentMoveDataSource;
+
     @Resource
     private MgMapFigurePoMapper mgMapFigurePoMapper;
-
-    private static String CurrentMoveDataSource;
 
     public static String getCurrentMoveDataSource() {
         return CurrentMoveDataSource;
     }
 
-    public static void setCurrentMoveDataSource(String currentMoveDataSource) {
+    private static void setCurrentMoveDataSource(String currentMoveDataSource) {
         CurrentMoveDataSource = currentMoveDataSource;
     }
 
@@ -51,8 +52,4 @@ public class DataSourceChangeImpl implements DataSourceChange {
            }
        }
     }
-
-
-
-
 }

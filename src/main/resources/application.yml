@@ -1,3 +1,8 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /filemove/
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.xa.DruidXADataSource
@@ -24,15 +29,9 @@ mybatis:
     map-underscore-to-camel-case: true
 
 
-
-
 # 打印sql
 logging:
   level:
     com.funi.filemove.dao: debug
 
 
-server:
-  port: 8088
-  servlet:
-    context-path: /filemove/

@@ -16,11 +16,11 @@ class FilemoveApplicationTests {
 //    @Test
 //    void contextLoads() {
 ////        fileMoveService.testquery();
-//        try {
-//            fileMoveService.fileMove();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+////        try {
+////            fileMoveService.fileMove();
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
 //    }
 
 
