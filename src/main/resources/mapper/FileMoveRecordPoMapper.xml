@@ -8,7 +8,7 @@
     <result column="BIZID" jdbcType="VARCHAR" property="bizid" />
     <result column="TABLENAME" jdbcType="VARCHAR" property="tablename" />
     <result column="DATA_SOURCE" jdbcType="VARCHAR" property="dataSource" />
-    <result column="CREATETIME" jdbcType="DATE" property="createtime" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
     <result column="MOVERESULT" jdbcType="VARCHAR" property="moveresult" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="THREAD_ID" jdbcType="VARCHAR" property="threadId" />
@@ -35,7 +35,7 @@
       THREAD_ID, FILE_SIZE)
     values (#{uuid,jdbcType=VARCHAR}, #{fileStoreId,jdbcType=VARCHAR}, #{fileUuid,jdbcType=VARCHAR}, 
       #{bizid,jdbcType=VARCHAR}, #{tablename,jdbcType=VARCHAR}, #{dataSource,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=DATE}, #{moveresult,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{moveresult,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
       #{threadId,jdbcType=VARCHAR}, #{fileSize,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.funi.filemove.po.FileMoveRecordPo">
@@ -95,7 +95,7 @@
         #{dataSource,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
-        #{createtime,jdbcType=DATE},
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="moveresult != null">
         #{moveresult,jdbcType=VARCHAR},
@@ -130,7 +130,7 @@
         DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
-        CREATETIME = #{createtime,jdbcType=DATE},
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="moveresult != null">
         MOVERESULT = #{moveresult,jdbcType=VARCHAR},
@@ -154,7 +154,7 @@
       BIZID = #{bizid,jdbcType=VARCHAR},
       TABLENAME = #{tablename,jdbcType=VARCHAR},
       DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
-      CREATETIME = #{createtime,jdbcType=DATE},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
       MOVERESULT = #{moveresult,jdbcType=VARCHAR},
       REMARK = #{remark,jdbcType=VARCHAR},
       THREAD_ID = #{threadId,jdbcType=VARCHAR},
