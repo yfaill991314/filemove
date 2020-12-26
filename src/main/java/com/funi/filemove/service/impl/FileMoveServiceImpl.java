@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.transaction.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -131,11 +132,12 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
                     continue;
                 }
-                if (mgMapFigurePo.getImage() == null) {
+                if (mgMapFigurePo.getImage() == null||mgMapFigurePo.getImage().length == 0) {
                     fileMoveRecordPo.setRemark("文件不存在,文件大字段为空");
                     fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
                     continue;
                 }
+                fileMoveRecordPo.setFileSize(new BigDecimal(mgMapFigurePo.getImage().length));
                 fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
 
                 //根据mgMapFigurePo 查询对应的成果
@@ -145,6 +147,13 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPo.setRemark("未查找到对应成果");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     System.out.println("成果不存在");
+                    continue;
+                }
+
+                if (mgMapResultPo.getUuid()==null){
+                    fileMoveRecordPo.setRemark("对应成果无uuid无法关联");
+                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                    System.out.println("对应成果无uuid无法关联");
                     continue;
                 }
 
@@ -178,41 +187,42 @@ public class FileMoveServiceImpl implements FileMoveService {
                 CfFileDescPo cfFileDescPo = cfFileDescPoMapper.selectFileListByFigIdAndBusUuid(fileQueryParams);
                 //存在就修改FileStoreId 为文件服务器文件地址 否则新建关联关系
                 if (cfFileDescPo != null) {
-                    cfFileDescPo.setFileStoreId(storeId);
+                    cfFileDescPo.setIsUse((short)0);
+                    cfFileDescPo.setStatus((short)-1);
                     cfFileDescPoMapper.updateByPrimaryKeySelective(cfFileDescPo);
-                } else {
-                    cfFileDescPo = new CfFileDescPo();
-                    cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
-                    cfFileDescPo.setFileStoreId(storeId);
-                    cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
-                    cfFileDescPo.setFileSize(mgMapFigurePo.getImgfilesize());
-                    cfFileDescPo.setFileName(mgMapFigurePo.getImagename());
-                    cfFileDescPo.setExtName(fileExe);
-                    cfFileDescPo.setIsUse((short) 1);
-                    cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
-                    cfFileDescPo.setBusinessTable(null);
-                    cfFileDescPo.setBusinessUuid(mgMapResultPo.getUuid());
-
-
-                    fileTypeName = mgMapFigurePo.getImagetype();
-                    if ("地块及楼栋图".equals(fileTypeName)) {
-                        fileTypeName = "楼栋及地块图";
-                    }
-                    cfFileDescPo.setBusinessName(fileTypeName);
-                    if (fileTypeName != null && !"".equals(fileTypeName.trim())) {
-                        Map<String, Object> queryMap = new HashMap<>();
-                        queryMap.put("fileTypeName", mgMapFigurePo.getImagetype());
-                        CfDictPo cfDictPo = cfDictPoMapper.selectByMapParame(queryMap);
-                        if (cfDictPo != null) {
-                            cfFileDescPo.setBusinessType(cfDictPo.getUuid());
-                        }
-                    }
-
-                    cfFileDescPo.setStatus((short) 1);
-                    cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
-                    cfFileDescPo.setCreatorId("历史文件迁入");
-                    cfFileDescPoMapper.insertSelective(cfFileDescPo);
                 }
+                cfFileDescPo = new CfFileDescPo();
+                cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
+                cfFileDescPo.setFileStoreId(storeId);
+                cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
+                cfFileDescPo.setFileSize(new BigDecimal(mgMapFigurePo.getImage().length));
+                cfFileDescPo.setFileName(mgMapFigurePo.getImagename());
+                cfFileDescPo.setExtName(fileExe);
+                cfFileDescPo.setIsUse((short) 1);
+                cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
+                cfFileDescPo.setBusinessTable(null);
+                cfFileDescPo.setBusinessUuid(mgMapResultPo.getUuid());
+
+
+                fileTypeName = mgMapFigurePo.getImagetype();
+                if ("地块及楼栋图".equals(fileTypeName)) {
+                    fileTypeName = "楼栋及地块图";
+                }
+                cfFileDescPo.setBusinessName(fileTypeName);
+                if (fileTypeName != null && !"".equals(fileTypeName.trim())) {
+                    Map<String, Object> queryMap = new HashMap<>();
+                    queryMap.put("fileTypeName", mgMapFigurePo.getImagetype());
+                    CfDictPo cfDictPo = cfDictPoMapper.selectByMapParame(queryMap);
+                    if (cfDictPo != null) {
+                        cfFileDescPo.setBusinessType(cfDictPo.getUuid());
+                    }
+                }
+
+                cfFileDescPo.setStatus((short) 1);
+                cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
+                cfFileDescPo.setCreatorId("历史文件迁入(迁移程序)");
+                cfFileDescPoMapper.insertSelective(cfFileDescPo);
+
 
                 ContextSynchronizationManager.bindResource("datasource", DataSourceChangeImpl.getCurrentMoveDataSource());
                 fileMoveRecordPo.setFileUuid(cfFileDescPo.getUuid());

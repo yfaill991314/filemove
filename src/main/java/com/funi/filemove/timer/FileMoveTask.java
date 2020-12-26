@@ -49,8 +49,8 @@ public class FileMoveTask {
 
     @Scheduled(cron = "0 17,37,57 * * * ?")
     public void stopFileMoveTasks() {
-        System.out.println(df.format(System.currentTimeMillis())+"---迁移结束");
         fileMoveService.stopMove();
+        System.out.println(df.format(System.currentTimeMillis())+"---迁移结束");
     }
 
 }
