@@ -1,5 +1,6 @@
 package com.funi.filemove.po;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class FileMoveRecordPo {
@@ -22,6 +23,8 @@ public class FileMoveRecordPo {
     private String remark;
 
     private String threadId;
+
+    private BigDecimal fileSize;
 
     public String getUuid() {
         return uuid;
@@ -101,5 +104,13 @@ public class FileMoveRecordPo {
 
     public void setThreadId(String threadId) {
         this.threadId = threadId == null ? null : threadId.trim();
+    }
+
+    public BigDecimal getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(BigDecimal fileSize) {
+        this.fileSize = fileSize;
     }
 }

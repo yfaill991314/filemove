@@ -130,7 +130,8 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPo.setRemark("Resultsid为空");
                     fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
                     continue;
-                } else if (mgMapFigurePo.getImage() == null) {
+                }
+                if (mgMapFigurePo.getImage() == null) {
                     fileMoveRecordPo.setRemark("文件不存在,文件大字段为空");
                     fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
                     continue;

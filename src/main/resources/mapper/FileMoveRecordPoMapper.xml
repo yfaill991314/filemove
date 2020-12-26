@@ -8,14 +8,15 @@
     <result column="BIZID" jdbcType="VARCHAR" property="bizid" />
     <result column="TABLENAME" jdbcType="VARCHAR" property="tablename" />
     <result column="DATA_SOURCE" jdbcType="VARCHAR" property="dataSource" />
-    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="CREATETIME" jdbcType="DATE" property="createtime" />
     <result column="MOVERESULT" jdbcType="VARCHAR" property="moveresult" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="THREAD_ID" jdbcType="VARCHAR" property="threadId" />
+    <result column="FILE_SIZE" jdbcType="DECIMAL" property="fileSize" />
   </resultMap>
   <sql id="Base_Column_List">
     UUID, FILE_STORE_ID, FILE_UUID, BIZID, TABLENAME, DATA_SOURCE, CREATETIME, MOVERESULT, 
-    REMARK, THREAD_ID
+    REMARK, THREAD_ID, FILE_SIZE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -31,11 +32,11 @@
     insert into SURVEY.FILE_MOVE_RECORD (UUID, FILE_STORE_ID, FILE_UUID, 
       BIZID, TABLENAME, DATA_SOURCE, 
       CREATETIME, MOVERESULT, REMARK, 
-      THREAD_ID)
+      THREAD_ID, FILE_SIZE)
     values (#{uuid,jdbcType=VARCHAR}, #{fileStoreId,jdbcType=VARCHAR}, #{fileUuid,jdbcType=VARCHAR}, 
       #{bizid,jdbcType=VARCHAR}, #{tablename,jdbcType=VARCHAR}, #{dataSource,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{moveresult,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
-      #{threadId,jdbcType=VARCHAR})
+      #{createtime,jdbcType=DATE}, #{moveresult,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{threadId,jdbcType=VARCHAR}, #{fileSize,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.funi.filemove.po.FileMoveRecordPo">
     insert into SURVEY.FILE_MOVE_RECORD
@@ -70,6 +71,9 @@
       <if test="threadId != null">
         THREAD_ID,
       </if>
+      <if test="fileSize != null">
+        FILE_SIZE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uuid != null">
@@ -91,7 +95,7 @@
         #{dataSource,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
+        #{createtime,jdbcType=DATE},
       </if>
       <if test="moveresult != null">
         #{moveresult,jdbcType=VARCHAR},
@@ -101,6 +105,9 @@
       </if>
       <if test="threadId != null">
         #{threadId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -123,7 +130,7 @@
         DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
-        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+        CREATETIME = #{createtime,jdbcType=DATE},
       </if>
       <if test="moveresult != null">
         MOVERESULT = #{moveresult,jdbcType=VARCHAR},
@@ -133,6 +140,9 @@
       </if>
       <if test="threadId != null">
         THREAD_ID = #{threadId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
       </if>
     </set>
     where UUID = #{uuid,jdbcType=VARCHAR}
@@ -144,10 +154,11 @@
       BIZID = #{bizid,jdbcType=VARCHAR},
       TABLENAME = #{tablename,jdbcType=VARCHAR},
       DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
-      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      CREATETIME = #{createtime,jdbcType=DATE},
       MOVERESULT = #{moveresult,jdbcType=VARCHAR},
       REMARK = #{remark,jdbcType=VARCHAR},
-      THREAD_ID = #{threadId,jdbcType=VARCHAR}
+      THREAD_ID = #{threadId,jdbcType=VARCHAR},
+      FILE_SIZE = #{fileSize,jdbcType=DECIMAL}
     where UUID = #{uuid,jdbcType=VARCHAR}
   </update>
 
@@ -156,5 +167,4 @@
     <include refid="Base_Column_List"/>
     from SURVEY.FILE_MOVE_RECORD
   </select>
-
 </mapper>

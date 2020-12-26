@@ -19,9 +19,13 @@ public final class Constants {
 
     }
 
-    private static final int CPU_CORE_SIZE=Runtime.getRuntime().availableProcessors();
+//    private static final int CPU_CORE_SIZE=Runtime.getRuntime().availableProcessors();
 
-    public static final int CPU_CORE_SIZE_IO=CPU_CORE_SIZE<<1;
+//    public static final int CPU_CORE_SIZE_IO=CPU_CORE_SIZE<<1;
+
+//    private static final int CPU_CORE_SIZE=Runtime.getRuntime().availableProcessors();
+
+    public static final int CPU_CORE_SIZE_IO=1;
 
     public static final String SYSTEM_CODE="surveyInner";
 
@@ -31,7 +35,7 @@ public final class Constants {
 
     static {
         dataSource=new ArrayList<Map<String,String>>(){{
-            add(new HashMap<String,String>() {{ put("dataSourceName","cd");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","cd");}});
             add(new HashMap<String,String>() {{ put("dataSourceName","lq");}});
 //            add(new HashMap<String,String>() {{ put("dataSourceName","qbj");}});
 //            add(new HashMap<String,String>() {{ put("dataSourceName","xd");}});
