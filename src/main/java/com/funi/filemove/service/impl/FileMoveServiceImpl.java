@@ -165,7 +165,14 @@ public class FileMoveServiceImpl implements FileMoveService {
                         fileExe = fileExe.substring(lc + 1);
                     }
                 }
-                storeId = Constants.FAST_DFS_PREFIX + fastDfsFileUpload.fileUpload(fileInputStream, fileExe);
+                storeId=fastDfsFileUpload.fileUpload(fileInputStream, fileExe);
+                if (storeId==null){
+                    fileMoveRecordPo.setRemark("storeId为空，上传文件失败。(请立即确认，文件服务器工作状态)");
+                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                    System.out.println("storeId为空，上传文件失败。(请立即确认，文件服务器工作状态)");
+                    continue;
+                }
+                storeId = Constants.FAST_DFS_PREFIX +storeId;
             }catch (Throwable throwable){
                 throwable.printStackTrace();
 
@@ -173,8 +180,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 msg=msg.substring(0,msg.length()>3500?3500:msg.length());
                 fileMoveRecordPo.setRemark(msg);
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-
-                this.stopMove();
+//                this.stopMove();
             }
             try {
                 //开启事务
@@ -246,7 +252,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                     systemException.printStackTrace();
                 }
 
-                this.stopMove();
+//                this.stopMove();
             }
         }
     }
