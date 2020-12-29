@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.funi.filemove.dao.MgMapFigurePoMapper">
-  <resultMap id="BaseResultMap" type="com.funi.filemove.po.MgMapFigurePo">
-    <id column="ID" jdbcType="DECIMAL" property="id" />
-    <result column="RESULTSID" jdbcType="DECIMAL" property="resultsid" />
-    <result column="IMAGENAME" jdbcType="VARCHAR" property="imagename" />
-    <result column="IMAGETYPE" jdbcType="VARCHAR" property="imagetype" />
-    <result column="MGSTATUS" jdbcType="DECIMAL" property="mgstatus" />
-    <result column="IMGSTYLE" jdbcType="VARCHAR" property="imgstyle" />
-    <result column="IMGFILESIZE" jdbcType="DECIMAL" property="imgfilesize" />
-    <result column="REGIDATE" jdbcType="TIMESTAMP" property="regidate" />
-    <result column="TEMPID" jdbcType="VARCHAR" property="tempid" />
-    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
-    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
-    <result column="CREATETIME" jdbcType="DATE" property="createtime" />
-    <result column="NOTE" jdbcType="VARCHAR" property="note" />
-    <result column="TMPRESUL01" jdbcType="VARCHAR" property="tmpresul01" />
-    <result column="TMPPROJNAME" jdbcType="VARCHAR" property="tmpprojname" />
-    <result column="TMPDEPARTMENT" jdbcType="VARCHAR" property="tmpdepartment" />
-    <result column="TMPREGIONCODE" jdbcType="DECIMAL" property="tmpregioncode" />
-    <result column="TMPMAPCODE" jdbcType="VARCHAR" property="tmpmapcode" />
-    <result column="TMPCOMPA01" jdbcType="VARCHAR" property="tmpcompa01" />
-    <result column="TMPRELATION" jdbcType="VARCHAR" property="tmprelation" />
-    <result column="TMPPHONE" jdbcType="VARCHAR" property="tmpphone" />
-    <result column="TMPBULIDCODE" jdbcType="VARCHAR" property="tmpbulidcode" />
-    <result column="TMPPROJID" jdbcType="DECIMAL" property="tmpprojid" />
-    <result column="TMPFOREC01" jdbcType="VARCHAR" property="tmpforec01" />
-    <result column="TMPMAPS01" jdbcType="VARCHAR" property="tmpmaps01" />
-    <result column="TMPREGITYPE" jdbcType="VARCHAR" property="tmpregitype" />
-    <result column="TMPINMAN" jdbcType="VARCHAR" property="tmpinman" />
-    <result column="TMPCORRE01" jdbcType="VARCHAR" property="tmpcorre01" />
-    <result column="TMPCORRE02" jdbcType="VARCHAR" property="tmpcorre02" />
-    <result column="TMPCORRE03" jdbcType="DATE" property="tmpcorre03" />
-    <result column="TMPCORRECTOR" jdbcType="VARCHAR" property="tmpcorrector" />
-    <result column="TMPFLAG" jdbcType="DECIMAL" property="tmpflag" />
-    <result column="TMPLAYOUTNOS" jdbcType="VARCHAR" property="tmplayoutnos" />
-    <result column="TMPREPORTAREA" jdbcType="DECIMAL" property="tmpreportarea" />
-    <result column="TMPTRUSTUNIT" jdbcType="VARCHAR" property="tmptrustunit" />
-    <result column="TMPTRUSTMAN" jdbcType="VARCHAR" property="tmptrustman" />
-    <result column="TMPTRUSTPHONE" jdbcType="VARCHAR" property="tmptrustphone" />
-    <result column="CHGCOUNT" jdbcType="DECIMAL" property="chgcount" />
-    <result column="TMPPROJE01" jdbcType="VARCHAR" property="tmpproje01" />
-    <result column="TMPADDRESS" jdbcType="VARCHAR" property="tmpaddress" />
-    <result column="TMPSCORE" jdbcType="VARCHAR" property="tmpscore" />
-    <result column="TMPDOCNO" jdbcType="VARCHAR" property="tmpdocno" />
-    <result column="TMPROLLNO" jdbcType="VARCHAR" property="tmprollno" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.funi.filemove.po.MgMapFigurePo">
-    <result column="IMAGE" jdbcType="BLOB" property="image" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.funi.filemove.po.MgMapFigurePo">
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="RESULTSID" jdbcType="DECIMAL" property="resultsid"/>
+        <result column="IMAGENAME" jdbcType="VARCHAR" property="imagename"/>
+        <result column="IMAGETYPE" jdbcType="VARCHAR" property="imagetype"/>
+        <result column="MGSTATUS" jdbcType="DECIMAL" property="mgstatus"/>
+        <result column="IMGSTYLE" jdbcType="VARCHAR" property="imgstyle"/>
+        <result column="IMGFILESIZE" jdbcType="DECIMAL" property="imgfilesize"/>
+        <result column="REGIDATE" jdbcType="TIMESTAMP" property="regidate"/>
+        <result column="TEMPID" jdbcType="VARCHAR" property="tempid"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="CREATER" jdbcType="VARCHAR" property="creater"/>
+        <result column="CREATETIME" jdbcType="DATE" property="createtime"/>
+        <result column="NOTE" jdbcType="VARCHAR" property="note"/>
+        <result column="TMPRESUL01" jdbcType="VARCHAR" property="tmpresul01"/>
+        <result column="TMPPROJNAME" jdbcType="VARCHAR" property="tmpprojname"/>
+        <result column="TMPDEPARTMENT" jdbcType="VARCHAR" property="tmpdepartment"/>
+        <result column="TMPREGIONCODE" jdbcType="DECIMAL" property="tmpregioncode"/>
+        <result column="TMPMAPCODE" jdbcType="VARCHAR" property="tmpmapcode"/>
+        <result column="TMPCOMPA01" jdbcType="VARCHAR" property="tmpcompa01"/>
+        <result column="TMPRELATION" jdbcType="VARCHAR" property="tmprelation"/>
+        <result column="TMPPHONE" jdbcType="VARCHAR" property="tmpphone"/>
+        <result column="TMPBULIDCODE" jdbcType="VARCHAR" property="tmpbulidcode"/>
+        <result column="TMPPROJID" jdbcType="DECIMAL" property="tmpprojid"/>
+        <result column="TMPFOREC01" jdbcType="VARCHAR" property="tmpforec01"/>
+        <result column="TMPMAPS01" jdbcType="VARCHAR" property="tmpmaps01"/>
+        <result column="TMPREGITYPE" jdbcType="VARCHAR" property="tmpregitype"/>
+        <result column="TMPINMAN" jdbcType="VARCHAR" property="tmpinman"/>
+        <result column="TMPCORRE01" jdbcType="VARCHAR" property="tmpcorre01"/>
+        <result column="TMPCORRE02" jdbcType="VARCHAR" property="tmpcorre02"/>
+        <result column="TMPCORRE03" jdbcType="DATE" property="tmpcorre03"/>
+        <result column="TMPCORRECTOR" jdbcType="VARCHAR" property="tmpcorrector"/>
+        <result column="TMPFLAG" jdbcType="DECIMAL" property="tmpflag"/>
+        <result column="TMPLAYOUTNOS" jdbcType="VARCHAR" property="tmplayoutnos"/>
+        <result column="TMPREPORTAREA" jdbcType="DECIMAL" property="tmpreportarea"/>
+        <result column="TMPTRUSTUNIT" jdbcType="VARCHAR" property="tmptrustunit"/>
+        <result column="TMPTRUSTMAN" jdbcType="VARCHAR" property="tmptrustman"/>
+        <result column="TMPTRUSTPHONE" jdbcType="VARCHAR" property="tmptrustphone"/>
+        <result column="CHGCOUNT" jdbcType="DECIMAL" property="chgcount"/>
+        <result column="TMPPROJE01" jdbcType="VARCHAR" property="tmpproje01"/>
+        <result column="TMPADDRESS" jdbcType="VARCHAR" property="tmpaddress"/>
+        <result column="TMPSCORE" jdbcType="VARCHAR" property="tmpscore"/>
+        <result column="TMPDOCNO" jdbcType="VARCHAR" property="tmpdocno"/>
+        <result column="TMPROLLNO" jdbcType="VARCHAR" property="tmprollno"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.funi.filemove.po.MgMapFigurePo">
+        <result column="IMAGE" jdbcType="BLOB" property="image"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     ID, RESULTSID, IMAGENAME, IMAGETYPE, MGSTATUS, IMGSTYLE, IMGFILESIZE, REGIDATE, TEMPID, 
     DESCRIPTION, CREATER, CREATETIME, NOTE, TMPRESUL01, TMPPROJNAME, TMPDEPARTMENT, TMPREGIONCODE, 
     TMPMAPCODE, TMPCOMPA01, TMPRELATION, TMPPHONE, TMPBULIDCODE, TMPPROJID, TMPFOREC01, 
@@ -57,22 +57,22 @@
     TMPFLAG, TMPLAYOUTNOS, TMPREPORTAREA, TMPTRUSTUNIT, TMPTRUSTMAN, TMPTRUSTPHONE, CHGCOUNT, 
     TMPPROJE01, TMPADDRESS, TMPSCORE, TMPDOCNO, TMPROLLNO
   </sql>
-  <sql id="Blob_Column_List">
+    <sql id="Blob_Column_List">
     IMAGE
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from SURVEY.MGMAPFIGURE
-    where ID = #{id,jdbcType=DECIMAL}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from SURVEY.MGMAPFIGURE
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
     delete from SURVEY.MGMAPFIGURE
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
-  <insert id="insert" parameterType="com.funi.filemove.po.MgMapFigurePo">
+    <insert id="insert" parameterType="com.funi.filemove.po.MgMapFigurePo">
     insert into SURVEY.MGMAPFIGURE (ID, RESULTSID, IMAGENAME, 
       IMAGETYPE, MGSTATUS, IMGSTYLE, 
       IMGFILESIZE, REGIDATE, TEMPID, 
@@ -104,413 +104,413 @@
       #{tmpaddress,jdbcType=VARCHAR}, #{tmpscore,jdbcType=VARCHAR}, #{tmpdocno,jdbcType=VARCHAR}, 
       #{tmprollno,jdbcType=VARCHAR}, #{image,jdbcType=BLOB})
   </insert>
-  <insert id="insertSelective" parameterType="com.funi.filemove.po.MgMapFigurePo">
-    insert into SURVEY.MGMAPFIGURE
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="resultsid != null">
-        RESULTSID,
-      </if>
-      <if test="imagename != null">
-        IMAGENAME,
-      </if>
-      <if test="imagetype != null">
-        IMAGETYPE,
-      </if>
-      <if test="mgstatus != null">
-        MGSTATUS,
-      </if>
-      <if test="imgstyle != null">
-        IMGSTYLE,
-      </if>
-      <if test="imgfilesize != null">
-        IMGFILESIZE,
-      </if>
-      <if test="regidate != null">
-        REGIDATE,
-      </if>
-      <if test="tempid != null">
-        TEMPID,
-      </if>
-      <if test="description != null">
-        DESCRIPTION,
-      </if>
-      <if test="creater != null">
-        CREATER,
-      </if>
-      <if test="createtime != null">
-        CREATETIME,
-      </if>
-      <if test="note != null">
-        NOTE,
-      </if>
-      <if test="tmpresul01 != null">
-        TMPRESUL01,
-      </if>
-      <if test="tmpprojname != null">
-        TMPPROJNAME,
-      </if>
-      <if test="tmpdepartment != null">
-        TMPDEPARTMENT,
-      </if>
-      <if test="tmpregioncode != null">
-        TMPREGIONCODE,
-      </if>
-      <if test="tmpmapcode != null">
-        TMPMAPCODE,
-      </if>
-      <if test="tmpcompa01 != null">
-        TMPCOMPA01,
-      </if>
-      <if test="tmprelation != null">
-        TMPRELATION,
-      </if>
-      <if test="tmpphone != null">
-        TMPPHONE,
-      </if>
-      <if test="tmpbulidcode != null">
-        TMPBULIDCODE,
-      </if>
-      <if test="tmpprojid != null">
-        TMPPROJID,
-      </if>
-      <if test="tmpforec01 != null">
-        TMPFOREC01,
-      </if>
-      <if test="tmpmaps01 != null">
-        TMPMAPS01,
-      </if>
-      <if test="tmpregitype != null">
-        TMPREGITYPE,
-      </if>
-      <if test="tmpinman != null">
-        TMPINMAN,
-      </if>
-      <if test="tmpcorre01 != null">
-        TMPCORRE01,
-      </if>
-      <if test="tmpcorre02 != null">
-        TMPCORRE02,
-      </if>
-      <if test="tmpcorre03 != null">
-        TMPCORRE03,
-      </if>
-      <if test="tmpcorrector != null">
-        TMPCORRECTOR,
-      </if>
-      <if test="tmpflag != null">
-        TMPFLAG,
-      </if>
-      <if test="tmplayoutnos != null">
-        TMPLAYOUTNOS,
-      </if>
-      <if test="tmpreportarea != null">
-        TMPREPORTAREA,
-      </if>
-      <if test="tmptrustunit != null">
-        TMPTRUSTUNIT,
-      </if>
-      <if test="tmptrustman != null">
-        TMPTRUSTMAN,
-      </if>
-      <if test="tmptrustphone != null">
-        TMPTRUSTPHONE,
-      </if>
-      <if test="chgcount != null">
-        CHGCOUNT,
-      </if>
-      <if test="tmpproje01 != null">
-        TMPPROJE01,
-      </if>
-      <if test="tmpaddress != null">
-        TMPADDRESS,
-      </if>
-      <if test="tmpscore != null">
-        TMPSCORE,
-      </if>
-      <if test="tmpdocno != null">
-        TMPDOCNO,
-      </if>
-      <if test="tmprollno != null">
-        TMPROLLNO,
-      </if>
-      <if test="image != null">
-        IMAGE,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=DECIMAL},
-      </if>
-      <if test="resultsid != null">
-        #{resultsid,jdbcType=DECIMAL},
-      </if>
-      <if test="imagename != null">
-        #{imagename,jdbcType=VARCHAR},
-      </if>
-      <if test="imagetype != null">
-        #{imagetype,jdbcType=VARCHAR},
-      </if>
-      <if test="mgstatus != null">
-        #{mgstatus,jdbcType=DECIMAL},
-      </if>
-      <if test="imgstyle != null">
-        #{imgstyle,jdbcType=VARCHAR},
-      </if>
-      <if test="imgfilesize != null">
-        #{imgfilesize,jdbcType=DECIMAL},
-      </if>
-      <if test="regidate != null">
-        #{regidate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tempid != null">
-        #{tempid,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="creater != null">
-        #{creater,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=DATE},
-      </if>
-      <if test="note != null">
-        #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpresul01 != null">
-        #{tmpresul01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpprojname != null">
-        #{tmpprojname,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpdepartment != null">
-        #{tmpdepartment,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpregioncode != null">
-        #{tmpregioncode,jdbcType=DECIMAL},
-      </if>
-      <if test="tmpmapcode != null">
-        #{tmpmapcode,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpcompa01 != null">
-        #{tmpcompa01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmprelation != null">
-        #{tmprelation,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpphone != null">
-        #{tmpphone,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpbulidcode != null">
-        #{tmpbulidcode,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpprojid != null">
-        #{tmpprojid,jdbcType=DECIMAL},
-      </if>
-      <if test="tmpforec01 != null">
-        #{tmpforec01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpmaps01 != null">
-        #{tmpmaps01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpregitype != null">
-        #{tmpregitype,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpinman != null">
-        #{tmpinman,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpcorre01 != null">
-        #{tmpcorre01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpcorre02 != null">
-        #{tmpcorre02,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpcorre03 != null">
-        #{tmpcorre03,jdbcType=DATE},
-      </if>
-      <if test="tmpcorrector != null">
-        #{tmpcorrector,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpflag != null">
-        #{tmpflag,jdbcType=DECIMAL},
-      </if>
-      <if test="tmplayoutnos != null">
-        #{tmplayoutnos,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpreportarea != null">
-        #{tmpreportarea,jdbcType=DECIMAL},
-      </if>
-      <if test="tmptrustunit != null">
-        #{tmptrustunit,jdbcType=VARCHAR},
-      </if>
-      <if test="tmptrustman != null">
-        #{tmptrustman,jdbcType=VARCHAR},
-      </if>
-      <if test="tmptrustphone != null">
-        #{tmptrustphone,jdbcType=VARCHAR},
-      </if>
-      <if test="chgcount != null">
-        #{chgcount,jdbcType=DECIMAL},
-      </if>
-      <if test="tmpproje01 != null">
-        #{tmpproje01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpaddress != null">
-        #{tmpaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpscore != null">
-        #{tmpscore,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpdocno != null">
-        #{tmpdocno,jdbcType=VARCHAR},
-      </if>
-      <if test="tmprollno != null">
-        #{tmprollno,jdbcType=VARCHAR},
-      </if>
-      <if test="image != null">
-        #{image,jdbcType=BLOB},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.MgMapFigurePo">
-    update SURVEY.MGMAPFIGURE
-    <set>
-      <if test="resultsid != null">
-        RESULTSID = #{resultsid,jdbcType=DECIMAL},
-      </if>
-      <if test="imagename != null">
-        IMAGENAME = #{imagename,jdbcType=VARCHAR},
-      </if>
-      <if test="imagetype != null">
-        IMAGETYPE = #{imagetype,jdbcType=VARCHAR},
-      </if>
-      <if test="mgstatus != null">
-        MGSTATUS = #{mgstatus,jdbcType=DECIMAL},
-      </if>
-      <if test="imgstyle != null">
-        IMGSTYLE = #{imgstyle,jdbcType=VARCHAR},
-      </if>
-      <if test="imgfilesize != null">
-        IMGFILESIZE = #{imgfilesize,jdbcType=DECIMAL},
-      </if>
-      <if test="regidate != null">
-        REGIDATE = #{regidate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tempid != null">
-        TEMPID = #{tempid,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        DESCRIPTION = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="creater != null">
-        CREATER = #{creater,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        CREATETIME = #{createtime,jdbcType=DATE},
-      </if>
-      <if test="note != null">
-        NOTE = #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpresul01 != null">
-        TMPRESUL01 = #{tmpresul01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpprojname != null">
-        TMPPROJNAME = #{tmpprojname,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpdepartment != null">
-        TMPDEPARTMENT = #{tmpdepartment,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpregioncode != null">
-        TMPREGIONCODE = #{tmpregioncode,jdbcType=DECIMAL},
-      </if>
-      <if test="tmpmapcode != null">
-        TMPMAPCODE = #{tmpmapcode,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpcompa01 != null">
-        TMPCOMPA01 = #{tmpcompa01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmprelation != null">
-        TMPRELATION = #{tmprelation,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpphone != null">
-        TMPPHONE = #{tmpphone,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpbulidcode != null">
-        TMPBULIDCODE = #{tmpbulidcode,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpprojid != null">
-        TMPPROJID = #{tmpprojid,jdbcType=DECIMAL},
-      </if>
-      <if test="tmpforec01 != null">
-        TMPFOREC01 = #{tmpforec01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpmaps01 != null">
-        TMPMAPS01 = #{tmpmaps01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpregitype != null">
-        TMPREGITYPE = #{tmpregitype,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpinman != null">
-        TMPINMAN = #{tmpinman,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpcorre01 != null">
-        TMPCORRE01 = #{tmpcorre01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpcorre02 != null">
-        TMPCORRE02 = #{tmpcorre02,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpcorre03 != null">
-        TMPCORRE03 = #{tmpcorre03,jdbcType=DATE},
-      </if>
-      <if test="tmpcorrector != null">
-        TMPCORRECTOR = #{tmpcorrector,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpflag != null">
-        TMPFLAG = #{tmpflag,jdbcType=DECIMAL},
-      </if>
-      <if test="tmplayoutnos != null">
-        TMPLAYOUTNOS = #{tmplayoutnos,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpreportarea != null">
-        TMPREPORTAREA = #{tmpreportarea,jdbcType=DECIMAL},
-      </if>
-      <if test="tmptrustunit != null">
-        TMPTRUSTUNIT = #{tmptrustunit,jdbcType=VARCHAR},
-      </if>
-      <if test="tmptrustman != null">
-        TMPTRUSTMAN = #{tmptrustman,jdbcType=VARCHAR},
-      </if>
-      <if test="tmptrustphone != null">
-        TMPTRUSTPHONE = #{tmptrustphone,jdbcType=VARCHAR},
-      </if>
-      <if test="chgcount != null">
-        CHGCOUNT = #{chgcount,jdbcType=DECIMAL},
-      </if>
-      <if test="tmpproje01 != null">
-        TMPPROJE01 = #{tmpproje01,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpaddress != null">
-        TMPADDRESS = #{tmpaddress,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpscore != null">
-        TMPSCORE = #{tmpscore,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpdocno != null">
-        TMPDOCNO = #{tmpdocno,jdbcType=VARCHAR},
-      </if>
-      <if test="tmprollno != null">
-        TMPROLLNO = #{tmprollno,jdbcType=VARCHAR},
-      </if>
-      <if test="image != null">
-        IMAGE = #{image,jdbcType=BLOB},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=DECIMAL}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.funi.filemove.po.MgMapFigurePo">
+    <insert id="insertSelective" parameterType="com.funi.filemove.po.MgMapFigurePo">
+        insert into SURVEY.MGMAPFIGURE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="resultsid != null">
+                RESULTSID,
+            </if>
+            <if test="imagename != null">
+                IMAGENAME,
+            </if>
+            <if test="imagetype != null">
+                IMAGETYPE,
+            </if>
+            <if test="mgstatus != null">
+                MGSTATUS,
+            </if>
+            <if test="imgstyle != null">
+                IMGSTYLE,
+            </if>
+            <if test="imgfilesize != null">
+                IMGFILESIZE,
+            </if>
+            <if test="regidate != null">
+                REGIDATE,
+            </if>
+            <if test="tempid != null">
+                TEMPID,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="creater != null">
+                CREATER,
+            </if>
+            <if test="createtime != null">
+                CREATETIME,
+            </if>
+            <if test="note != null">
+                NOTE,
+            </if>
+            <if test="tmpresul01 != null">
+                TMPRESUL01,
+            </if>
+            <if test="tmpprojname != null">
+                TMPPROJNAME,
+            </if>
+            <if test="tmpdepartment != null">
+                TMPDEPARTMENT,
+            </if>
+            <if test="tmpregioncode != null">
+                TMPREGIONCODE,
+            </if>
+            <if test="tmpmapcode != null">
+                TMPMAPCODE,
+            </if>
+            <if test="tmpcompa01 != null">
+                TMPCOMPA01,
+            </if>
+            <if test="tmprelation != null">
+                TMPRELATION,
+            </if>
+            <if test="tmpphone != null">
+                TMPPHONE,
+            </if>
+            <if test="tmpbulidcode != null">
+                TMPBULIDCODE,
+            </if>
+            <if test="tmpprojid != null">
+                TMPPROJID,
+            </if>
+            <if test="tmpforec01 != null">
+                TMPFOREC01,
+            </if>
+            <if test="tmpmaps01 != null">
+                TMPMAPS01,
+            </if>
+            <if test="tmpregitype != null">
+                TMPREGITYPE,
+            </if>
+            <if test="tmpinman != null">
+                TMPINMAN,
+            </if>
+            <if test="tmpcorre01 != null">
+                TMPCORRE01,
+            </if>
+            <if test="tmpcorre02 != null">
+                TMPCORRE02,
+            </if>
+            <if test="tmpcorre03 != null">
+                TMPCORRE03,
+            </if>
+            <if test="tmpcorrector != null">
+                TMPCORRECTOR,
+            </if>
+            <if test="tmpflag != null">
+                TMPFLAG,
+            </if>
+            <if test="tmplayoutnos != null">
+                TMPLAYOUTNOS,
+            </if>
+            <if test="tmpreportarea != null">
+                TMPREPORTAREA,
+            </if>
+            <if test="tmptrustunit != null">
+                TMPTRUSTUNIT,
+            </if>
+            <if test="tmptrustman != null">
+                TMPTRUSTMAN,
+            </if>
+            <if test="tmptrustphone != null">
+                TMPTRUSTPHONE,
+            </if>
+            <if test="chgcount != null">
+                CHGCOUNT,
+            </if>
+            <if test="tmpproje01 != null">
+                TMPPROJE01,
+            </if>
+            <if test="tmpaddress != null">
+                TMPADDRESS,
+            </if>
+            <if test="tmpscore != null">
+                TMPSCORE,
+            </if>
+            <if test="tmpdocno != null">
+                TMPDOCNO,
+            </if>
+            <if test="tmprollno != null">
+                TMPROLLNO,
+            </if>
+            <if test="image != null">
+                IMAGE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=DECIMAL},
+            </if>
+            <if test="resultsid != null">
+                #{resultsid,jdbcType=DECIMAL},
+            </if>
+            <if test="imagename != null">
+                #{imagename,jdbcType=VARCHAR},
+            </if>
+            <if test="imagetype != null">
+                #{imagetype,jdbcType=VARCHAR},
+            </if>
+            <if test="mgstatus != null">
+                #{mgstatus,jdbcType=DECIMAL},
+            </if>
+            <if test="imgstyle != null">
+                #{imgstyle,jdbcType=VARCHAR},
+            </if>
+            <if test="imgfilesize != null">
+                #{imgfilesize,jdbcType=DECIMAL},
+            </if>
+            <if test="regidate != null">
+                #{regidate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tempid != null">
+                #{tempid,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null">
+                #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=DATE},
+            </if>
+            <if test="note != null">
+                #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpresul01 != null">
+                #{tmpresul01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpprojname != null">
+                #{tmpprojname,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpdepartment != null">
+                #{tmpdepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpregioncode != null">
+                #{tmpregioncode,jdbcType=DECIMAL},
+            </if>
+            <if test="tmpmapcode != null">
+                #{tmpmapcode,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpcompa01 != null">
+                #{tmpcompa01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmprelation != null">
+                #{tmprelation,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpphone != null">
+                #{tmpphone,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpbulidcode != null">
+                #{tmpbulidcode,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpprojid != null">
+                #{tmpprojid,jdbcType=DECIMAL},
+            </if>
+            <if test="tmpforec01 != null">
+                #{tmpforec01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpmaps01 != null">
+                #{tmpmaps01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpregitype != null">
+                #{tmpregitype,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpinman != null">
+                #{tmpinman,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpcorre01 != null">
+                #{tmpcorre01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpcorre02 != null">
+                #{tmpcorre02,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpcorre03 != null">
+                #{tmpcorre03,jdbcType=DATE},
+            </if>
+            <if test="tmpcorrector != null">
+                #{tmpcorrector,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpflag != null">
+                #{tmpflag,jdbcType=DECIMAL},
+            </if>
+            <if test="tmplayoutnos != null">
+                #{tmplayoutnos,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpreportarea != null">
+                #{tmpreportarea,jdbcType=DECIMAL},
+            </if>
+            <if test="tmptrustunit != null">
+                #{tmptrustunit,jdbcType=VARCHAR},
+            </if>
+            <if test="tmptrustman != null">
+                #{tmptrustman,jdbcType=VARCHAR},
+            </if>
+            <if test="tmptrustphone != null">
+                #{tmptrustphone,jdbcType=VARCHAR},
+            </if>
+            <if test="chgcount != null">
+                #{chgcount,jdbcType=DECIMAL},
+            </if>
+            <if test="tmpproje01 != null">
+                #{tmpproje01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpaddress != null">
+                #{tmpaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpscore != null">
+                #{tmpscore,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpdocno != null">
+                #{tmpdocno,jdbcType=VARCHAR},
+            </if>
+            <if test="tmprollno != null">
+                #{tmprollno,jdbcType=VARCHAR},
+            </if>
+            <if test="image != null">
+                #{image,jdbcType=BLOB},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.MgMapFigurePo">
+        update SURVEY.MGMAPFIGURE
+        <set>
+            <if test="resultsid != null">
+                RESULTSID = #{resultsid,jdbcType=DECIMAL},
+            </if>
+            <if test="imagename != null">
+                IMAGENAME = #{imagename,jdbcType=VARCHAR},
+            </if>
+            <if test="imagetype != null">
+                IMAGETYPE = #{imagetype,jdbcType=VARCHAR},
+            </if>
+            <if test="mgstatus != null">
+                MGSTATUS = #{mgstatus,jdbcType=DECIMAL},
+            </if>
+            <if test="imgstyle != null">
+                IMGSTYLE = #{imgstyle,jdbcType=VARCHAR},
+            </if>
+            <if test="imgfilesize != null">
+                IMGFILESIZE = #{imgfilesize,jdbcType=DECIMAL},
+            </if>
+            <if test="regidate != null">
+                REGIDATE = #{regidate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tempid != null">
+                TEMPID = #{tempid,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null">
+                CREATER = #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                CREATETIME = #{createtime,jdbcType=DATE},
+            </if>
+            <if test="note != null">
+                NOTE = #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpresul01 != null">
+                TMPRESUL01 = #{tmpresul01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpprojname != null">
+                TMPPROJNAME = #{tmpprojname,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpdepartment != null">
+                TMPDEPARTMENT = #{tmpdepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpregioncode != null">
+                TMPREGIONCODE = #{tmpregioncode,jdbcType=DECIMAL},
+            </if>
+            <if test="tmpmapcode != null">
+                TMPMAPCODE = #{tmpmapcode,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpcompa01 != null">
+                TMPCOMPA01 = #{tmpcompa01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmprelation != null">
+                TMPRELATION = #{tmprelation,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpphone != null">
+                TMPPHONE = #{tmpphone,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpbulidcode != null">
+                TMPBULIDCODE = #{tmpbulidcode,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpprojid != null">
+                TMPPROJID = #{tmpprojid,jdbcType=DECIMAL},
+            </if>
+            <if test="tmpforec01 != null">
+                TMPFOREC01 = #{tmpforec01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpmaps01 != null">
+                TMPMAPS01 = #{tmpmaps01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpregitype != null">
+                TMPREGITYPE = #{tmpregitype,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpinman != null">
+                TMPINMAN = #{tmpinman,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpcorre01 != null">
+                TMPCORRE01 = #{tmpcorre01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpcorre02 != null">
+                TMPCORRE02 = #{tmpcorre02,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpcorre03 != null">
+                TMPCORRE03 = #{tmpcorre03,jdbcType=DATE},
+            </if>
+            <if test="tmpcorrector != null">
+                TMPCORRECTOR = #{tmpcorrector,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpflag != null">
+                TMPFLAG = #{tmpflag,jdbcType=DECIMAL},
+            </if>
+            <if test="tmplayoutnos != null">
+                TMPLAYOUTNOS = #{tmplayoutnos,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpreportarea != null">
+                TMPREPORTAREA = #{tmpreportarea,jdbcType=DECIMAL},
+            </if>
+            <if test="tmptrustunit != null">
+                TMPTRUSTUNIT = #{tmptrustunit,jdbcType=VARCHAR},
+            </if>
+            <if test="tmptrustman != null">
+                TMPTRUSTMAN = #{tmptrustman,jdbcType=VARCHAR},
+            </if>
+            <if test="tmptrustphone != null">
+                TMPTRUSTPHONE = #{tmptrustphone,jdbcType=VARCHAR},
+            </if>
+            <if test="chgcount != null">
+                CHGCOUNT = #{chgcount,jdbcType=DECIMAL},
+            </if>
+            <if test="tmpproje01 != null">
+                TMPPROJE01 = #{tmpproje01,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpaddress != null">
+                TMPADDRESS = #{tmpaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpscore != null">
+                TMPSCORE = #{tmpscore,jdbcType=VARCHAR},
+            </if>
+            <if test="tmpdocno != null">
+                TMPDOCNO = #{tmpdocno,jdbcType=VARCHAR},
+            </if>
+            <if test="tmprollno != null">
+                TMPROLLNO = #{tmprollno,jdbcType=VARCHAR},
+            </if>
+            <if test="image != null">
+                IMAGE = #{image,jdbcType=BLOB},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.funi.filemove.po.MgMapFigurePo">
     update SURVEY.MGMAPFIGURE
     set RESULTSID = #{resultsid,jdbcType=DECIMAL},
       IMAGENAME = #{imagename,jdbcType=VARCHAR},
@@ -557,7 +557,7 @@
       IMAGE = #{image,jdbcType=BLOB}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.MgMapFigurePo">
+    <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.MgMapFigurePo">
     update SURVEY.MGMAPFIGURE
     set RESULTSID = #{resultsid,jdbcType=DECIMAL},
       IMAGENAME = #{imagename,jdbcType=VARCHAR},
@@ -604,70 +604,73 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 
-<!--  <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">-->
-<!--    select-->
-<!--    <include refid="Base_Column_List"/>-->
-<!--    ,-->
-<!--    <include refid="Blob_Column_List"/>-->
-<!--     from (-->
-<!--            select m.*, rownum rn-->
-<!--            from SURVEY.MGMAPFIGURE m-->
-<!--            where Mod(m.id, #{theadSum,jdbcType=DECIMAL}) = #{theadId,jdbcType=DECIMAL}-->
-<!--                and not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)-->
-<!--            order by m.id-->
-<!--            ) re-->
-<!--    where re.rn = 1-->
-<!--  </select>-->
-
-
-
-<!--  <select id="selectUnfinishCount"  resultType="int">-->
-<!--    select count(1)-->
-<!--    from SURVEY.MGMAPFIGURE m-->
-<!--    where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)-->
-<!--  </select>-->
-
-
+    <!--
     <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">
       select
       <include refid="Base_Column_List"/>
       ,
       <include refid="Blob_Column_List"/>
-      from (
-      select m.*, rownum rn
-      from SURVEY.MGMAPFIGURE m
-      where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
-      order by m.id
-      ) re
+       from (
+              select m.*, rownum rn
+              from SURVEY.MGMAPFIGURE m
+              where Mod(m.id, #{theadSum,jdbcType=DECIMAL}) = #{theadId,jdbcType=DECIMAL}
+                  and not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
+              order by m.id
+              ) re
       where re.rn = 1
     </select>
 
-  <select id="selectUnfinishCount"  resultType="int">
+    <select id="selectUnfinishCount"  resultType="int">
+      select count(1)
+      from SURVEY.MGMAPFIGURE m
+      where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
+    </select>
+    -->
+
+
+    <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from (
+        select m.*, rownum rn
+        from SURVEY.MGMAPFIGURE m
+        where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
+        order by m.id
+        ) re
+        where re.rn = 1
+    </select>
+
+    <select id="selectUnfinishCount" resultType="int">
     select count(1)
     from SURVEY.MGMAPFIGURE m
     where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
-  </select>
+    </select>
 
-<!--  <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">-->
-<!--    select-->
-<!--    <include refid="Base_Column_List"/>-->
-<!--    ,-->
-<!--    <include refid="Blob_Column_List"/>-->
-<!--    from (-->
-<!--    select m.*, rownum rn-->
-<!--    from SURVEY.MGMAPFIGURE m-->
-<!--    where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)-->
-<!--    and m.resultsid='1104'-->
-<!--    order by m.id-->
-<!--    ) re-->
-<!--    where re.rn = 1-->
-<!--  </select>-->
+    <!--
+          <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">
+            select
+            <include refid="Base_Column_List"/>
+            ,
+            <include refid="Blob_Column_List"/>
+            from (
+            select m.*, rownum rn
+            from SURVEY.MGMAPFIGURE m
+            where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
+            and m.resultsid in (59035,52935,79737)
+            order by m.id
+            ) re
+            where re.rn = 1
+          </select>
 
-<!--    <select id="selectUnfinishCount"  resultType="int">-->
-<!--      select count(1)-->
-<!--      from SURVEY.MGMAPFIGURE m-->
-<!--      where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)-->
-<!--      and m.resultsid='1104'-->
-<!--    </select>-->
+            <select id="selectUnfinishCount"  resultType="int">
+              select count(1)
+              from SURVEY.MGMAPFIGURE m
+              where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
+              and m.resultsid in (59035,52935,79737)
+            </select>
+
+        -->
 
 </mapper>

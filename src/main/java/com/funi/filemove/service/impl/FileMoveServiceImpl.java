@@ -177,10 +177,9 @@ public class FileMoveServiceImpl implements FileMoveService {
                 throwable.printStackTrace();
 
                 msg=throwable.getMessage();
-                msg=msg.substring(0,msg.length()>3500?3500:msg.length());
+                msg=msg.substring(0,msg.length()>350?350:msg.length());
                 fileMoveRecordPo.setRemark(msg);
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-//                this.stopMove();
             }
             try {
                 //开启事务
@@ -224,12 +223,20 @@ public class FileMoveServiceImpl implements FileMoveService {
                     }
                 }
 
-                cfFileDescPo.setStatus((short) 1);
+                if (mgMapFigurePo.getMgstatus()==null){
+                    fileMoveRecordPo.setRemark("文件状态null,请立即确认");
+                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                    System.out.println("迁移件：" + mgMapFigurePo.getId()+"--文件状态null,请立即确认");
+                    continue;
+                }
+                if ((new BigDecimal(-999)).equals(mgMapFigurePo.getMgstatus())){
+                    cfFileDescPo.setStatus((short) -9);
+                }else {
+                    cfFileDescPo.setStatus(mgMapFigurePo.getMgstatus().shortValueExact());
+                }
                 cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
                 cfFileDescPo.setCreatorId("历史文件迁入(迁移程序)");
                 cfFileDescPoMapper.insertSelective(cfFileDescPo);
-
-
                 ContextSynchronizationManager.bindResource("datasource", DataSourceChangeImpl.getCurrentMoveDataSource());
                 fileMoveRecordPo.setFileUuid(cfFileDescPo.getUuid());
                 fileMoveRecordPo.setFileStoreId(storeId);
@@ -242,7 +249,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 throwable.printStackTrace();
 
                 msg=throwable.getMessage();
-                msg=msg.substring(0,msg.length()>3500?3500:msg.length());
+                msg=msg.substring(0,msg.length()>350?350:msg.length());
                 fileMoveRecordPo.setRemark(msg);
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                 //手动回滚事务
@@ -251,8 +258,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                 } catch (SystemException systemException) {
                     systemException.printStackTrace();
                 }
-
-//                this.stopMove();
             }
         }
     }

@@ -18,6 +18,18 @@ dynamic:
       username: sysdeerp
       password: yc$2015
 
+#正式
+#dynamic:
+#  datasource:
+#    cd:
+#      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbcore
+#      username: sysdeerp
+#      password: d#41hsal
+#    lq:
+#      url: jdbc:oracle:thin:@172.25.17.29:1521/pdblq
+#      username: sysdeerp
+#      password: yc$2012
+
 
 mybatis:
   #配置SQL映射文件路径
