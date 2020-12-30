@@ -235,7 +235,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                     cfFileDescPo.setStatus(mgMapFigurePo.getMgstatus().shortValueExact());
                 }
                 cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
-                cfFileDescPo.setCreatorId("历史文件迁入(迁移程序)");
+                cfFileDescPo.setCreatorId(mgMapFigurePo.getCreater());
                 cfFileDescPoMapper.insertSelective(cfFileDescPo);
                 ContextSynchronizationManager.bindResource("datasource", DataSourceChangeImpl.getCurrentMoveDataSource());
                 fileMoveRecordPo.setFileUuid(cfFileDescPo.getUuid());
