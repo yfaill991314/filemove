@@ -81,6 +81,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                     }
                     ContextSynchronizationManager.bindResource("datasource", "lq");
                     fileMoveRecordPoMapper.deleteByPrimaryKey(fileMoveRecordPo.getUuid());
+                    System.out.println("文件："+fileMoveRecordPo.getFileUuid()+"-----"+fileMoveRecordPo.getFileStoreId()+"--已删除");
                 }
             } catch (Exception e) {
                 userTransaction.rollback();
@@ -174,12 +175,11 @@ public class FileMoveServiceImpl implements FileMoveService {
                 }
                 storeId = Constants.FAST_DFS_PREFIX +storeId;
             }catch (Throwable throwable){
-                throwable.printStackTrace();
-
                 msg=throwable.getMessage();
                 msg=msg.substring(0,msg.length()>350?350:msg.length());
                 fileMoveRecordPo.setRemark(msg);
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                return;
             }
             try {
                 //开启事务
@@ -402,6 +402,10 @@ public class FileMoveServiceImpl implements FileMoveService {
     @Override
     public boolean startMove() {
         dataSourceChange.setTodayMoveDataSource();
+        if (DataSourceChangeImpl.getCurrentMoveDataSource()==null){
+            System.out.println("未找到可迁移区域，迁移完成。");
+            return true;
+        }
         MyThreadFacthory threadFactory = new MyThreadFacthory();
         executorService = new ThreadPoolExecutor(Constants.CPU_CORE_SIZE_IO, Constants.CPU_CORE_SIZE_IO,
                 0L, TimeUnit.MILLISECONDS,

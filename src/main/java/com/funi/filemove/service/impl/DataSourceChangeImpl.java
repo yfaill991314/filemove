@@ -41,15 +41,16 @@ public class DataSourceChangeImpl implements DataSourceChange {
      * @return void
      **/
     @Override
-    public void setTodayMoveDataSource(){
-       List<Map<String, String>> dataSourceList= Constants.dataSource;
-       for (Map<String,String> dataSourceItem:dataSourceList){
-           ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
-           int unfinishCount = mgMapFigurePoMapper.selectUnfinishCount();
-           if (unfinishCount>0){
-               DataSourceChangeImpl.setCurrentMoveDataSource(dataSourceItem.get("dataSourceName"));
-               break;
-           }
-       }
+    public void setTodayMoveDataSource() {
+        DataSourceChangeImpl.setCurrentMoveDataSource(null);
+        List<Map<String, String>> dataSourceList = Constants.dataSource;
+        for (Map<String, String> dataSourceItem : dataSourceList) {
+            ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
+            int unfinishCount = mgMapFigurePoMapper.selectUnfinishCount();
+            if (unfinishCount > 0) {
+                DataSourceChangeImpl.setCurrentMoveDataSource(dataSourceItem.get("dataSourceName"));
+                break;
+            }
+        }
     }
 }

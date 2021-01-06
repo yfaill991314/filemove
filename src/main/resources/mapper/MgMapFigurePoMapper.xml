@@ -605,7 +605,7 @@
   </update>
 
     <!--
-    <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">
+    <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs" useCache="false" flushCache="true">
       select
       <include refid="Base_Column_List"/>
       ,
@@ -620,7 +620,7 @@
       where re.rn = 1
     </select>
 
-    <select id="selectUnfinishCount"  resultType="int">
+    <select id="selectUnfinishCount"  resultType="int" useCache="false" flushCache="true">
       select count(1)
       from SURVEY.MGMAPFIGURE m
       where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
@@ -628,7 +628,7 @@
     -->
 
 
-    <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">
+    <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs" useCache="false" flushCache="true">
         select
         <include refid="Base_Column_List"/>
         ,
@@ -642,14 +642,14 @@
         where re.rn = 1
     </select>
 
-    <select id="selectUnfinishCount" resultType="int">
+    <select id="selectUnfinishCount" resultType="int" useCache="false" flushCache="true">
     select count(1)
     from SURVEY.MGMAPFIGURE m
     where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
     </select>
 
     <!--
-          <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs">
+          <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs" useCache="false" flushCache="true">
             select
             <include refid="Base_Column_List"/>
             ,
@@ -664,7 +664,7 @@
             where re.rn = 1
           </select>
 
-            <select id="selectUnfinishCount"  resultType="int">
+            <select id="selectUnfinishCount"  resultType="int" useCache="false" flushCache="true">
               select count(1)
               from SURVEY.MGMAPFIGURE m
               where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
