@@ -31,28 +31,40 @@ public final class Constants {
 
     public static final String FAST_DFS_PREFIX = "fastdfs://";
 
-    public static List<Map<String,String>> dataSource=null;
+    public static List<Map<String,String>> dataSourceList=null;
+
+    public static List<Map<String,String>> tableNameList=null;
+
+    public static final String MoveRecordStatus="未迁移";
 
     static {
-        dataSource=new ArrayList<Map<String,String>>(){{
-//            add(new HashMap<String,String>() {{ put("dataSourceName","cd");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","tfxq");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","lq");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","sl");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","qbj");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","wj");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","px");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","xd");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","jy");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","jt");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","dy");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","pj");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","xj");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","djy");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","pz");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","ql");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","cz");}});
-//            add(new HashMap<String,String>() {{ put("dataSourceName","dbxq");}});
+        dataSourceList=new ArrayList<Map<String,String>>(){{
+            add(new HashMap<String,String>() {{ put("dataSourceName","cd");put("dataSource","510100");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","tfxq");put("dataSource","510142");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","lq");put("dataSource","510112");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","sl");put("dataSource","510122");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","qbj");put("dataSource","510113");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","wj");put("dataSource","510115");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","px");put("dataSource","510124");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","xd");put("dataSource","510114");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","jy");put("dataSource","510180");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","jt");put("dataSource","510121");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","dy");put("dataSource","510129");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","pj");put("dataSource","510131");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","xj");put("dataSource","510132");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","djy");put("dataSource","510181");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","pz");put("dataSource","510182");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","ql");put("dataSource","510183");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","cz");put("dataSource","510184");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","dbxq");put("dataSource","510118");}});
         }};
+
+        tableNameList=new ArrayList<Map<String,String>>(){{
+            add(new HashMap<String,String>() {{ put("tableName","mgmapfigure");}});
+            add(new HashMap<String,String>() {{ put("tableName","mgdoorimg");}});
+            add(new HashMap<String,String>() {{ put("tableName","imgimages");}});
+        }};
+
+
     }
 }

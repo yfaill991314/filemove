@@ -11,8 +11,6 @@ public interface FileMoveService {
 
     void fileMove() throws Exception;
 
-    void secondFileMove();
-
     boolean stopMove();
 
     boolean startMove();

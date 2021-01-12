@@ -19,4 +19,8 @@ public interface FileMoveRecordPoMapper {
     int updateByPrimaryKey(FileMoveRecordPo record);
 
     List<FileMoveRecordPo> selectListRecord(Map<String, Object> queryMap);
+
+    int queryMoveRecordCount(Map<String, Object> queryMap);
+
+    FileMoveRecordPo selectMoveTaskRecordByQueryParams(Map<String, Object> queryParams);
 }

@@ -9,17 +9,17 @@
     <result column="TABLENAME" jdbcType="VARCHAR" property="tablename" />
     <result column="DATA_SOURCE" jdbcType="VARCHAR" property="dataSource" />
     <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="MOVERESULT" jdbcType="VARCHAR" property="moveresult" />
+    <result column="MOVE_STATUS" jdbcType="VARCHAR" property="moveStatus" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="THREAD_ID" jdbcType="VARCHAR" property="threadId" />
     <result column="FILE_SIZE" jdbcType="DECIMAL" property="fileSize" />
   </resultMap>
   <sql id="Base_Column_List">
-    UUID, FILE_STORE_ID, FILE_UUID, BIZID, TABLENAME, DATA_SOURCE, CREATETIME, MOVERESULT, 
+    UUID, FILE_STORE_ID, FILE_UUID, BIZID, TABLENAME, DATA_SOURCE, CREATETIME, MOVE_STATUS,
     REMARK, THREAD_ID, FILE_SIZE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from SURVEY.FILE_MOVE_RECORD
     where UUID = #{uuid,jdbcType=VARCHAR}
@@ -29,13 +29,13 @@
     where UUID = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.funi.filemove.po.FileMoveRecordPo">
-    insert into SURVEY.FILE_MOVE_RECORD (UUID, FILE_STORE_ID, FILE_UUID, 
-      BIZID, TABLENAME, DATA_SOURCE, 
-      CREATETIME, MOVERESULT, REMARK, 
+    insert into SURVEY.FILE_MOVE_RECORD (UUID, FILE_STORE_ID, FILE_UUID,
+      BIZID, TABLENAME, DATA_SOURCE,
+      CREATETIME, MOVE_STATUS, REMARK,
       THREAD_ID, FILE_SIZE)
-    values (#{uuid,jdbcType=VARCHAR}, #{fileStoreId,jdbcType=VARCHAR}, #{fileUuid,jdbcType=VARCHAR}, 
-      #{bizid,jdbcType=VARCHAR}, #{tablename,jdbcType=VARCHAR}, #{dataSource,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{moveresult,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+    values (#{uuid,jdbcType=VARCHAR}, #{fileStoreId,jdbcType=VARCHAR}, #{fileUuid,jdbcType=VARCHAR},
+      #{bizid,jdbcType=VARCHAR}, #{tablename,jdbcType=VARCHAR}, #{dataSource,jdbcType=VARCHAR},
+      #{createtime,jdbcType=TIMESTAMP}, #{moveStatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
       #{threadId,jdbcType=VARCHAR}, #{fileSize,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.funi.filemove.po.FileMoveRecordPo">
@@ -62,8 +62,8 @@
       <if test="createtime != null">
         CREATETIME,
       </if>
-      <if test="moveresult != null">
-        MOVERESULT,
+      <if test="moveStatus != null">
+        MOVE_STATUS,
       </if>
       <if test="remark != null">
         REMARK,
@@ -97,8 +97,8 @@
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="moveresult != null">
-        #{moveresult,jdbcType=VARCHAR},
+      <if test="moveStatus != null">
+        #{moveStatus,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -132,8 +132,8 @@
       <if test="createtime != null">
         CREATETIME = #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="moveresult != null">
-        MOVERESULT = #{moveresult,jdbcType=VARCHAR},
+      <if test="moveStatus != null">
+        MOVE_STATUS = #{moveStatus,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         REMARK = #{remark,jdbcType=VARCHAR},
@@ -155,7 +155,7 @@
       TABLENAME = #{tablename,jdbcType=VARCHAR},
       DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
       CREATETIME = #{createtime,jdbcType=TIMESTAMP},
-      MOVERESULT = #{moveresult,jdbcType=VARCHAR},
+      MOVE_STATUS = #{moveStatus,jdbcType=VARCHAR},
       REMARK = #{remark,jdbcType=VARCHAR},
       THREAD_ID = #{threadId,jdbcType=VARCHAR},
       FILE_SIZE = #{fileSize,jdbcType=DECIMAL}
@@ -167,4 +167,42 @@
     <include refid="Base_Column_List"/>
     from SURVEY.FILE_MOVE_RECORD
   </select>
+
+  <select id="queryMoveRecordCount" parameterType="map" resultType="integer">
+    select count(1)
+    from SURVEY.FILE_MOVE_RECORD r
+    <where>
+      <if test="tableName != null">
+        and r.TABLENAME = #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSource != null">
+        and r.DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="MoveStatus != null">
+        and r.MOVE_STATUS = #{MoveStatus,jdbcType=VARCHAR},
+      </if>
+    </where>
+  </select>
+
+  <select id="selectMoveTaskRecordByQueryParams" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
+    select
+    <include refid="Base_Column_List"></include>
+    from SURVEY.FILE_MOVE_RECORD r
+    <where>
+     <if test="theadSum != null and theadId != null">
+       and Mod(r.BIZID, #{theadSum,jdbcType=DECIMAL}) = #{theadId,jdbcType=DECIMAL}
+     </if>
+      <if test="dataSource != null">
+        and r.DATA_SOURCE = #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null">
+        and r.TABLENAME = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="MoveStatus != null">
+        and r.MOVE_STATUS = #{MoveStatus,jdbcType=VARCHAR},
+      </if>
+    </where>
+
+  </select>
+  
 </mapper>

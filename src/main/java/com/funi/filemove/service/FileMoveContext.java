@@ -7,7 +7,7 @@ package com.funi.filemove.service;
  * @Date 2020/10/29 14:31
  * @Version 1.0
  */
-public interface DataSourceChange {
-    void setTodayMoveDataSource();
+public interface FileMoveContext {
+    void setCurrentFileMoveContextInfo();
 
 }

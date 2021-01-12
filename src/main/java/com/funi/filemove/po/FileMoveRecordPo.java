@@ -18,7 +18,7 @@ public class FileMoveRecordPo {
 
     private Date createtime;
 
-    private String moveresult;
+    private String moveStatus;
 
     private String remark;
 
@@ -82,12 +82,12 @@ public class FileMoveRecordPo {
         this.createtime = createtime;
     }
 
-    public String getMoveresult() {
-        return moveresult;
+    public String getMoveStatus() {
+        return moveStatus;
     }
 
-    public void setMoveresult(String moveresult) {
-        this.moveresult = moveresult == null ? null : moveresult.trim();
+    public void setMoveStatus(String moveStatus) {
+        this.moveStatus = moveStatus;
     }
 
     public String getRemark() {
