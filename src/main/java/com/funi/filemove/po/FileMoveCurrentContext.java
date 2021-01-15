@@ -7,14 +7,10 @@ public class FileMoveCurrentContext {
     private String curMoveDataSourceName;
     //当前迁移 表名称
     private String curMovetableName;
-    //中间表名称
+    //中间库名称
     private String transitionDBName;
     //被迁移文件 在任务表中的状态
     private String MoveStatus;
-
-    public FileMoveCurrentContext() {
-        this.transitionDBName="zj";
-    }
 
     public String getCurMoveDataSource() {
         return curMoveDataSource;

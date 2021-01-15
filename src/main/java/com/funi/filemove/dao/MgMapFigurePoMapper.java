@@ -23,4 +23,6 @@ public interface MgMapFigurePoMapper {
     MgMapFigurePo selectFileByFileQuery(Map<String, Object> queryParams);
 
     int selectUnfinishCount();
+
+    List<MgMapFigurePo> selectListFigure(Map<String, Object> queryMap);
 }

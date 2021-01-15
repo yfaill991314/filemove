@@ -49,7 +49,7 @@ public class FileMoveContextImpl implements FileMoveContext {
         Map<String,Object> queryMap=new HashMap<>();
         for (Map<String, String> tableNameItem : tableNameList){
             for (Map<String, String> dataSourceItem : dataSourceList) {
-                ContextSynchronizationManager.bindResource("datasource", "zj");
+                ContextSynchronizationManager.bindResource("datasource", Constants.defaultDataSourceName);
                 queryMap.put("tableName",tableNameItem.get("tableName"));
                 queryMap.put("dataSource",dataSourceItem.get("dataSource"));
                 queryMap.put("MoveStatus",Constants.MoveRecordStatus);
@@ -60,6 +60,7 @@ public class FileMoveContextImpl implements FileMoveContext {
                     fileMoveCurrentContext.setCurMoveDataSourceName(dataSourceItem.get("dataSourceName"));
                     fileMoveCurrentContext.setCurMovetableName(tableNameItem.get("tableName"));
                     fileMoveCurrentContext.setMoveStatus(Constants.MoveRecordStatus);
+                    fileMoveCurrentContext.setTransitionDBName(Constants.defaultDataSourceName);
                     FileMoveContextImpl.setFileMoveCurrentContext(fileMoveCurrentContext);
                     return;
                 }

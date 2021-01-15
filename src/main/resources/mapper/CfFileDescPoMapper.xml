@@ -31,15 +31,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from CCS.CF_FILE_DESC
+    from SURVEY.CF_FILE_DESC
     where UUID = #{uuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from CCS.CF_FILE_DESC
+    delete from SURVEY.CF_FILE_DESC
     where UUID = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.funi.filemove.po.CfFileDescPo">
-    insert into CCS.CF_FILE_DESC (UUID, FILE_STORE_ID, STORE_TYPE, 
+    insert into SURVEY.CF_FILE_DESC (UUID, FILE_STORE_ID, STORE_TYPE,
       FILE_SIZE, FILE_NAME, EXT_NAME, 
       IS_USE, SYSTEM_CODE, BUSINESS_TABLE, 
       BUSINESS_UUID, STATUS, CREATE_TIME, 
@@ -55,7 +55,7 @@
       #{businessType,jdbcType=VARCHAR}, #{businessName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.funi.filemove.po.CfFileDescPo">
-    insert into CCS.CF_FILE_DESC
+    insert into survey.CF_FILE_DESC
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uuid != null">
         UUID,
@@ -182,7 +182,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.CfFileDescPo">
-    update CCS.CF_FILE_DESC
+    update SURVEY.CF_FILE_DESC
     <set>
       <if test="fileStoreId != null">
         FILE_STORE_ID = #{fileStoreId,jdbcType=VARCHAR},
@@ -245,7 +245,7 @@
     where UUID = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.CfFileDescPo">
-    update CCS.CF_FILE_DESC
+    update SURVEY.CF_FILE_DESC
     set FILE_STORE_ID = #{fileStoreId,jdbcType=VARCHAR},
       STORE_TYPE = #{storeType,jdbcType=DECIMAL},
       FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
@@ -272,7 +272,7 @@
   <select id="selectFileListByFileQuery" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from CCS.CF_FILE_DESC f
+    from SURVEY.CF_FILE_DESC f
     <where>
       <if test="uuid != null">
         and UUID = #{uuid,jdbcType=VARCHAR}
@@ -289,7 +289,7 @@
   <select id="selectFileListByFigIdAndBusUuid" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from CCS.CF_FILE_DESC f
+    from SURVEY.CF_FILE_DESC f
     <where>
       <if test="busUuid != null">
         and BUSINESS_UUID = #{busUuid,jdbcType=VARCHAR}

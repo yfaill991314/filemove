@@ -17,10 +17,7 @@ import javax.transaction.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -60,15 +57,64 @@ public class FileMoveServiceImpl implements FileMoveService {
     private static ExecutorService executorService = null;
     private AtomicInteger atomicInteger = new AtomicInteger(0);
 
+
+    @Override
+    public void createTaskData() {
+        List<Map<String, String>> tableNameList = Constants.tableNameList;
+        List<Map<String, String>> dataSourceList = Constants.dataSourceList;
+        for (Map<String, String> tableNameItem : tableNameList) {
+            for (Map<String, String> dataSourceItem : dataSourceList) {
+                if ("mgmapfigure".equals(tableNameItem.get("tableName"))) {
+                    int pageNum = 1;
+                    while (true) {
+                        ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
+                        Map<String, Object> queryMap = new HashMap<>();
+                        PageHelper.startPage(pageNum++, 20);
+                        List<MgMapFigurePo> mgMapFigurePos = mgMapFigurePoMapper.selectListFigure(queryMap);
+                        if (mgMapFigurePos == null || mgMapFigurePos.size() <= 0) {
+                            break;
+                        }
+                        ContextSynchronizationManager.bindResource("datasource", Constants.defaultDataSourceName);
+                        for (MgMapFigurePo mgMapFigurePo : mgMapFigurePos) {
+                            FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
+                            fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
+                            fileMoveRecordPo.setBizid(mgMapFigurePo.getId().toString());
+                            fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
+                            fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
+                            fileMoveRecordPo.setMoveStatus(Constants.MoveRecordStatus);
+                            fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
+                        }
+                    }
+                } else if ("mgdoorimg".equals(tableNameItem.get("tableName"))) {
+
+                } else if ("imgimages".equals(tableNameItem.get("tableName"))) {
+
+                }
+            }
+        }
+    }
+
+    /**
+     * @return void
+     * @Author YangFeng
+     * @Description //迁移测试 后数据清理
+     * @Date 10:09 2021/1/15
+     * @Param []
+     **/
     @Override
     public void testDataClear() throws Exception {
-        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
+//        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
         ContextSynchronizationManager.bindResource("datasource", "zj");
         while (true) {
             try {
-                userTransaction.begin();
+//                userTransaction.begin();
                 Map<String, Object> queryMap = new HashMap<>();
                 PageHelper.startPage(1, 20);
+                List<String> MoveStatusList = new ArrayList<String>(){{
+                    add("迁移失败");
+                    add("迁移成功");
+                }};
+                queryMap.put("MoveStatusList", MoveStatusList);
                 List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(queryMap);
                 if (fileMoveRecordPos == null || fileMoveRecordPos.size() <= 0) {
                     break;
@@ -86,43 +132,53 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPo.setThreadId(null);
                     fileMoveRecordPo.setFileSize(null);
                     fileMoveRecordPoMapper.updateByPrimaryKey(fileMoveRecordPo);
-                    System.out.println("文件："+fileMoveRecordPo.getFileUuid()+"-----"+fileMoveRecordPo.getFileStoreId()+"--已删除");
+                    System.out.println("文件：" + fileMoveRecordPo.getFileUuid() + "-----" + fileMoveRecordPo.getFileStoreId() + "--已删除");
                 }
             } catch (Exception e) {
-                userTransaction.rollback();
+                e.printStackTrace();
+//                userTransaction.rollback();
             }
-            userTransaction.commit();
+//            userTransaction.commit();
         }
 
 
     }
 
 
+    /**
+     * @return void
+     * @Author YangFeng
+     * @Description //mgmapfigure表文件迁移
+     * @Date 10:10 2021/1/15
+     * @Param []
+     **/
     @Override
     public void fileMove() {
-        final FileMoveCurrentContext fileMoveCurrentContext=FileMoveContextImpl.getFileMoveCurrentContext();
+        final FileMoveCurrentContext fileMoveCurrentContext = FileMoveContextImpl.getFileMoveCurrentContext();
         String theadId = Thread.currentThread().getName();
         String fileExe = "";
         String fileTypeName = "";
-        String storeId="";
-        MgMapResultPo mgMapResultPo=null;
-        MgMapFigurePo mgMapFigurePo=null;
-        FileMoveRecordPo fileMoveRecordPo=null;
+        String storeId = "";
+        MgMapResultPo mgMapResultPo = null;
+        MgMapFigurePo mgMapFigurePo = null;
+        FileMoveRecordPo fileMoveRecordPo = null;
 
         //设置中间库主数据源
         ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
-        while (FileMoveServiceImpl.inMoveTime) {
+        int i = 1;
+//        while (FileMoveServiceImpl.inMoveTime) {
+        while (i++ <= 10) {
             try {
                 Map<String, Object> queryParams = new HashMap<>();
                 //减1才能查询到 模为0的数据
                 queryParams.put("theadId", Integer.valueOf(theadId) - 1);
                 queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
-                queryParams.put("dataSource",fileMoveCurrentContext.getCurMoveDataSource());
-                queryParams.put("tableName",fileMoveCurrentContext.getCurMovetableName());
-                queryParams.put("MoveStatus",fileMoveCurrentContext.getMoveStatus());
+                queryParams.put("dataSource", fileMoveCurrentContext.getCurMoveDataSource());
+                queryParams.put("tableName", fileMoveCurrentContext.getCurMovetableName());
+                queryParams.put("MoveStatus", fileMoveCurrentContext.getMoveStatus());
                 fileMoveRecordPo = fileMoveRecordPoMapper.selectMoveTaskRecordByQueryParams(queryParams);
                 if (fileMoveRecordPo == null) {
-                    System.out.println(fileMoveCurrentContext.getCurMoveDataSourceName() + "数据源---"+fileMoveCurrentContext.getCurMovetableName()+"表---" + "线程:" + theadId + ":数据已迁移完毕！！！");
+                    System.out.println(fileMoveCurrentContext.getCurMoveDataSourceName() + "数据源---" + fileMoveCurrentContext.getCurMovetableName() + "表---" + "线程:" + theadId + ":数据已迁移完毕！！！");
                     return;
                 }
 
@@ -132,11 +188,11 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setMoveStatus("迁移失败");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
 
-                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMovetableName());
+                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
                 mgMapFigurePo = mgMapFigurePoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
 
-                if (mgMapFigurePo==null){
+                if (mgMapFigurePo == null) {
                     fileMoveRecordPo.setRemark("未查找到对应的被迁移文件");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
@@ -151,7 +207,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
-                if (mgMapFigurePo.getImage() == null||mgMapFigurePo.getImage().length == 0) {
+                if (mgMapFigurePo.getImage() == null || mgMapFigurePo.getImage().length == 0) {
                     fileMoveRecordPo.setRemark("mgMapFigurePo--Image字段为空");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
@@ -159,7 +215,7 @@ public class FileMoveServiceImpl implements FileMoveService {
 
 
                 //根据mgMapFigurePo 查询对应的成果
-                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMovetableName());
+                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
                 mgMapResultPo = mgMapResultPoMapper.selectByPrimaryKey(mgMapFigurePo.getResultsid());
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                 //判断是否有对应的 成果业务件 没有对应成果 件放弃迁移
@@ -168,7 +224,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
-                if (mgMapResultPo.getUuid()==null){
+                if (mgMapResultPo.getUuid() == null) {
                     fileMoveRecordPo.setRemark("对应成果无uuid无法关联");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
@@ -181,8 +237,8 @@ public class FileMoveServiceImpl implements FileMoveService {
                         fileExe = fileExe.substring(lc + 1);
                     }
                 }
-                storeId=fastDfsFileUpload.fileUpload(new ByteArrayInputStream(mgMapFigurePo.getImage()), fileExe);
-                if (storeId==null){
+                storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(mgMapFigurePo.getImage()), fileExe);
+                if (storeId == null) {
                     fileMoveRecordPo.setRemark("上传文件失败,storeId为空。(请确认文件服务器工作状态)");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     System.out.println("迁移失败:上传文件失败,storeId为空。(请确认文件服务器工作状态");
@@ -192,7 +248,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 // 建立测绘成果与文件的 关联关系
                 CfFileDescPo cfFileDescPo = new CfFileDescPo();
                 cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
-                cfFileDescPo.setFileStoreId(Constants.FAST_DFS_PREFIX +storeId);
+                cfFileDescPo.setFileStoreId(Constants.FAST_DFS_PREFIX + storeId);
                 cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
                 cfFileDescPo.setFileSize(new BigDecimal(mgMapFigurePo.getImage().length));
                 cfFileDescPo.setFileName(mgMapFigurePo.getImagename());
@@ -215,9 +271,9 @@ public class FileMoveServiceImpl implements FileMoveService {
                     }
                 }
 
-                if ((new BigDecimal(-999)).equals(mgMapFigurePo.getMgstatus())){
+                if ((new BigDecimal(-999)).equals(mgMapFigurePo.getMgstatus())) {
                     cfFileDescPo.setStatus((short) -9);
-                }else {
+                } else {
                     cfFileDescPo.setStatus(mgMapFigurePo.getMgstatus().shortValueExact());
                 }
 
@@ -231,12 +287,19 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                 System.out.println("成果号" + mgMapResultPo.getId() + "迁移件：" + mgMapFigurePo.getId() + "迁移完成;文件storeId" + storeId);
-            }catch (Throwable throwable){
+            } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
         }
     }
 
+    /**
+     * @return boolean
+     * @Author YangFeng
+     * @Description //停止迁移
+     * @Date 10:11 2021/1/15
+     * @Param []
+     **/
     @Override
     public boolean stopMove() {
         //立即停止
@@ -248,12 +311,19 @@ public class FileMoveServiceImpl implements FileMoveService {
         return true;
     }
 
+    /**
+     * @return boolean
+     * @Author YangFeng
+     * @Description //开始迁移
+     * @Date 10:11 2021/1/15
+     * @Param []
+     **/
     @Override
     public boolean startMove() {
         //修改本次迁移的 迁移上下文信息
         fileMoveContext.setCurrentFileMoveContextInfo();
 
-        if (FileMoveContextImpl.getFileMoveCurrentContext()==null){
+        if (FileMoveContextImpl.getFileMoveCurrentContext() == null) {
             System.out.println("未找到迁移上下文信息，迁移完成。");
             return true;
         }

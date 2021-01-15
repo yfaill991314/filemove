@@ -10,6 +10,10 @@ spring:
 #测试
 dynamic:
   datasource:
+    zj:
+      url: jdbc:oracle:thin:@172.29.251.51:1521/orcl
+      username: ogg
+      password: ogg
     cd:
       url: jdbc:oracle:thin:@172.29.251.206:1521:ora750ab
       username: eistrong

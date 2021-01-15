@@ -40,7 +40,7 @@ public class DynamicDataSourceConfig {
         //默认数据源
 //        DataSource defaultXaDataSource = getdefaultDynamicDataSource();
         dynamicDataSourceMap.forEach((k, v) -> {
-            if ("cd".equals(k)){
+            if ("zj".equals(k)){
                 dynamicDataSource.setDefaultTargetDataSource(v);
             }
         });
