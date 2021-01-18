@@ -274,8 +274,11 @@
     <include refid="Base_Column_List" />
     from SURVEY.CF_FILE_DESC f
     <where>
-      <if test="uuid != null">
+      <if test="uuid != null and uuid!=''">
         and UUID = #{uuid,jdbcType=VARCHAR}
+      </if>
+      <if test="businessUuid != null and businessUuid != ''">
+        and business_uuid = #{businessUuid,jdbcType=VARCHAR}
       </if>
       <if test="fileStoreId != null">
         <bind name="fileStoreIdLike" value="'%' + fileStoreId + '%'" />

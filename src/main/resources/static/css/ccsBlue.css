@@ -1,0 +1,196 @@
+/*统一放到服务器上面，这里保留改文件只是为了开发调试方便*/
+body{
+    font-family: "Sans Noto", "Hiragino Sans GB", Arial, Helvetica, "微软雅黑", sans-serif;
+}
+.x-body ,.x-form-item-label-default,.x-btn-inner-default-toolbar-small,.x-form-text-default,.x-grid-item,.x-panel-header-title-default,.x-tab-inner-default,.x-panel-body-default{
+    font-family: "Sans Noto", "Hiragino Sans GB", Arial, Helvetica, "微软雅黑", sans-serif;
+    font-weight: 500;
+}
+.x-boundlist-item{
+    font-family: "Sans Noto", "Hiragino Sans GB", Arial, Helvetica, "微软雅黑", sans-serif;
+}
+.ccsBlue-top .x-form-item-label-inner-default,.ccsBlue-top .x-btn-inner-default-toolbar-small{
+    color: #FFFFFF;
+}
+.ccsBlue-top .x-btn-over.x-btn-default-toolbar-small{
+    background-color: #2f76de;
+}
+.ccsBlue-top .x-btn-icon-el-default-toolbar-small.x-btn-glyph{
+    color: #fff;
+    opacity: 1;
+}
+.ccsBlue-top{
+    background: #1d55a8;
+    color: #FFFFFF;
+}
+
+.x-toolbar-default-docked-bottom{
+    background: #F5F5F5;
+}
+.x-toolbar-text-default{
+    font-family: "Sans Noto", "Hiragino Sans GB", Arial, Helvetica, "微软雅黑", sans-serif;
+    font-weight: bold;
+}
+.x-column-header{
+    font-family: "Sans Noto", "Hiragino Sans GB", Arial, Helvetica, "微软雅黑", sans-serif;
+    border-right:none;
+    font-weight: bold;
+    background: #dadada;
+}
+.x-panel-header-title-default{
+    font-weight: bold;
+    color: #433E3C;
+}
+.x-grid-with-col-lines .x-grid-cell{
+    border-right:none;
+}
+.x-grid-row-checker, .x-column-header-checkbox .x-column-header-text {
+    height: 15px;
+    width: 15px;
+    background-image: url(../imgs/checkbox.png);
+    line-height: 15px
+}
+.ccsBlue-top-tab .x-tab-bar-default-top > .x-tab-bar-body-default{
+    padding: 0;
+}
+.ccsBlue-top-tab .x-tab-default{
+    background: #f8f8f7;
+    border-color:#f8f8f7;
+    padding: 12px 15px 8px 15px;
+    margin-left: -5px;
+}
+.ccsBlue-top-tab .x-tab.x-tab-active.x-tab-default{
+    border: none;
+    border-bottom: 2px solid #1d55a8;
+    background: none;
+    border-radius: 0;
+    padding: 12px 15px 8px 15px;
+    margin-left: 0;
+}
+.ccsBlue-top-tab .x-tab-default .x-tab-close-btn{
+    top: 14px;
+    right: 8px;
+}
+.ccsBlue-top-tab .x-tab-default.x-tab-active .x-tab-close-btn{
+    background-position: 0 0;
+}
+.ccsBlue-top-tab .x-tab.x-tab-active.x-tab-default .x-tab-inner-default{
+    color: #1d55a8;
+}
+.ccsBlue-tab .x-tab-bar-default-top > .x-tab-bar-body-default{
+    padding: 6px 20px 0 20px;
+    background: #f8f8f7;
+    border-bottom: 2px solid #1d55a8;
+}
+.ccsBlue-tab .x-tab-default{
+    background: #f8f8f7;
+    border-color:#f8f8f7;
+    padding: 8px 15px 4px 15px;
+    margin-left: -5px;
+}
+.ccsBlue-tab .x-tab-default .x-tab-close-btn{
+    top: 9px;
+}
+.x-tab-default-top.x-tab-focus.x-tab-active{
+    box-shadow: none;
+}
+.ccsBlue-tab .x-tab.x-tab-active.x-tab-default{
+    border-color:#1d55a8;
+    background-color:#1d55a8;
+    border-radius: 0;
+    padding: 8px 15px 4px 15px;
+    margin-left: 0;
+}
+.ccsBlue-tab .x-tab-bar-default{
+    border-bottom: 2px solid #1d55a8;
+}
+.ccsBlue-tab .x-tab-bar-horizontal > .x-tab-bar-body-default{
+    min-height: inherit;
+}
+.ccsBlue-tab .x-panel-body-default{
+    margin-top: 2px;
+}
+.ccsBlue-tab .x-tab.x-tab-active.x-tab-default .x-tab-inner-default{
+    color: #FFFFFF;
+}
+.x-btn-default-toolbar-small{
+    background: #ffffff;
+    border: 2px solid #1d55a8;
+    padding: 5px 8px 3px 8px;
+    border-radius: 0;
+}
+.x-tool-img{
+    background-image: url(../imgs/tool-sprites.png);
+}
+.x-panel-header-title-default > .x-title-icon-wrap-default > .x-title-glyph{
+    color: #1d55a8;
+}
+.x-window-header-title-default{
+    color: #27211F;
+    font-weight: bold;
+    font-family: "Sans Noto", "Hiragino Sans GB", Arial, Helvetica, "微软雅黑", sans-serif;
+}
+.x-btn-default-small{
+    background: #ffffff;
+    border: 2px solid #1d55a8;
+    padding: 5px 8px 3px 8px;
+    font-weight: 500;
+}
+.x-btn-over.x-btn-default-small{
+    background: #ffffff;
+    /*border: 2px solid #407ed9;*/
+    /*padding: 5px 8px 3px 8px;*/
+    /*以上属性 当鼠标移入btn时会改变btn的大小影响布局*/
+    color: #433E3C;
+}
+.x-btn-icon-el-default-small.x-btn-glyph{
+    color: #433E3C;
+}
+.x-btn-inner-default-small{
+    font-family: "Sans Noto", "Hiragino Sans GB", Arial, Helvetica, "微软雅黑", sans-serif;
+    color: #433E3C;
+    font-weight: 500;
+}
+.logo{
+    background-repeat: no-repeat;
+    background-position: center left;
+    margin-top: -3px;
+    height: 45px;
+    background-image:url(../imgs/logo.png);
+}
+.x-grid-with-row-lines .x-grid-item:nth-child(odd) {
+    background-color:#FFFFFF;
+}
+.x-grid-with-row-lines .x-grid-item:nth-child(even) {
+    background-color:#fafafa;
+}
+.x-grid-with-row-lines .x-grid-item.x-grid-item-selected{
+    border-style: solid;
+    border-color: #c1ddf1;
+    color: black;
+    background-color: #c1ddf1
+}
+
+.logo_subs {
+    height: 60px;
+    width: 60px;
+    background: url("../imgs/funilog.png");
+    background-size:60px 60px;
+    background-repeat:no-repeat;
+    /*background:rgba(255,255,255,0.5);*/
+}
+
+.ccsBlue-menu .x-tree-view,.ccsBlue-menu .x-grid-item{
+    background: #F0F0EF;
+    font-weight: bold;
+}
+.ccsBlue-menu .x-grid-item{
+    color: #666666;
+}
+.ccsBlue-menu .x-title-text-default{
+    font-weight: bold;
+    color: #433E3C;
+}
+
+
+

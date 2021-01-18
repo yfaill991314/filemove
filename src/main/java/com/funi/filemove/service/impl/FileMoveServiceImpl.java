@@ -165,9 +165,9 @@ public class FileMoveServiceImpl implements FileMoveService {
 
         //设置中间库主数据源
         ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
-        int i = 1;
-//        while (FileMoveServiceImpl.inMoveTime) {
-        while (i++ <= 10) {
+//        int i = 1;
+        while (FileMoveServiceImpl.inMoveTime) {
+//        while (i++ <= 10) {
             try {
                 Map<String, Object> queryParams = new HashMap<>();
                 //减1才能查询到 模为0的数据

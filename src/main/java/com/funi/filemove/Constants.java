@@ -63,8 +63,8 @@ public final class Constants {
 
         tableNameList=new ArrayList<Map<String,String>>(){{
             add(new HashMap<String,String>() {{ put("tableName","mgmapfigure");}});
-            add(new HashMap<String,String>() {{ put("tableName","mgdoorimg");}});
-            add(new HashMap<String,String>() {{ put("tableName","imgimages");}});
+//            add(new HashMap<String,String>() {{ put("tableName","mgdoorimg");}});
+//            add(new HashMap<String,String>() {{ put("tableName","imgimages");}});
         }};
 
 
