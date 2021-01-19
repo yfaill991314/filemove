@@ -176,9 +176,9 @@
             <if test="tableName != null">
                 and r.TABLENAME = #{tableName,jdbcType=VARCHAR}
             </if>
-            <if test="MoveStatusList != null">
+            <if test="moveStatusList != null">
                 and r.MOVE_STATUS in
-                <foreach close=")" collection="MoveStatusList" index="index" item="item" open="(" separator=",">
+                <foreach close=")" collection="moveStatusList" index="index" item="item" open="(" separator=",">
                     #{item,jdbcType=VARCHAR}
                 </foreach>
             </if>

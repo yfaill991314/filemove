@@ -648,35 +648,18 @@
     where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
     </select>
 
-    <!--
-          <select id="selectFileByFileQuery" parameterType="map" resultMap="ResultMapWithBLOBs" useCache="false" flushCache="true">
-            select
-            <include refid="Base_Column_List"/>
-            ,
-            <include refid="Blob_Column_List"/>
-            from (
-            select m.*, rownum rn
-            from SURVEY.MGMAPFIGURE m
-            where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
-            and m.resultsid in (59035,52935,79737)
-            order by m.id
-            ) re
-            where re.rn = 1
-          </select>
-
-            <select id="selectUnfinishCount"  resultType="int" useCache="false" flushCache="true">
-              select count(1)
-              from SURVEY.MGMAPFIGURE m
-              where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
-              and m.resultsid in (59035,52935,79737)
-            </select>
-
-        -->
-
     <select id="selectListFigure" parameterType="map" resultMap="ResultMapWithBLOBs" useCache="false" flushCache="true">
         select
         <include refid="Base_Column_List"/>
         from SURVEY.MGMAPFIGURE m
+        <where>
+            <if test="id !=null and id !=''">
+                and m.id=#{id,jdbcType=DECIMAL}
+            </if>
+            <if test="resultsid !=null and resultsid !=''">
+                and m.RESULTSID=#{resultsid,jdbcType=DECIMAL}
+            </if>
+        </where>
         order by m.id
     </select>
 

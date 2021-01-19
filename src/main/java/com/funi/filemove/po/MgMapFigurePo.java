@@ -92,6 +92,8 @@ public class MgMapFigurePo {
 
     private byte[] image;
 
+    private String dataSource;
+
     public BigDecimal getId() {
         return id;
     }
@@ -442,5 +444,13 @@ public class MgMapFigurePo {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
     }
 }

@@ -112,8 +112,10 @@
                     listeners: {
                         // //加载完毕后进行数据填充
                         beforerender: function (eOpts, iEventobj) {
-                            var feature={"uuid":"65b6341e57aa11e9b98500163e0ed0cd","id":"10004","url":"app.view.fileMg.fileList","name":"文件管理列表","leaf":1,"parentId":10003,"children":""};
-                            var module={"uuid":"b0ebede857a711e9b98500163e0ed0cd","id":"10003","url":"","name":"文件管理","leaf":0,"parentId":0,"children":[feature]};
+                            var feature1={"uuid":"65b6341e57aa11e9b98500163e0ed0cd","id":"10004","url":"app.view.fileMoveManage.fileList","name":"文件管理列表","leaf":1,"parentId":10003,"children":""};
+                            var feature2={"uuid":"65b6341e57aa11e9b98500163e0ed6cd","id":"10005","url":"app.view.fileMoveManage.moveRecordList","name":"任务管理列表","leaf":1,"parentId":10003,"children":""};
+                            var feature3={"uuid":"65b6341e57aa11e9b98500163e0ed7cd","id":"10006","url":"app.view.fileMoveManage.mgmapfigureList","name":"mgMapFigure管理列表","leaf":1,"parentId":10003,"children":""};
+                            var module={"uuid":"b0ebede857a711e9b98500163e0ed0cd","id":"10003","url":"","name":"文件迁移管理","leaf":0,"parentId":0,"children":[feature1,feature2,feature3]};
                             var result = [module];
                             result.forEach(function (item, index, arr) {
                                 item.children.forEach(function (citem, index, arr) {
@@ -231,7 +233,9 @@
 
         try{
             var pane= Ext.create(url,{
-                tabtitle:viewClsName
+                tabtitle:viewClsName,
+                scrollable: true,
+                closable: true
             });
             var tabPage= tp.add(pane);
             tp.setActiveTab(tabPage);

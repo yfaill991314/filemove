@@ -114,7 +114,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                     add("迁移失败");
                     add("迁移成功");
                 }};
-                queryMap.put("MoveStatusList", MoveStatusList);
+                queryMap.put("moveStatusList", MoveStatusList);
                 List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(queryMap);
                 if (fileMoveRecordPos == null || fileMoveRecordPos.size() <= 0) {
                     break;

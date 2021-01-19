@@ -1,0 +1,103 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /filemove/
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.xa.DruidXADataSource
+
+
+#正式
+dynamic:
+  datasource:
+    zj:
+      url:
+      username:
+      password:
+    cd:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbcore
+      username: sysdeerp
+      password: d#41hsal
+    tfxq:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbtfxq
+      username: sysdeerp
+      password: tfyc$2013
+    lq:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdblq
+      username: sysdeerp
+      password: yc$2012
+    sl:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbsl
+      username: sysdeerp
+      password: slyc$2012
+    qbj:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbqbj
+      username: sysdeerp
+      password: qbjyc$2012
+    wj:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbwj
+      username: sysdeerp
+      password: wjyc$2012
+    px:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbpx
+      username: sysdeerp
+      password: pxyc$2012
+    xd:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbxd
+      username: sysdeerp
+      password: xdyc$2012
+    jy:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbjy
+      username: sysdeerp
+      password: nvhg1234#$
+    cz:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbcz
+      username: sysdeerp
+      password: czyc$2012
+    xj:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbxj
+      username: sysdeerp
+      password: xjyc$2012
+    pj:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbpj
+      username: sysdeerp
+      password: pjyc$2012
+    ql:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbql
+      username: sysdeerp
+      password: qlyc$2012
+    jt:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbjt
+      username: sysdeerp
+      password: jtyc$2012
+    dy:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbdy
+      username: sysdeerp
+      password: dyyc$2012
+    djy:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbdjy
+      username: sysdeerp
+      password: djyyc$2012
+    pz:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbpz
+      username: sysdeerp
+      password: pzyc$2012
+
+
+mybatis:
+  #配置SQL映射文件路径
+  mapper-locations: classpath:mapper/*.xml
+  #配置别名
+  type-aliases-package: com.funi.filemove.dao
+  #驼峰命名
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+# 打印sql
+logging:
+  level:
+    com.funi.filemove.dao: debug
+
+

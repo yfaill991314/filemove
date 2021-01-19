@@ -106,6 +106,28 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+
+        <profile>
+            <id>production</id>
+            <properties>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                <profile.id>production</profile.id>
+                <env>production</env>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>test</id>
+            <properties>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                <profile.id>test</profile.id>
+                <env>test</env>
+            </properties>
+            <activation><activeByDefault>true</activeByDefault></activation>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>filemove</finalName>
         <plugins>
@@ -132,6 +154,35 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/.svn/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>profiles/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/resources/profiles/${profile.id}</directory>
+                <targetPath>${project.build.directory}/classes</targetPath>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory>
+            </testResource>
+        </testResources>
     </build>
 
 </project>

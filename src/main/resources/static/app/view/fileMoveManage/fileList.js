@@ -1,4 +1,4 @@
-Ext.define('app.view.fileMg.fileList', {
+Ext.define('app.view.fileMoveManage.fileList', {
     extend: 'Ext.grid.Panel',
     xtype: 'view-fileMg-fileList',
     requires: [],
@@ -17,7 +17,7 @@ Ext.define('app.view.fileMg.fileList', {
         var newstore = Ext.create('Ext.data.Store', {
             id: 'simpsonsStore',
             autoLoad: true,
-            pageSize: 15, // 每页的条目数量
+            pageSize: 20, // 每页的条目数量
             proxy: {
                 type: 'ajax',
                 url: 'fastFile/findFileList',
@@ -41,7 +41,8 @@ Ext.define('app.view.fileMg.fileList', {
                         items: [
                             {
                                 xtype: 'button',
-                                text: '下载', scope: me, glyph: 'xf014@FontAwesome',
+                                text: '下载',
+                                scope: me,
                                 itemId: 'bt_downLoad',
                                 handler: function () {
                                     //判断是否选择额一条数据。
@@ -107,8 +108,6 @@ Ext.define('app.view.fileMg.fileList', {
             border: true,
             store: newstore,
             title: me.config.tabtitle,
-            // columnLines: true,
-            // closable: true,
             viewConfig: {
                 enableTextSelection: true
             },
