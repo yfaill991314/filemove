@@ -1,9 +1,12 @@
 package com.funi.filemove.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class FileMoveRecordPo {
+
     private String uuid;
 
     private String fileStoreId;
@@ -16,6 +19,7 @@ public class FileMoveRecordPo {
 
     private String dataSource;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date createtime;
 
     private String moveStatus;

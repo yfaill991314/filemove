@@ -74,14 +74,14 @@ public class FileMoveServiceImpl implements FileMoveService {
                         if (mgMapFigurePos == null || mgMapFigurePos.size() <= 0) {
                             break;
                         }
-                        ContextSynchronizationManager.bindResource("datasource", Constants.defaultDataSourceName);
+                        ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
                         for (MgMapFigurePo mgMapFigurePo : mgMapFigurePos) {
                             FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
                             fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
                             fileMoveRecordPo.setBizid(mgMapFigurePo.getId().toString());
                             fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
                             fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
-                            fileMoveRecordPo.setMoveStatus(Constants.MoveRecordStatus);
+                            fileMoveRecordPo.setMoveStatus(Constants.MOVE_RECORD_STATUS);
                             fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
                         }
                     }
@@ -158,17 +158,20 @@ public class FileMoveServiceImpl implements FileMoveService {
         String theadId = Thread.currentThread().getName();
         String fileExe = "";
         String fileTypeName = "";
-        String storeId = "";
+        String storeId = null;
         MgMapResultPo mgMapResultPo = null;
         MgMapFigurePo mgMapFigurePo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
+        //文件服务器文件上传连续失败次数，计数，如大于该次数推出当前迁移线程
+        int FastUpLoadContinuousFailureCount=0;
 
-        //设置中间库主数据源
-        ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
+
 //        int i = 1;
         while (FileMoveServiceImpl.inMoveTime) {
 //        while (i++ <= 10) {
             try {
+                //设置中间库主数据源
+                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                 Map<String, Object> queryParams = new HashMap<>();
                 //减1才能查询到 模为0的数据
                 queryParams.put("theadId", Integer.valueOf(theadId) - 1);
@@ -237,12 +240,33 @@ public class FileMoveServiceImpl implements FileMoveService {
                         fileExe = fileExe.substring(lc + 1);
                     }
                 }
-                storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(mgMapFigurePo.getImage()), fileExe);
+
+                for (int retry=1;retry<=Constants.MAX_RETRY_TIMES;retry++){
+                    try {
+                        storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(mgMapFigurePo.getImage()), fileExe);
+                        if (storeId!=null){
+                            break;
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
                 if (storeId == null) {
-                    fileMoveRecordPo.setRemark("上传文件失败,storeId为空。(请确认文件服务器工作状态)");
+                    FastUpLoadContinuousFailureCount++;
+                    fileMoveRecordPo.setRemark("重试3次上传失败,storeId为空。(请及时确认)");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                    System.out.println("迁移失败:上传文件失败,storeId为空。(请确认文件服务器工作状态");
-                    continue;
+                    System.out.println("迁移失败:上重试3次上传失败,storeId为空。(请及时确认)");
+                    if (FastUpLoadContinuousFailureCount>=5){
+                        fileMoveRecordPo.setRemark("重试3次上传失败,storeId为空。(文件服务器出现连续性上传失败)");
+                        fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                        System.out.println("重试3次上传失败,storeId为空。(文件服务器出现连续性上传失败);线程"+theadId+"已经终结");
+                        break;
+                    }else {
+                        continue;
+                    }
+                }else {
+                    FastUpLoadContinuousFailureCount=0;
                 }
 
                 // 建立测绘成果与文件的 关联关系

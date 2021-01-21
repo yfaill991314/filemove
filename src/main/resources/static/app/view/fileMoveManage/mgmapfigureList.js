@@ -136,9 +136,8 @@ Ext.define('app.view.fileMoveManage.mgmapfigureList', {
                                     if (dataSource!=null && dataSource!=''){
                                         params.dataSource = dataSource;
                                     }
-                                    me.store.reload({
-                                        params :params
-                                    });
+                                    me.store.getProxy().extraParams=params;
+                                    me.store.load();
                                 }
                             },
                             {

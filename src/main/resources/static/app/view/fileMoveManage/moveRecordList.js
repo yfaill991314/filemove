@@ -39,22 +39,25 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                         scope: me,
                         itemId: 'search',
                         items: [
-                            // {
-                            //     xtype: 'button',
-                            //     text: '下载',
-                            //     scope: me,
-                            //     itemId: 'bt_downLoad',
-                            //     handler: function () {
-                            //         //判断是否选择额一条数据。
-                            //         var selectData = me.getSelectionModel().getSelection();
-                            //         if (selectData.length != 1) {
-                            //             Ext.Msg.alert('温馨提示', '请选择一条操作数据');
-                            //             return;
-                            //         }
-                            //         var fileUuid = selectData[0].get('uuid');
-                            //         window.open('/filemove/fastFile/download?fileUuid=' + fileUuid );
-                            //     }
-                            // },
+                            {
+                                xtype: 'button',
+                                text: '手动重迁',
+                                scope: me,
+                                itemId: 'bt_downLoad',
+                                handler: function () {
+                                    //判断是否选择额一条数据。
+                                    var selectData = me.getSelectionModel().getSelection();
+                                    if (selectData.length != 1) {
+                                        Ext.Msg.alert('温馨提示', '请选择一条操作数据');
+                                        return;
+                                    }
+                                    // if(selectData[0].get('moveStatus')!='迁移失败'){
+                                    //     Ext.Msg.alert('温馨提示', '手动重迁仅适用于迁移失败状态的任务');
+                                    //     return;
+                                    // }
+                                    me.remigrate(selectData[0]);
+                                }
+                            },
                             '->',
                             {
                                 xtype: 'combobox',
@@ -135,8 +138,9 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                     fields: ['name'],
                                     autoLoad: true,
                                     data: [
-                                        {'name': '文件uuid', 'value': 'uuid'},
-                                        {'name': '业务件uuid', 'value': 'businessUuid'},
+                                        {'name': '任务uuid', 'value': 'uuid'},
+                                        {'name': '文件uuid', 'value': 'fileUuid'},
+                                        {'name': '被迁移文件源id', 'value': 'bizid'},
                                     ]
                                 },
                                 editable: false,
@@ -176,9 +180,9 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                     if(moveStatus!=null && moveStatus!=''){
                                         params.moveStatus = moveStatus;
                                     }
-                                    me.store.reload({
-                                        params :params
-                                    });
+
+                                    me.store.getProxy().extraParams=params;
+                                    me.store.load();
                                 }
                             },
                             {
@@ -236,6 +240,27 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
         me.callParent(arguments);
     },
 
+
+    remigrate:function(selectData){
+        var me = this;
+        Ext.Ajax.request({
+            url: 'fileMoveRecord/remigrate',
+            params: {'uuid': selectData.get('uuid'),'tableName': selectData.get('tablename'),'dataSource': selectData.get('dataSource')},
+            method: 'POST',
+            async: false,
+            success: function (response, options) {
+                var response = JSON.parse(response.responseText);
+                if (response.code==200) {
+                    me.store.reload();
+                } else {
+                    Ext.Msg.alert("系统提示", response.message);
+                }
+            },
+            failure: function (response) {
+                Ext.Msg.alert("系统提示", "请求超时");
+            }
+        });
+    },
     //详情窗口
     infoWindow: function (operation, selectData) {
         // window.open("http://www.jb51.net");

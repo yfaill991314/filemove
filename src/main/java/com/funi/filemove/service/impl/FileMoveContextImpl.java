@@ -49,18 +49,18 @@ public class FileMoveContextImpl implements FileMoveContext {
         Map<String,Object> queryMap=new HashMap<>();
         for (Map<String, String> tableNameItem : tableNameList){
             for (Map<String, String> dataSourceItem : dataSourceList) {
-                ContextSynchronizationManager.bindResource("datasource", Constants.defaultDataSourceName);
+                ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
                 queryMap.put("tableName",tableNameItem.get("tableName"));
                 queryMap.put("dataSource",dataSourceItem.get("dataSource"));
-                queryMap.put("MoveStatus",Constants.MoveRecordStatus);
+                queryMap.put("MoveStatus",Constants.MOVE_RECORD_STATUS);
                 int unfinishCount= fileMoveRecordPoMapper.queryMoveRecordCount(queryMap);
                 if (unfinishCount > 0){
                     FileMoveCurrentContext fileMoveCurrentContext=new FileMoveCurrentContext();
                     fileMoveCurrentContext.setCurMoveDataSource(dataSourceItem.get("dataSource"));
                     fileMoveCurrentContext.setCurMoveDataSourceName(dataSourceItem.get("dataSourceName"));
                     fileMoveCurrentContext.setCurMovetableName(tableNameItem.get("tableName"));
-                    fileMoveCurrentContext.setMoveStatus(Constants.MoveRecordStatus);
-                    fileMoveCurrentContext.setTransitionDBName(Constants.defaultDataSourceName);
+                    fileMoveCurrentContext.setMoveStatus(Constants.MOVE_RECORD_STATUS);
+                    fileMoveCurrentContext.setTransitionDBName(Constants.DEFAULT_DATA_SOURCE_NAME);
                     FileMoveContextImpl.setFileMoveCurrentContext(fileMoveCurrentContext);
                     return;
                 }

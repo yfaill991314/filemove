@@ -64,7 +64,7 @@ Ext.define('app.view.fileMoveManage.fileList', {
                                     autoLoad: true,
                                     data: [
                                         {'name': '文件uuid', 'value': 'uuid'},
-                                        {'name': '业务件uuid', 'value': 'businessUuid'},
+                                        {'name': '被绑定业务件uuid', 'value': 'businessUuid'},
                                     ]
                                 },
                                 editable: false,
@@ -89,9 +89,8 @@ Ext.define('app.view.fileMoveManage.fileList', {
 
                                     var params = {};
                                     params[searchCom] = searchContent;
-                                    me.store.reload({
-                                        params :params
-                                    });
+                                    me.store.getProxy().extraParams=params;
+                                    me.store.load();
                                 }
                             },
                             {

@@ -35,9 +35,11 @@ public final class Constants {
 
     public static List<Map<String,String>> tableNameList=null;
 
-    public static final String MoveRecordStatus="未迁移";
+    public static final String MOVE_RECORD_STATUS="未迁移";
 
-    public static final String defaultDataSourceName="zj";
+    public static final String DEFAULT_DATA_SOURCE_NAME="zj";
+
+    public static final int MAX_RETRY_TIMES=3;
 
     static {
         dataSourceList=new ArrayList<Map<String,String>>(){{

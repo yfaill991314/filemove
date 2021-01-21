@@ -182,6 +182,15 @@
                     #{item,jdbcType=VARCHAR}
                 </foreach>
             </if>
+            <if test="uuid !=null and uuid !='' ">
+                and r.UUID=#{uuid,jdbcType=VARCHAR}
+            </if>
+            <if test="fileUuid !=null and fileUuid !='' ">
+                and r.FILE_UUID=#{fileUuid,jdbcType=VARCHAR}
+            </if>
+            <if test="bizid !=null and bizid !='' ">
+                and r.BIZID=#{bizid,jdbcType=VARCHAR}
+            </if>
         </where>
     </select>
 
@@ -210,6 +219,9 @@
             r.*, rownum rn
             from SURVEY.FILE_MOVE_RECORD r
             <where>
+                <if test="uuid != null and uuid !=''">
+                    and r.UUID=#{uuid,jdbcType=VARCHAR}
+                </if>
                 <if test="theadSum != null and theadId != null">
                     and Mod(r.BIZID, #{theadSum,jdbcType=DECIMAL}) = #{theadId,jdbcType=DECIMAL}
                 </if>
