@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funi.filemove.dao.MgDoorImgPoMapper">
+  <resultMap id="BaseResultMap" type="com.funi.filemove.po.MgDoorImgPo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="PROPERTY" jdbcType="VARCHAR" property="property" />
+    <result column="IMGSTYLE" jdbcType="VARCHAR" property="imgstyle" />
+    <result column="IMGDES" jdbcType="VARCHAR" property="imgdes" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="INMAN" jdbcType="VARCHAR" property="inman" />
+    <result column="REGIDATE" jdbcType="TIMESTAMP" property="regidate" />
+    <result column="IMGFILENAME" jdbcType="VARCHAR" property="imgfilename" />
+    <result column="IMGFILESIZE" jdbcType="DECIMAL" property="imgfilesize" />
+    <result column="TEMPID" jdbcType="VARCHAR" property="tempid" />
+    <result column="FILENAME" jdbcType="VARCHAR" property="filename" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="CREATETIME" jdbcType="DATE" property="createtime" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="ISDELE" jdbcType="DECIMAL" property="isdele" />
+    <result column="RESULSID" jdbcType="DECIMAL" property="resulsid" />
+    <result column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="LOCAL_DATA_SOURCE" jdbcType="VARCHAR" property="localDataSource" />
+    <result column="RESULTS_UUID" jdbcType="VARCHAR" property="resultsUuid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.funi.filemove.po.MgDoorImgPo">
+    <result column="IMAGE" jdbcType="BLOB" property="image" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PROPERTY, IMGSTYLE, IMGDES, STATUS, INMAN, REGIDATE, IMGFILENAME, IMGFILESIZE, 
+    TEMPID, FILENAME, DESCRIPTION, CREATER, CREATETIME, NOTE, ISDELE, RESULSID, UUID, 
+    LOCAL_DATA_SOURCE, RESULTS_UUID
+  </sql>
+  <sql id="Blob_Column_List">
+    IMAGE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from SURVEY.MGDOORIMG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from SURVEY.MGDOORIMG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.funi.filemove.po.MgDoorImgPo">
+    insert into SURVEY.MGDOORIMG (ID, PROPERTY, IMGSTYLE, 
+      IMGDES, STATUS, INMAN, 
+      REGIDATE, IMGFILENAME, IMGFILESIZE, 
+      TEMPID, FILENAME, DESCRIPTION, 
+      CREATER, CREATETIME, NOTE, 
+      ISDELE, RESULSID, UUID, 
+      LOCAL_DATA_SOURCE, RESULTS_UUID, IMAGE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{property,jdbcType=VARCHAR}, #{imgstyle,jdbcType=VARCHAR}, 
+      #{imgdes,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{inman,jdbcType=VARCHAR}, 
+      #{regidate,jdbcType=TIMESTAMP}, #{imgfilename,jdbcType=VARCHAR}, #{imgfilesize,jdbcType=DECIMAL}, 
+      #{tempid,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE}, #{note,jdbcType=VARCHAR}, 
+      #{isdele,jdbcType=DECIMAL}, #{resulsid,jdbcType=DECIMAL}, #{uuid,jdbcType=VARCHAR}, 
+      #{localDataSource,jdbcType=VARCHAR}, #{resultsUuid,jdbcType=VARCHAR}, #{image,jdbcType=BLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.funi.filemove.po.MgDoorImgPo">
+    insert into SURVEY.MGDOORIMG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="property != null">
+        PROPERTY,
+      </if>
+      <if test="imgstyle != null">
+        IMGSTYLE,
+      </if>
+      <if test="imgdes != null">
+        IMGDES,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="inman != null">
+        INMAN,
+      </if>
+      <if test="regidate != null">
+        REGIDATE,
+      </if>
+      <if test="imgfilename != null">
+        IMGFILENAME,
+      </if>
+      <if test="imgfilesize != null">
+        IMGFILESIZE,
+      </if>
+      <if test="tempid != null">
+        TEMPID,
+      </if>
+      <if test="filename != null">
+        FILENAME,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="isdele != null">
+        ISDELE,
+      </if>
+      <if test="resulsid != null">
+        RESULSID,
+      </if>
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="localDataSource != null">
+        LOCAL_DATA_SOURCE,
+      </if>
+      <if test="resultsUuid != null">
+        RESULTS_UUID,
+      </if>
+      <if test="image != null">
+        IMAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="property != null">
+        #{property,jdbcType=VARCHAR},
+      </if>
+      <if test="imgstyle != null">
+        #{imgstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="imgdes != null">
+        #{imgdes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="inman != null">
+        #{inman,jdbcType=VARCHAR},
+      </if>
+      <if test="regidate != null">
+        #{regidate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgfilename != null">
+        #{imgfilename,jdbcType=VARCHAR},
+      </if>
+      <if test="imgfilesize != null">
+        #{imgfilesize,jdbcType=DECIMAL},
+      </if>
+      <if test="tempid != null">
+        #{tempid,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="isdele != null">
+        #{isdele,jdbcType=DECIMAL},
+      </if>
+      <if test="resulsid != null">
+        #{resulsid,jdbcType=DECIMAL},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="localDataSource != null">
+        #{localDataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="resultsUuid != null">
+        #{resultsUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.MgDoorImgPo">
+    update SURVEY.MGDOORIMG
+    <set>
+      <if test="property != null">
+        PROPERTY = #{property,jdbcType=VARCHAR},
+      </if>
+      <if test="imgstyle != null">
+        IMGSTYLE = #{imgstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="imgdes != null">
+        IMGDES = #{imgdes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="inman != null">
+        INMAN = #{inman,jdbcType=VARCHAR},
+      </if>
+      <if test="regidate != null">
+        REGIDATE = #{regidate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgfilename != null">
+        IMGFILENAME = #{imgfilename,jdbcType=VARCHAR},
+      </if>
+      <if test="imgfilesize != null">
+        IMGFILESIZE = #{imgfilesize,jdbcType=DECIMAL},
+      </if>
+      <if test="tempid != null">
+        TEMPID = #{tempid,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null">
+        FILENAME = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="isdele != null">
+        ISDELE = #{isdele,jdbcType=DECIMAL},
+      </if>
+      <if test="resulsid != null">
+        RESULSID = #{resulsid,jdbcType=DECIMAL},
+      </if>
+      <if test="uuid != null">
+        UUID = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="localDataSource != null">
+        LOCAL_DATA_SOURCE = #{localDataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="resultsUuid != null">
+        RESULTS_UUID = #{resultsUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        IMAGE = #{image,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.funi.filemove.po.MgDoorImgPo">
+    update SURVEY.MGDOORIMG
+    set PROPERTY = #{property,jdbcType=VARCHAR},
+      IMGSTYLE = #{imgstyle,jdbcType=VARCHAR},
+      IMGDES = #{imgdes,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      INMAN = #{inman,jdbcType=VARCHAR},
+      REGIDATE = #{regidate,jdbcType=TIMESTAMP},
+      IMGFILENAME = #{imgfilename,jdbcType=VARCHAR},
+      IMGFILESIZE = #{imgfilesize,jdbcType=DECIMAL},
+      TEMPID = #{tempid,jdbcType=VARCHAR},
+      FILENAME = #{filename,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=DATE},
+      NOTE = #{note,jdbcType=VARCHAR},
+      ISDELE = #{isdele,jdbcType=DECIMAL},
+      RESULSID = #{resulsid,jdbcType=DECIMAL},
+      UUID = #{uuid,jdbcType=VARCHAR},
+      LOCAL_DATA_SOURCE = #{localDataSource,jdbcType=VARCHAR},
+      RESULTS_UUID = #{resultsUuid,jdbcType=VARCHAR},
+      IMAGE = #{image,jdbcType=BLOB}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.MgDoorImgPo">
+    update SURVEY.MGDOORIMG
+    set PROPERTY = #{property,jdbcType=VARCHAR},
+      IMGSTYLE = #{imgstyle,jdbcType=VARCHAR},
+      IMGDES = #{imgdes,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      INMAN = #{inman,jdbcType=VARCHAR},
+      REGIDATE = #{regidate,jdbcType=TIMESTAMP},
+      IMGFILENAME = #{imgfilename,jdbcType=VARCHAR},
+      IMGFILESIZE = #{imgfilesize,jdbcType=DECIMAL},
+      TEMPID = #{tempid,jdbcType=VARCHAR},
+      FILENAME = #{filename,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=DATE},
+      NOTE = #{note,jdbcType=VARCHAR},
+      ISDELE = #{isdele,jdbcType=DECIMAL},
+      RESULSID = #{resulsid,jdbcType=DECIMAL},
+      UUID = #{uuid,jdbcType=VARCHAR},
+      LOCAL_DATA_SOURCE = #{localDataSource,jdbcType=VARCHAR},
+      RESULTS_UUID = #{resultsUuid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * @ClassName Constants
- * @Description TODO
+ * @Description 常量值
  * @Author Feng.Yang
  * @Date 2020/11/5 14:26
  * @Version 1.0
@@ -41,6 +41,10 @@ public final class Constants {
 
     public static final int MAX_RETRY_TIMES=3;
 
+    public static final String MG_MAP_FIGURE="mgmapfigure";
+    public static final String MG_DOOR_IMG="mgdoorimg";
+    public static final String IMG_IMAGES="imgimages";
+
     static {
         dataSourceList=new ArrayList<Map<String,String>>(){{
             add(new HashMap<String,String>() {{ put("dataSourceName","cd");put("dataSource","510100");}});
@@ -64,9 +68,9 @@ public final class Constants {
         }};
 
         tableNameList=new ArrayList<Map<String,String>>(){{
-            add(new HashMap<String,String>() {{ put("tableName","mgmapfigure");}});
-//            add(new HashMap<String,String>() {{ put("tableName","mgdoorimg");}});
-//            add(new HashMap<String,String>() {{ put("tableName","imgimages");}});
+            add(new HashMap<String,String>() {{ put("tableName",Constants.MG_MAP_FIGURE);}});
+//            add(new HashMap<String,String>() {{ put("tableName",Constants.MG_DOOR_IMG);}});
+//            add(new HashMap<String,String>() {{ put("tableName",Constants.IMG_IMAGES);}});
         }};
 
 

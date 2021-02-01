@@ -5,7 +5,7 @@
 <generatorConfiguration>
     <!--数据库驱动-->
     <classPathEntry location="G:\oracleJdbc\ojdbc14-10.2.0.4.0.jar"/>
-    <context id="test" targetRuntime="MyBatis3">
+    <context id="test" targetRuntime="MyBatis3" defaultModelType="flat">
         <!-- 注释 -->
         <commentGenerator>
             <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
@@ -45,14 +45,15 @@
 <!--            <generatedKey column="ID" sqlStatement="select survey.seqmgunitsid.nextval from dual"/>-->
 <!--        </table>-->
 
-      <table schema="survey" tableName="file_move_record" domainObjectName="FileMoveRecordPo"
+      <table schema="estate" tableName="imgimages" domainObjectName="ImgImagesPo"
               enableCountByExample="false"
               enableUpdateByExample="false"
               enableDeleteByExample="false"
               enableSelectByExample="false"
               selectByExampleQueryId="false">
-           <property name="useActualColumnNames" value="false"/>
+          <property name="useActualColumnNames" value="false"/>
        </table>
+
 <!--        <table schema="ccs" tableName="t_ic_platform_usecase_result" domainObjectName="UseCaseResult"-->
 <!--               enableCountByExample="false"-->
 <!--               enableUpdateByExample="false"-->

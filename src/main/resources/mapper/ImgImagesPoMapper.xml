@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funi.filemove.dao.ImgImagesPoMapper">
+  <resultMap id="BaseResultMap" type="com.funi.filemove.po.ImgImagesPo">
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="IMGSTYLE" jdbcType="VARCHAR" property="imgstyle" />
+    <result column="PROPERTY" jdbcType="VARCHAR" property="property" />
+    <result column="IMGMARK" jdbcType="VARCHAR" property="imgmark" />
+    <result column="REGIDATE" jdbcType="TIMESTAMP" property="regidate" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="LOCAL_DATA_SOURCE" jdbcType="VARCHAR" property="localDataSource" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.funi.filemove.po.ImgImagesPo">
+    <result column="IMAGE" jdbcType="BLOB" property="image" />
+    <result column="IMGAGE_PIC" jdbcType="BLOB" property="imgagePic" />
+  </resultMap>
+  <sql id="Blob_Column_List">
+    IMAGE, IMGAGE_PIC
+  </sql>
+  <insert id="insert" parameterType="com.funi.filemove.po.ImgImagesPo">
+    insert into ESTATE.IMGIMAGES (ID, IMGSTYLE, PROPERTY, 
+      IMGMARK, REGIDATE, NOTE, 
+      UUID, LOCAL_DATA_SOURCE, IMAGE, 
+      IMGAGE_PIC)
+    values (#{id,jdbcType=DECIMAL}, #{imgstyle,jdbcType=VARCHAR}, #{property,jdbcType=VARCHAR}, 
+      #{imgmark,jdbcType=VARCHAR}, #{regidate,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR}, 
+      #{uuid,jdbcType=VARCHAR}, #{localDataSource,jdbcType=VARCHAR}, #{image,jdbcType=BLOB}, 
+      #{imgagePic,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.funi.filemove.po.ImgImagesPo">
+    insert into ESTATE.IMGIMAGES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="imgstyle != null">
+        IMGSTYLE,
+      </if>
+      <if test="property != null">
+        PROPERTY,
+      </if>
+      <if test="imgmark != null">
+        IMGMARK,
+      </if>
+      <if test="regidate != null">
+        REGIDATE,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="localDataSource != null">
+        LOCAL_DATA_SOURCE,
+      </if>
+      <if test="image != null">
+        IMAGE,
+      </if>
+      <if test="imgagePic != null">
+        IMGAGE_PIC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="imgstyle != null">
+        #{imgstyle,jdbcType=VARCHAR},
+      </if>
+      <if test="property != null">
+        #{property,jdbcType=VARCHAR},
+      </if>
+      <if test="imgmark != null">
+        #{imgmark,jdbcType=VARCHAR},
+      </if>
+      <if test="regidate != null">
+        #{regidate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="localDataSource != null">
+        #{localDataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=BLOB},
+      </if>
+      <if test="imgagePic != null">
+        #{imgagePic,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+</mapper>
