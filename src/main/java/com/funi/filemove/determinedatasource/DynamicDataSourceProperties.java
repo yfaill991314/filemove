@@ -22,12 +22,20 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "dynamic")
 public class DynamicDataSourceProperties {
     private Map<String, DataSourceProperties> datasource = new LinkedHashMap<>();
+    private Map<String, JndiDataSourceProperties> jndidatasource=new LinkedHashMap<>();
 
     public Map<String, DataSourceProperties> getDatasource() {
         return datasource;
     }
-
     public void setDatasource(Map<String, DataSourceProperties> datasource) {
         this.datasource = datasource;
+    }
+
+    public Map<String, JndiDataSourceProperties> getJndidatasource() {
+        return jndidatasource;
+    }
+
+    public void setJndidatasource(Map<String, JndiDataSourceProperties> jndidatasource) {
+        this.jndidatasource = jndidatasource;
     }
 }

@@ -7,17 +7,20 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.xa.DruidXADataSource
 
-#测试
+
 dynamic:
+  jndidatasource:
+    cd:
+      jndiname: java:comp/env/jdbc/dehr
   datasource:
     zj:
       url: jdbc:oracle:thin:@172.29.251.51:1521/orcl
       username: ogg
       password: ogg
-    cd:
-      url: jdbc:oracle:thin:@172.29.251.206:1521:ora750ab
-      username: eistrong
-      password: eistrong
+#    cd:
+#      url: jdbc:oracle:thin:@172.29.251.206:1521:ora750ab
+#      username: eistrong
+#      password: eistrong
     lq:
       url: jdbc:oracle:thin:@172.29.251.46:1521:orcl
       username: sysdeerp

@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
 import java.util.HashMap;
@@ -71,12 +73,18 @@ public class DynamicDataSourceConfig {
 
     private Map<Object, Object> getDynamicDataSource() {
         Map<String, DataSourceProperties> dataSourcePropertiesMap = properties.getDatasource();
-        Map<Object, Object> targetDataSources = new HashMap<>(dataSourcePropertiesMap.size());
+        Map<String, JndiDataSourceProperties> jndiDataSourcePropertiesMap  = properties.getJndidatasource();
+        Map<Object, Object> targetDataSources = new HashMap<>(dataSourcePropertiesMap.size()+jndiDataSourcePropertiesMap.size());
+
         dataSourcePropertiesMap.forEach((k, v) -> {
             DataSource xaDataSource = DynamicDataSourceFactory.buildAtomikosDataSource(k, v);
             targetDataSources.put(k, xaDataSource);
         });
 
+        jndiDataSourcePropertiesMap.forEach((k, v) -> {
+            DataSource jndiDataSource=DynamicDataSourceFactory.buildJndiDataSource(k, v);
+            targetDataSources.put(k, jndiDataSource);
+        });
         return targetDataSources;
     }
 

@@ -2,7 +2,9 @@ package com.funi.filemove.determinedatasource;
 
 import com.alibaba.druid.pool.xa.DruidXADataSource;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
+import org.springframework.jndi.JndiObjectFactoryBean;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -36,4 +38,18 @@ public class DynamicDataSourceFactory {
         xaDataSource.setMaxIdleTime(properties.getMaxIdleTime());
         return xaDataSource;
     }
+
+    public static DataSource buildJndiDataSource(String dataSourceName,JndiDataSourceProperties properties) {
+        JndiObjectFactoryBean jndiObjectFactoryBean=new  JndiObjectFactoryBean();
+        jndiObjectFactoryBean.setJndiName(properties.getJndiname());
+        jndiObjectFactoryBean.setProxyInterface(DataSource.class);
+        jndiObjectFactoryBean.setLookupOnStartup(false);
+        try {
+            jndiObjectFactoryBean.afterPropertiesSet();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+        return (DataSource) jndiObjectFactoryBean.getObject();
+    }
+
 }
