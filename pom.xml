@@ -51,6 +51,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--配置注解执行器(无实际作用，1.用于解决配置类的警告2.配置文件中对该类赋值时，便会非常方便的弹出提示信息)-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!--aop 面向切面-->
         <dependency>
@@ -104,6 +110,7 @@
             <artifactId>fastDfsClient</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
     <profiles>

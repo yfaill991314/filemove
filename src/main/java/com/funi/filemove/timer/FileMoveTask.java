@@ -43,14 +43,14 @@ public class FileMoveTask {
 
     @Scheduled(cron = "0 0,20,40 * * * ?")
     public void startFileMoveTasks() {
-//        System.out.println(df.format(System.currentTimeMillis())+"---迁移开始");
-//        fileMoveService.startMove();
+        System.out.println(df.format(System.currentTimeMillis())+"---迁移开始");
+        fileMoveService.startMove();
     }
 
     @Scheduled(cron = "0 17,37,57 * * * ?")
     public void stopFileMoveTasks() {
-//        fileMoveService.stopMove();
-//        System.out.println(df.format(System.currentTimeMillis())+"---迁移结束");
+        fileMoveService.stopMove();
+        System.out.println(df.format(System.currentTimeMillis())+"---迁移结束");
     }
 
 }
