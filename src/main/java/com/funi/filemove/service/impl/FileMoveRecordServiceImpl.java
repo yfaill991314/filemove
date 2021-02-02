@@ -183,4 +183,92 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
 
         return null;
     }
+
+    @Override
+    public void importTaskTable(Map<String, Object> queryParams) {
+        List<Map<String, String>> tableNameList = Constants.tableNameList;
+        List<Map<String, String>> dataSourceList = Constants.dataSourceList;
+        for (Map<String, String> tableNameItem : tableNameList) {
+            for (Map<String, String> dataSourceItem : dataSourceList) {
+                if ("mgmapfigure".equals(tableNameItem.get("tableName"))) {
+                    int pageNum = 1;
+                    while (true) {
+                        ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
+                        Map<String, Object> queryMap = new HashMap<>();
+                        PageHelper.startPage(pageNum++, 20);
+                        List<MgMapFigurePo> mgMapFigurePos = mgMapFigurePoMapper.selectListFigure(queryMap);
+                        if (mgMapFigurePos == null || mgMapFigurePos.size() <= 0) {
+                            break;
+                        }
+                        ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
+                        for (MgMapFigurePo mgMapFigurePo : mgMapFigurePos) {
+                            Map<String,Object> taskQueryMap=new HashMap<>();
+                            taskQueryMap.put("dataSource",dataSourceItem.get("dataSource"));
+                            taskQueryMap.put("tableName",tableNameItem.get("tableName"));
+                            taskQueryMap.put("bizid",mgMapFigurePo.getId().toString());
+                            List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(taskQueryMap);
+                            if (fileMoveRecordPos!=null && fileMoveRecordPos.size()>0){
+                                System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+mgMapFigurePo.getId().toString()+"---已存在跳过此条");
+                                continue;
+                            }
+
+                            FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
+                            fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
+                            fileMoveRecordPo.setBizid(mgMapFigurePo.getId().toString());
+                            fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
+                            fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
+                            fileMoveRecordPo.setMoveStatus(Constants.MOVE_RECORD_STATUS);
+                            fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
+                            System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+mgMapFigurePo.getId().toString()+"---导入完成");
+                        }
+                    }
+                } else if ("mgdoorimg".equals(tableNameItem.get("tableName"))) {
+
+                } else if ("imgimages".equals(tableNameItem.get("tableName"))) {
+
+                }
+            }
+        }
+    }
+
+    @Override
+    public void clearData(Map<String, Object> queryParams) {
+//        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
+        ContextSynchronizationManager.bindResource("datasource", "zj");
+        while (true) {
+            try {
+//                userTransaction.begin();
+                Map<String, Object> queryMap = new HashMap<>();
+                PageHelper.startPage(1, 20);
+                List<String> MoveStatusList = new ArrayList<String>() {{
+                    add("迁移失败");
+                    add("迁移成功");
+                }};
+                queryMap.put("moveStatusList", MoveStatusList);
+                List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(queryMap);
+                if (fileMoveRecordPos == null || fileMoveRecordPos.size() <= 0) {
+                    break;
+                }
+                for (FileMoveRecordPo fileMoveRecordPo : fileMoveRecordPos) {
+                    if ("迁移成功".equals(fileMoveRecordPo.getMoveStatus())) {
+                        cfFileDescPoMapper.deleteByPrimaryKey(fileMoveRecordPo.getFileUuid());
+                        int i = fastDfsFileUpload.fileDelete(fileMoveRecordPo.getFileStoreId());
+                    }
+                    System.out.println("文件：" + fileMoveRecordPo.getFileUuid() + "-----" + fileMoveRecordPo.getFileStoreId() + "--已删除");
+                    fileMoveRecordPo.setFileStoreId(null);
+                    fileMoveRecordPo.setFileUuid(null);
+                    fileMoveRecordPo.setCreatetime(null);
+                    fileMoveRecordPo.setMoveStatus("未迁移");
+                    fileMoveRecordPo.setRemark(null);
+                    fileMoveRecordPo.setThreadId(null);
+                    fileMoveRecordPo.setFileSize(null);
+                    fileMoveRecordPoMapper.updateByPrimaryKey(fileMoveRecordPo);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+//                userTransaction.rollback();
+            }
+//            userTransaction.commit();
+        }
+    }
 }

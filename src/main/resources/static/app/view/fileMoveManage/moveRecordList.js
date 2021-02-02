@@ -43,7 +43,7 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 xtype: 'button',
                                 text: '手动重迁',
                                 scope: me,
-                                itemId: 'bt_downLoad',
+                                itemId: 'bt_moveagain',
                                 handler: function () {
                                     //判断是否选择额一条数据。
                                     var selectData = me.getSelectionModel().getSelection();
@@ -56,6 +56,34 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                     //     return;
                                     // }
                                     me.remigrate(selectData[0]);
+                                }
+                            },
+                            {
+                                xtype: 'button',
+                                text: '导入任务表',
+                                scope: me,
+                                itemId: 'bt_importTaskTable',
+                                handler: function () {
+                                    var dataSource = me.queryById("dataSourceId").getValue();
+                                    var tableName = me.queryById("tableNameId").getValue();
+                                    var params = {};
+                                    if (dataSource!=null && dataSource!=''){
+                                        params.dataSource = dataSource;
+                                    }
+                                    if (tableName!=null && tableName!=''){
+                                        params.tableName = tableName;
+                                    }
+                                    me.importTaskTable(params);
+                                }
+                            },
+                            {
+                                xtype: 'button',
+                                text: '清除数据',
+                                scope: me,
+                                itemId: 'bt_clearData',
+                                handler: function () {
+                                    var params = {};
+                                    me.clearData(params);
                                 }
                             },
                             '->',
@@ -89,7 +117,7 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 displayField: 'name',
                                 valueField: 'value',
                                 labelWidth: 60,
-                                width: 150,
+                                width: 110,
                                 itemId: 'dataSourceId'
                             },
                             {
@@ -108,7 +136,7 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 displayField: 'name',
                                 valueField: 'value',
                                 labelWidth: 60,
-                                width: 150,
+                                width: 110,
                                 itemId: 'tableNameId'
                             },
                             {
@@ -128,7 +156,7 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 displayField: 'name',
                                 valueField: 'value',
                                 labelWidth: 60,
-                                width: 150,
+                                width: 110,
                                 itemId: 'moveStatusId'
                             },
                             {
@@ -147,14 +175,14 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 displayField: 'name',
                                 valueField: 'value',
                                 labelWidth: 60,
-                                width: 150,
+                                width: 110,
                                 itemId: 'searchCom'
                             },
                             {
                                 xtype: 'textfield',
                                 emptyText: '请输入',
                                 labelWidth: 60,
-                                width: 200,
+                                width: 110,
                                 itemId: 'searchContent'
                             },
                             {
@@ -310,6 +338,46 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
             ]
         }).show();
     },
-
-
+    importTaskTable: function (params) {
+        var me = this;
+        Ext.Ajax.request({
+            url: 'fileMoveRecord/importTaskTable',
+            params: params,
+            method: 'POST',
+            async: false,
+            success: function (response, options) {
+                var response = JSON.parse(response.responseText);
+                if (response.code==200) {
+                    Ext.Msg.alert("系统提示", response.message);
+                    me.store.reload();
+                } else {
+                    Ext.Msg.alert("系统提示", response.message);
+                }
+            },
+            failure: function (response) {
+                Ext.Msg.alert("系统提示", "请求超时");
+            }
+        });
+    },
+    clearData: function (params) {
+        var me = this;
+        Ext.Ajax.request({
+            url: 'fileMoveRecord/clearData',
+            params: params,
+            method: 'POST',
+            async: false,
+            success: function (response, options) {
+                var response = JSON.parse(response.responseText);
+                if (response.code==200) {
+                    Ext.Msg.alert("系统提示", response.message);
+                    me.store.reload();
+                } else {
+                    Ext.Msg.alert("系统提示", response.message);
+                }
+            },
+            failure: function (response) {
+                Ext.Msg.alert("系统提示", "请求超时");
+            }
+        });
+    }
 });

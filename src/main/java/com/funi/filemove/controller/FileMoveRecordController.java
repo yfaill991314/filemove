@@ -34,4 +34,18 @@ public class FileMoveRecordController {
         ResultVO resultVO =new ResultVO(200,"手动迁移成功");
         return resultVO;
     }
+
+    @RequestMapping("importTaskTable")
+    public ResultVO importTaskTable(@RequestParam Map<String,Object> queryParams) {
+        fileMoveRecordService.importTaskTable(queryParams);
+        ResultVO resultVO =new ResultVO(200,"导入成功");
+        return resultVO;
+    }
+
+    @RequestMapping("clearData")
+    public ResultVO clearData(@RequestParam Map<String,Object> queryParams) {
+        fileMoveRecordService.clearData(queryParams);
+        ResultVO resultVO =new ResultVO(200,"导入成功");
+        return resultVO;
+    }
 }
