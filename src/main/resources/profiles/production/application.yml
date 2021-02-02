@@ -15,10 +15,10 @@ dynamic:
       url: jdbc:oracle:thin:@172.24.7.130:1521/pdbch
       username: survey
       password: survey
-#    cd:
-#      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbcore
-#      username: sysdeerp
-#      password: d#41hsal
+    cd:
+      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbcore
+      username: sysdeerp
+      password: d#41hsal
 #    tfxq:
 #      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbtfxq
 #      username: sysdeerp

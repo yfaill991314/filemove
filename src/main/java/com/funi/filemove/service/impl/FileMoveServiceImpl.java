@@ -230,7 +230,9 @@ public class FileMoveServiceImpl implements FileMoveService {
                 if (fileTypeName != null && !"".equals(fileTypeName.trim())) {
                     Map<String, Object> queryMap = new HashMap<>();
                     queryMap.put("fileTypeName", mgMapFigurePo.getImagetype());
+                    ContextSynchronizationManager.bindResource("datasource", "cd");
                     CfDictPo cfDictPo = cfDictPoMapper.selectByMapParame(queryMap);
+                    ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                     if (cfDictPo != null) {
                         cfFileDescPo.setBusinessType(cfDictPo.getUuid());
                     }

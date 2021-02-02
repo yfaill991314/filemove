@@ -1,7 +1,9 @@
 package com.funi.filemove.service.impl;
 
 import com.funi.fastdfs.upload.FastDfsFileUpload;
+import com.funi.filemove.Constants;
 import com.funi.filemove.dao.CfFileDescPoMapper;
+import com.funi.filemove.determinedatasource.ContextSynchronizationManager;
 import com.funi.filemove.po.CfFileDescPo;
 import com.funi.filemove.service.FastFileService;
 import com.github.pagehelper.PageHelper;
@@ -35,6 +37,7 @@ public class FastFileServiceImpl implements FastFileService {
         int pageNum = Integer.parseInt(queryParams.get("page").toString());
         int pageSize= Integer.parseInt(queryParams.get("limit").toString());
         PageHelper.startPage(pageNum, pageSize);
+        ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
         List<CfFileDescPo> cfFileDescPos = cfFileDescPoMapper.selectFileListByFileQuery(queryParams);
         PageInfo<CfFileDescPo> pageInfo = new PageInfo<>(cfFileDescPos);
         long total = pageInfo.getTotal();
@@ -46,11 +49,13 @@ public class FastFileServiceImpl implements FastFileService {
 
     @Override
     public CfFileDescPo findFileInfoByUuid(String fileUuid) {
+        ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
         return  cfFileDescPoMapper.selectByPrimaryKey(fileUuid);
     }
 
     @Override
     public int findDownLoad(String fileUuid, OutputStream os) {
+        ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
         CfFileDescPo cfFileDescPO = cfFileDescPoMapper.selectByPrimaryKey(fileUuid);
         if (cfFileDescPO==null){
             return -1;

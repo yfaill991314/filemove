@@ -20,7 +20,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/web/logs/error.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>/Soft/Web-servers/tomcat-9.0.22/webapps/surveylogs/error.%d{yyyy-MM-dd}.log</FileNamePattern>
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <encoder>

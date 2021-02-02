@@ -45,6 +45,7 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             moveStatusList.add(queryParams.get("moveStatus").toString());
             queryParams.put("moveStatusList", moveStatusList);
         }
+        ContextSynchronizationManager.bindResource("datasource",Constants.DEFAULT_DATA_SOURCE_NAME);
         List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(queryParams);
         PageInfo<FileMoveRecordPo> pageInfo = new PageInfo<>(fileMoveRecordPos);
         long total = pageInfo.getTotal();
@@ -155,7 +156,9 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             if (fileTypeName != null && !"".equals(fileTypeName.trim())) {
                 Map<String, Object> queryMap = new HashMap<>();
                 queryMap.put("fileTypeName", mgMapFigurePo.getImagetype());
+                ContextSynchronizationManager.bindResource("datasource", "cd");
                 CfDictPo cfDictPo = cfDictPoMapper.selectByMapParame(queryMap);
+                ContextSynchronizationManager.bindResource("datasource", "zj");
                 if (cfDictPo != null) {
                     cfFileDescPo.setBusinessType(cfDictPo.getUuid());
                 }
@@ -234,7 +237,7 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
     @Override
     public void clearData(Map<String, Object> queryParams) {
 //        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
-        ContextSynchronizationManager.bindResource("datasource", "zj");
+        ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
         while (true) {
             try {
 //                userTransaction.begin();
@@ -272,7 +275,6 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
         }
 
         //防止cfFileDesc表有数据未清理
-        ContextSynchronizationManager.bindResource("datasource", "zj");
         while (true) {
             try {
                 Map<String, Object> queryMap = new HashMap<>();
