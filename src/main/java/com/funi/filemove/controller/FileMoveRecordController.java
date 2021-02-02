@@ -45,7 +45,7 @@ public class FileMoveRecordController {
     @RequestMapping("clearData")
     public ResultVO clearData(@RequestParam Map<String,Object> queryParams) {
         fileMoveRecordService.clearData(queryParams);
-        ResultVO resultVO =new ResultVO(200,"导入成功");
+        ResultVO resultVO =new ResultVO(200,"清理成功");
         return resultVO;
     }
 }

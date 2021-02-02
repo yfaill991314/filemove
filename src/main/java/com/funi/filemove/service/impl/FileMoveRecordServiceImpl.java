@@ -270,5 +270,26 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             }
 //            userTransaction.commit();
         }
+
+        //防止cfFileDesc表有数据未清理
+        ContextSynchronizationManager.bindResource("datasource", "zj");
+        while (true) {
+            try {
+                Map<String, Object> queryMap = new HashMap<>();
+                PageHelper.startPage(1, 20);
+                List<CfFileDescPo> cfFileDescPos = cfFileDescPoMapper.selectFileListByFileQuery(queryMap);
+                if (cfFileDescPos == null || cfFileDescPos.size() <= 0) {
+                    break;
+                }
+                for (CfFileDescPo cfFileDescPo : cfFileDescPos) {
+                    int i = fastDfsFileUpload.fileDelete(cfFileDescPo.getFileStoreId());
+                    cfFileDescPoMapper.deleteByPrimaryKey(cfFileDescPo.getUuid());
+                    System.out.println("文件："+cfFileDescPo.getUuid()+"---已删除");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
