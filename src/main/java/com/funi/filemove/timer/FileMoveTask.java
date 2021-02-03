@@ -24,6 +24,8 @@ public class FileMoveTask {
 
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    public static String startFileMoveTask="关闭";
+
 //    //3.添加定时任务
 //    @Scheduled(cron = "0/5 * * * * ?")
 //
@@ -43,6 +45,10 @@ public class FileMoveTask {
 
     @Scheduled(cron = "0 0,20,40 * * * ?")
     public void startFileMoveTasks() {
+        if (!"开启".equals(FileMoveTask.startFileMoveTask)){
+            System.out.println("未开启迁移定时任务，请在页面中开启");
+            return;
+        }
         System.out.println(df.format(System.currentTimeMillis())+"---迁移开始");
         fileMoveService.startMove();
     }

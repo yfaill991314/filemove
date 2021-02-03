@@ -106,11 +106,16 @@ public class FileMoveServiceImpl implements FileMoveService {
         //文件服务器文件上传连续失败次数，计数，如大于该次数推出当前迁移线程
         int FastUpLoadContinuousFailureCount = 0;
 
+        long startTime=0;
+        long endTime=0;
 
 //        int i = 1;
         while (FileMoveServiceImpl.inMoveTime) {
 //        while (i++ <= 10) {
             try {
+
+                startTime = System.currentTimeMillis();
+
                 //设置中间库主数据源
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                 Map<String, Object> queryParams = new HashMap<>();
@@ -125,17 +130,19 @@ public class FileMoveServiceImpl implements FileMoveService {
                     System.out.println(fileMoveCurrentContext.getCurMoveDataSourceName() + "数据源---" + fileMoveCurrentContext.getCurMovetableName() + "表---" + "线程:" + theadId + ":数据已迁移完毕！！！");
                     return;
                 }
-
 //              默认当前迁移任务失败，迁移完成后修改为成功， 保证不再查询到该数据，防止异常数据阻塞迁移线程
                 fileMoveRecordPo.setCreatetime(new Date());
                 fileMoveRecordPo.setThreadId(theadId);
                 fileMoveRecordPo.setMoveStatus("迁移失败");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
 
+                endTime = System.currentTimeMillis();
+                System.out.println("查询任务段运行时间：" + (endTime - startTime) + "ms");
+                startTime = System.currentTimeMillis();
+
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
                 mgMapFigurePo = mgMapFigurePoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
-
                 if (mgMapFigurePo == null) {
                     fileMoveRecordPo.setRemark("未查找到对应的被迁移文件");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
@@ -157,6 +164,9 @@ public class FileMoveServiceImpl implements FileMoveService {
                     continue;
                 }
 
+                endTime = System.currentTimeMillis();
+                System.out.println("读取大字段运行时间：" + (endTime - startTime) + "ms");
+                startTime = System.currentTimeMillis();
 
                 //根据mgMapFigurePo 查询对应的成果
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
@@ -181,6 +191,10 @@ public class FileMoveServiceImpl implements FileMoveService {
                         fileExe = fileExe.substring(lc + 1);
                     }
                 }
+
+                endTime = System.currentTimeMillis();
+                System.out.println("查询成果段运行时间：" + (endTime - startTime) + "ms");
+                startTime = System.currentTimeMillis();
 
                 for (int retry = 1; retry <= Constants.MAX_RETRY_TIMES; retry++) {
                     try {
@@ -209,6 +223,10 @@ public class FileMoveServiceImpl implements FileMoveService {
                 } else {
                     FastUpLoadContinuousFailureCount = 0;
                 }
+
+                endTime = System.currentTimeMillis();
+                System.out.println("文件上传段运行时间：" + (endTime - startTime) + "ms");
+                startTime = System.currentTimeMillis();
 
                 // 建立测绘成果与文件的 关联关系
                 CfFileDescPo cfFileDescPo = new CfFileDescPo();
@@ -254,6 +272,9 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                 System.out.println("成果号" + mgMapResultPo.getId() + "迁移件：" + mgMapFigurePo.getId() + "迁移完成;文件storeId" + storeId);
+
+                endTime = System.currentTimeMillis();
+                System.out.println("关联关系段运行时间：" + (endTime - startTime) + "ms");
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }

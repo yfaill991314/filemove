@@ -175,9 +175,6 @@ Ext.define('app.view.fileMoveManage.mgmapfigureList', {
                 {text: '上传人', dataIndex: 'creater', width: '9%', align: 'center'}
             ],
             listeners: {
-                celldblclick: function (cmp, td, cellndex, record, tr, rowindex, e, eopts) {
-                    me.infoWindow('view', record);
-                }
             },
             dockedItems: [
                 {
@@ -192,57 +189,5 @@ Ext.define('app.view.fileMoveManage.mgmapfigureList', {
         })
         ;
         me.callParent(arguments);
-    },
-
-    //详情窗口
-    infoWindow: function (operation, selectData) {
-        // window.open("http://www.jb51.net");
-        var me = this;
-        var result;
-        Ext.Ajax.request({
-            url: 'newsMg/findNewsInfo',
-            params: {'id': selectData.get('id')},
-            method: 'POST',
-            async: false,
-            success: function (response, options) {
-
-                var response = JSON.parse(response.responseText);
-                if (response.success) {
-                    result = response.result;
-                    // Ext.getCmp('newsInfo').getForm().setValues(result);
-                } else {
-                    Ext.Msg.alert("系统提示", response.message);
-                }
-
-            },
-            failure: function (response) {
-                Ext.Msg.alert("系统提示", "请求超时");
-            }
-        });
-
-        Ext.create("Ext.window.Window", {
-            title: result['title'],
-            modal: true,
-            layout: 'fit',
-            width: '75%',
-            height: '75%',
-            scrollable: 'y',
-            resizable: false,
-            padding: '10 10 10 10',
-            html: result['details'],
-            fbar: [
-                '->',
-                {
-                    xtype: 'button',
-                    text: "关闭",
-                    handler: function (btn) {
-                        var win = btn.up().up();
-                        win.close();
-                    }
-                }
-            ]
-        }).show();
-    },
-
-
+    }
 });

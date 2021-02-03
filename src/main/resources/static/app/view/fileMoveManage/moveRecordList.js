@@ -86,10 +86,28 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                     me.clearData(params);
                                 }
                             },
+                            {
+                                xtype: 'button',
+                                text: '定时任务状态',
+                                scope: me,
+                                itemId: 'bt_taskStatus',
+                                handler: function () {
+                                    me.selectFileMoveTaskStatus();
+                                }
+                            },
+                            {
+                                xtype: 'button',
+                                text: '终止当前迁移',
+                                scope: me,
+                                itemId: 'bt_stopmoveId',
+                                handler: function () {
+                                    me.stopmove();
+                                }
+                            },
                             '->',
                             {
                                 xtype: 'combobox',
-                                emptyText: '请选择数据源',
+                                emptyText: '数据源',
                                 store: {
                                     fields: ['name'],
                                     autoLoad: true,
@@ -117,12 +135,12 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 displayField: 'name',
                                 valueField: 'value',
                                 labelWidth: 60,
-                                width: 110,
+                                width: 100,
                                 itemId: 'dataSourceId'
                             },
                             {
                                 xtype: 'combobox',
-                                emptyText: '请选择数据表',
+                                emptyText: '数据表',
                                 store: {
                                     fields: ['name'],
                                     autoLoad: true,
@@ -136,12 +154,12 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 displayField: 'name',
                                 valueField: 'value',
                                 labelWidth: 60,
-                                width: 110,
+                                width: 100,
                                 itemId: 'tableNameId'
                             },
                             {
                                 xtype: 'combobox',
-                                emptyText: '请选择任务状态',
+                                emptyText: '任务状态',
                                 store: {
                                     fields: ['name'],
                                     autoLoad: true,
@@ -156,12 +174,12 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 displayField: 'name',
                                 valueField: 'value',
                                 labelWidth: 60,
-                                width: 110,
+                                width: 100,
                                 itemId: 'moveStatusId'
                             },
                             {
                                 xtype: 'combobox',
-                                emptyText: '请选择查询条件',
+                                emptyText: '查询条件',
                                 store: {
                                     fields: ['name'],
                                     autoLoad: true,
@@ -175,18 +193,18 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 displayField: 'name',
                                 valueField: 'value',
                                 labelWidth: 60,
-                                width: 110,
+                                width: 100,
                                 itemId: 'searchCom'
                             },
                             {
                                 xtype: 'textfield',
                                 emptyText: '请输入',
                                 labelWidth: 60,
-                                width: 110,
+                                width: 100,
                                 itemId: 'searchContent'
                             },
                             {
-                                xtype: 'button', text: '搜索', scope: me, glyph: 'xf002@FontAwesome',
+                                xtype: 'button', text: '搜索', scope: me,
                                 handler: function () {
                                     var dataSource = me.queryById("dataSourceId").getValue();
                                     var tableName = me.queryById("tableNameId").getValue();
@@ -214,7 +232,7 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 }
                             },
                             {
-                                xtype: 'button', text: '重置', scope: me, glyph: 'xf0e2@FontAwesome',
+                                xtype: 'button', text: '重置', scope: me,
                                 handler: function () {
                                     me.queryById("searchCom").setValue(null);
                                     me.queryById("searchContent").setValue(null);
@@ -249,9 +267,6 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                 {text: '数据来源表', dataIndex: 'tablename', width: '9%', align: 'center'},
             ],
             listeners: {
-                celldblclick: function (cmp, td, cellndex, record, tr, rowindex, e, eopts) {
-                    me.infoWindow('view', record);
-                }
             },
             dockedItems: [
                 {
@@ -271,12 +286,15 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
 
     remigrate:function(selectData){
         var me = this;
+        var myMask = new Ext.LoadMask(me,{msg:"请稍等,操作正在进行..."});
+        myMask.show();
         Ext.Ajax.request({
             url: 'fileMoveRecord/remigrate',
             params: {'uuid': selectData.get('uuid'),'tableName': selectData.get('tablename'),'dataSource': selectData.get('dataSource')},
             method: 'POST',
-            async: false,
+            // async: false,
             success: function (response, options) {
+                myMask.hide();
                 var response = JSON.parse(response.responseText);
                 if (response.code==200) {
                     me.store.reload();
@@ -285,67 +303,22 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                 }
             },
             failure: function (response) {
+                myMask.hide();
                 Ext.Msg.alert("系统提示", "请求超时");
             }
         });
-    },
-    //详情窗口
-    infoWindow: function (operation, selectData) {
-        // window.open("http://www.jb51.net");
-        var me = this;
-        var result;
-        Ext.Ajax.request({
-            url: 'newsMg/findNewsInfo',
-            params: {'id': selectData.get('id')},
-            method: 'POST',
-            async: false,
-            success: function (response, options) {
-
-                var response = JSON.parse(response.responseText);
-                if (response.success) {
-                    result = response.result;
-                    // Ext.getCmp('newsInfo').getForm().setValues(result);
-                } else {
-                    Ext.Msg.alert("系统提示", response.message);
-                }
-
-            },
-            failure: function (response) {
-                Ext.Msg.alert("系统提示", "请求超时");
-            }
-        });
-
-        Ext.create("Ext.window.Window", {
-            title: result['title'],
-            modal: true,
-            layout: 'fit',
-            width: '75%',
-            height: '75%',
-            scrollable: 'y',
-            resizable: false,
-            padding: '10 10 10 10',
-            html: result['details'],
-            fbar: [
-                '->',
-                {
-                    xtype: 'button',
-                    text: "关闭",
-                    handler: function (btn) {
-                        var win = btn.up().up();
-                        win.close();
-                    }
-                }
-            ]
-        }).show();
     },
     importTaskTable: function (params) {
         var me = this;
+        var myMask = new Ext.LoadMask(me,{msg:"请稍等,操作正在进行..."});
+        myMask.show();
         Ext.Ajax.request({
             url: 'fileMoveRecord/importTaskTable',
             params: params,
             method: 'POST',
-            async: false,
+            // async: false,
             success: function (response, options) {
+                myMask.hide();
                 var response = JSON.parse(response.responseText);
                 if (response.code==200) {
                     Ext.Msg.alert("系统提示", response.message);
@@ -355,18 +328,22 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                 }
             },
             failure: function (response) {
+                myMask.hide();
                 Ext.Msg.alert("系统提示", "请求超时");
             }
         });
     },
     clearData: function (params) {
         var me = this;
+        var myMask = new Ext.LoadMask(me,{msg:"请稍等,操作正在进行..."});
+        myMask.show();
         Ext.Ajax.request({
             url: 'fileMoveRecord/clearData',
             params: params,
             method: 'POST',
-            async: false,
+            // async: false,
             success: function (response, options) {
+                myMask.hide();
                 var response = JSON.parse(response.responseText);
                 if (response.code==200) {
                     Ext.Msg.alert("系统提示", response.message);
@@ -376,6 +353,126 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                 }
             },
             failure: function (response) {
+                myMask.hide();
+                Ext.Msg.alert("系统提示", "请求超时");
+            }
+        });
+    },
+    selectFileMoveTaskStatus:function () {
+        var me = this;
+        var myMask = new Ext.LoadMask(me,{msg:"请稍等,操作正在进行..."});
+        myMask.show();
+        Ext.Ajax.request({
+            url: 'fileMoveRecord/selectFileMoveTaskStatus',
+            method: 'POST',
+            async: false,
+            success: function (response, options) {
+                myMask.hide();
+                var response = JSON.parse(response.responseText);
+                if (response.code==200) {
+                    Ext.create("Ext.window.Window", {
+                        title: "定时任务状态",
+                        modal: true,
+                        layout: 'fit',
+                        width: '40%',
+                        height: '40%',
+                        scrollable: 'y',
+                        resizable: false,
+                        padding: '10 10 10 10',
+                        items:[
+                            {
+                                layout: 'form',
+                                items:[{
+                                    xtype: 'combobox',
+                                    emptyText: '请选择',
+                                    store: {
+                                        fields: ['name'],
+                                        autoLoad: true,
+                                        data: [
+                                            {'name': '关闭', 'value': '关闭'},
+                                            {'name': '开启', 'value': '开启'},
+                                        ]
+                                    },
+                                    fieldLabel:'定时任务状态',
+                                    editable: false,
+                                    displayField: 'name',
+                                    valueField: 'value',
+                                    labelWidth: 60,
+                                    value:response.data.taskStatus,
+                                    width: 200,
+                                    itemId: 'taskStatusId'
+                                },]
+                            }
+                        ],
+                        fbar: [
+                            '->',
+                            {
+                                xtype: 'button',
+                                text: "保存",
+                                handler: function (btn) {
+                                    var params={};
+                                    var win = btn.up().up();
+                                    params.taskStatus=win.queryById('taskStatusId').getValue();
+                                    Ext.Ajax.request({
+                                        url: 'fileMoveRecord/updateFileMoveTaskStatus',
+                                        params: params,
+                                        method: 'POST',
+                                        async: false,
+                                        success: function (response, options) {
+                                            var response = JSON.parse(response.responseText);
+                                            if (response.code==200) {
+                                                Ext.Msg.alert("系统提示", response.message);
+                                                var win = btn.up().up();
+                                                win.close();
+                                            } else {
+                                                Ext.Msg.alert("系统提示", response.message);
+                                            }
+                                        },
+                                        failure: function (response) {
+                                            Ext.Msg.alert("系统提示", "请求超时");
+                                        }
+                                    });
+                                }
+                            },
+                            {
+                                xtype: 'button',
+                                text: "关闭",
+                                handler: function (btn) {
+                                    var win = btn.up().up();
+                                    win.close();
+                                }
+                            }
+                        ]
+                    }).show();
+                } else {
+                    Ext.Msg.alert("系统提示", response.message);
+                }
+            },
+            failure: function (response) {
+                myMask.hide();
+                Ext.Msg.alert("系统提示", "请求超时");
+            }
+        });
+    },
+    stopmove:function () {
+        var me = this;
+        var myMask = new Ext.LoadMask(me,{msg:"请稍等,操作正在进行..."});
+        myMask.show();
+        Ext.Ajax.request({
+            url: 'fileMoveRecord/stopMove',
+            method: 'POST',
+            async: false,
+            success: function (response, options) {
+                myMask.hide();
+                var response = JSON.parse(response.responseText);
+                if (response.code==200) {
+                    Ext.Msg.alert("系统提示", response.message);
+                } else {
+                    Ext.Msg.alert("系统提示", response.message);
+                }
+            },
+            failure: function (response) {
+                myMask.hide();
                 Ext.Msg.alert("系统提示", "请求超时");
             }
         });

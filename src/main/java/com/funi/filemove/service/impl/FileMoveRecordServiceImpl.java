@@ -65,6 +65,10 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
         FileMoveRecordPo fileMoveRecordPo = null;
         String dataSorceName=MyUtils.getDataSouceNameByCode(queryParams.get("dataSource").toString());
 
+        long startTime=0;
+        long endTime=0;
+
+        startTime = System.currentTimeMillis();
         //设置中间库主数据源
         ContextSynchronizationManager.bindResource("datasource", "zj");
         try {
@@ -78,6 +82,10 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             fileMoveRecordPo.setThreadId("0");
             fileMoveRecordPo.setMoveStatus("迁移失败");
             fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+
+            endTime = System.currentTimeMillis();
+            System.out.println("查询任务段运行时间：" + (endTime - startTime) + "ms");
+            startTime = System.currentTimeMillis();
 
             ContextSynchronizationManager.bindResource("datasource",dataSorceName);
             mgMapFigurePo = mgMapFigurePoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
@@ -104,6 +112,9 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                 return null;
             }
 
+            endTime = System.currentTimeMillis();
+            System.out.println("读取大字段运行时间：" + (endTime - startTime) + "ms"+"文件大小:"+mgMapFigurePo.getImage().length);
+            startTime = System.currentTimeMillis();
 
             //根据mgMapFigurePo 查询对应的成果
             ContextSynchronizationManager.bindResource("datasource", dataSorceName);
@@ -128,6 +139,11 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                     fileExe = fileExe.substring(lc + 1);
                 }
             }
+
+            endTime = System.currentTimeMillis();
+            System.out.println("查询成果段运行时间：" + (endTime - startTime) + "ms");
+            startTime = System.currentTimeMillis();
+
             storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(mgMapFigurePo.getImage()), fileExe);
             if (storeId == null) {
                 fileMoveRecordPo.setRemark("上传文件失败,storeId为空。(请确认文件服务器工作状态)");
@@ -135,6 +151,10 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                 System.out.println("迁移失败:上传文件失败,storeId为空。(请确认文件服务器工作状态");
                 return null;
             }
+
+            endTime = System.currentTimeMillis();
+            System.out.println("文件上传段运行时间：" + (endTime - startTime) + "ms");
+            startTime = System.currentTimeMillis();
 
             // 建立测绘成果与文件的 关联关系
             CfFileDescPo cfFileDescPo = new CfFileDescPo();
@@ -180,6 +200,9 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             fileMoveRecordPo.setMoveStatus("迁移成功");
             fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
             System.out.println("成果号" + mgMapResultPo.getId() + "迁移件：" + mgMapFigurePo.getId() + "迁移完成;文件storeId" + storeId);
+
+            endTime = System.currentTimeMillis();
+            System.out.println("关联关系段运行时间：" + (endTime - startTime) + "ms");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
