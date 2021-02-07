@@ -310,4 +310,17 @@
       RESULTS_UUID = #{resultsUuid,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
+
+  <select id="selectListDoorImg" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
+    select
+    <include refid="Base_Column_List"/>
+    from SURVEY.MGDOORIMG d
+    <where>
+      <if test="id !=null and id !=''">
+        and d.id=#{id,jdbcType=DECIMAL}
+      </if>
+    </where>
+    order by d.id
+  </select>
+
 </mapper>

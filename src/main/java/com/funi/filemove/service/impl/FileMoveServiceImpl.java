@@ -83,7 +83,7 @@ public class FileMoveServiceImpl implements FileMoveService {
         } else if (Constants.MG_DOOR_IMG.equals(fileMoveCurrentContext.getCurMovetableName())) {
             this.moveMgDoorImgTable(fileMoveCurrentContext);
         } else if (Constants.IMG_IMAGES.equals(fileMoveCurrentContext.getCurMovetableName())) {
-
+            this.moveImgimagesTable(fileMoveCurrentContext);
         }
 
     }
@@ -109,9 +109,7 @@ public class FileMoveServiceImpl implements FileMoveService {
         long startTime=0;
         long endTime=0;
 
-//        int i = 1;
         while (FileMoveServiceImpl.inMoveTime) {
-//        while (i++ <= 10) {
             try {
 
                 startTime = System.currentTimeMillis();
@@ -293,16 +291,12 @@ public class FileMoveServiceImpl implements FileMoveService {
         String fileExe = "";
         String fileTypeName = "";
         String storeId = null;
-        MgMapResultPo mgMapResultPo = null;
-        MgMapFigurePo mgMapFigurePo = null;
+        MgDoorImgPo mgDoorImgPo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
         //文件服务器文件上传连续失败次数，计数，如大于该次数推出当前迁移线程
         int FastUpLoadContinuousFailureCount = 0;
 
-
-//        int i = 1;
         while (FileMoveServiceImpl.inMoveTime) {
-//        while (i++ <= 10) {
             try {
                 //设置中间库主数据源
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
@@ -326,7 +320,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
 
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
-                MgDoorImgPo mgDoorImgPo = mgDoorImgPoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
+                mgDoorImgPo = mgDoorImgPoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
 
                 if (mgDoorImgPo == null) {
@@ -334,40 +328,20 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
-                if (mgDoorImgPo.getResulsid() == null) {
-                    fileMoveRecordPo.setRemark("mgMapFigurePo--Resultsid字段为空");
-                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                    continue;
-                }
-                if (mgMapFigurePo.getMgstatus() == null) {
-                    fileMoveRecordPo.setRemark("mgMapFigurePo--mgstatus文件状态为空");
-                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                    continue;
-                }
-                if (mgMapFigurePo.getImage() == null || mgMapFigurePo.getImage().length == 0) {
-                    fileMoveRecordPo.setRemark("mgMapFigurePo--Image字段为空");
+
+                if (mgDoorImgPo.getStatus() == null) {
+                    fileMoveRecordPo.setRemark("mgDoorImgPo--mgstatus文件状态为空");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
 
-
-                //根据mgMapFigurePo 查询对应的成果
-                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
-                mgMapResultPo = mgMapResultPoMapper.selectByPrimaryKey(mgMapFigurePo.getResultsid());
-                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
-                //判断是否有对应的 成果业务件 没有对应成果 件放弃迁移
-                if (mgMapResultPo == null) {
-                    fileMoveRecordPo.setRemark("mgMapFigurePo--Resultsid字段未查找到对应成果");
-                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                    continue;
-                }
-                if (mgMapResultPo.getUuid() == null) {
-                    fileMoveRecordPo.setRemark("对应成果无uuid无法关联");
+                if (mgDoorImgPo.getImage()== null || mgDoorImgPo.getImage().length == 0) {
+                    fileMoveRecordPo.setRemark("mgDoorImgPo--Image字段为空");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
 
-                fileExe = mgMapFigurePo.getImgstyle();
+                fileExe = mgDoorImgPo.getProperty();
                 if (fileExe != null) {
                     int lc = fileExe.lastIndexOf(".");
                     if (lc >= 0) {
@@ -377,7 +351,7 @@ public class FileMoveServiceImpl implements FileMoveService {
 
                 for (int retry = 1; retry <= Constants.MAX_RETRY_TIMES; retry++) {
                     try {
-                        storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(mgMapFigurePo.getImage()), fileExe);
+                        storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(mgDoorImgPo.getImage()), fileExe);
                         if (storeId != null) {
                             break;
                         }
@@ -408,35 +382,26 @@ public class FileMoveServiceImpl implements FileMoveService {
                 cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
                 cfFileDescPo.setFileStoreId(Constants.FAST_DFS_PREFIX + storeId);
                 cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
-                cfFileDescPo.setFileSize(new BigDecimal(mgMapFigurePo.getImage().length));
-                cfFileDescPo.setFileName(mgMapFigurePo.getImagename());
+                cfFileDescPo.setFileSize(new BigDecimal(mgDoorImgPo.getImage().length));
+                cfFileDescPo.setFileName(mgDoorImgPo.getImgfilename());
                 cfFileDescPo.setExtName(fileExe);
                 cfFileDescPo.setIsUse((short) 1);
                 cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
                 cfFileDescPo.setBusinessTable(null);
-                cfFileDescPo.setBusinessUuid(mgMapResultPo.getUuid());
-                fileTypeName = mgMapFigurePo.getImagetype();
-                if ("地块及楼栋图".equals(fileTypeName)) {
-                    fileTypeName = "楼栋及地块图";
-                }
+                cfFileDescPo.setBusinessUuid(mgDoorImgPo.getUuid());
+                fileTypeName = mgDoorImgPo.getImgstyle();
                 cfFileDescPo.setBusinessName(fileTypeName);
                 if (fileTypeName != null && !"".equals(fileTypeName.trim())) {
                     Map<String, Object> queryMap = new HashMap<>();
-                    queryMap.put("fileTypeName", mgMapFigurePo.getImagetype());
+                    queryMap.put("fileTypeName", fileTypeName);
                     CfDictPo cfDictPo = cfDictPoMapper.selectByMapParame(queryMap);
                     if (cfDictPo != null) {
                         cfFileDescPo.setBusinessType(cfDictPo.getUuid());
                     }
                 }
-
-                if ((new BigDecimal(-999)).equals(mgMapFigurePo.getMgstatus())) {
-                    cfFileDescPo.setStatus((short) -9);
-                } else {
-                    cfFileDescPo.setStatus(mgMapFigurePo.getMgstatus().shortValueExact());
-                }
-
-                cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
-                cfFileDescPo.setCreatorId(mgMapFigurePo.getCreater());
+                cfFileDescPo.setStatus(mgDoorImgPo.getStatus().shortValueExact());
+                cfFileDescPo.setCreateTime(mgDoorImgPo.getRegidate());
+                cfFileDescPo.setCreatorId(mgDoorImgPo.getCreater());
                 cfFileDescPoMapper.insertSelective(cfFileDescPo);
 
                 fileMoveRecordPo.setFileUuid(cfFileDescPo.getUuid());
@@ -444,7 +409,144 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setFileSize(cfFileDescPo.getFileSize());
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                System.out.println("成果号" + mgMapResultPo.getId() + "迁移件：" + mgMapFigurePo.getId() + "迁移完成;文件storeId" + storeId);
+                System.out.println("迁移件：" + mgDoorImgPo.getId() + "迁移完成;文件storeId" + storeId);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * @Author YangFeng
+     * @Description //Imgimages表文件迁移
+     * @Date 17:23 2021/1/21
+     * @Param [fileMoveCurrentContext]
+     * @return void
+     **/
+    public void moveImgimagesTable(FileMoveCurrentContext fileMoveCurrentContext) {
+        String theadId = Thread.currentThread().getName();
+        String fileExe = "";
+        String fileTypeName = "";
+        String storeId = null;
+        ImgImagesPo imgImagesPo = null;
+        FileMoveRecordPo fileMoveRecordPo = null;
+        //文件服务器文件上传连续失败次数，计数，如大于该次数推出当前迁移线程
+        int FastUpLoadContinuousFailureCount = 0;
+
+        while (FileMoveServiceImpl.inMoveTime) {
+            try {
+                //设置中间库主数据源
+                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
+                Map<String, Object> queryParams = new HashMap<>();
+                //减1才能查询到 模为0的数据
+                queryParams.put("theadId", Integer.valueOf(theadId) - 1);
+                queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
+                queryParams.put("dataSource", fileMoveCurrentContext.getCurMoveDataSource());
+                queryParams.put("tableName", fileMoveCurrentContext.getCurMovetableName());
+                queryParams.put("MoveStatus", fileMoveCurrentContext.getMoveStatus());
+                fileMoveRecordPo = fileMoveRecordPoMapper.selectMoveTaskRecordByQueryParams(queryParams);
+                if (fileMoveRecordPo == null) {
+                    System.out.println(fileMoveCurrentContext.getCurMoveDataSourceName() + "数据源---" + fileMoveCurrentContext.getCurMovetableName() + "表---" + "线程:" + theadId + ":数据已迁移完毕！！！");
+                    return;
+                }
+
+//              默认当前迁移任务失败，迁移完成后修改为成功， 保证不再查询到该数据，防止异常数据阻塞迁移线程
+                fileMoveRecordPo.setCreatetime(new Date());
+                fileMoveRecordPo.setThreadId(theadId);
+                fileMoveRecordPo.setMoveStatus("迁移失败");
+                fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+
+                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
+                imgImagesPo = imgImagesPoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
+                ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
+
+                if (imgImagesPo == null) {
+                    fileMoveRecordPo.setRemark("未查找到对应的被迁移文件");
+                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                    continue;
+                }
+
+//                if (imgImagesPo.getStatus() == null) {
+//                    fileMoveRecordPo.setRemark("mgDoorImgPo--mgstatus文件状态为空");
+//                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+//                    continue;
+//                }
+
+                if (imgImagesPo.getImage()== null || imgImagesPo.getImage().length == 0) {
+                    fileMoveRecordPo.setRemark("mgDoorImgPo--Image字段为空");
+                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                    continue;
+                }
+
+                fileExe = imgImagesPo.getProperty();
+                if (fileExe != null) {
+                    int lc = fileExe.lastIndexOf(".");
+                    if (lc >= 0) {
+                        fileExe = fileExe.substring(lc + 1);
+                    }
+                }
+
+                for (int retry = 1; retry <= Constants.MAX_RETRY_TIMES; retry++) {
+                    try {
+                        storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(imgImagesPo.getImage()), fileExe);
+                        if (storeId != null) {
+                            break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (storeId == null) {
+                    FastUpLoadContinuousFailureCount++;
+                    fileMoveRecordPo.setRemark("重试3次上传失败,storeId为空。(请及时确认)");
+                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                    System.out.println("迁移失败:上重试3次上传失败,storeId为空。(请及时确认)");
+                    if (FastUpLoadContinuousFailureCount >= 5) {
+                        fileMoveRecordPo.setRemark("重试3次上传失败,storeId为空。(文件服务器出现连续性上传失败)");
+                        fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                        System.out.println("重试3次上传失败,storeId为空。(文件服务器出现连续性上传失败);线程" + theadId + "已经终结");
+                        break;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    FastUpLoadContinuousFailureCount = 0;
+                }
+
+                // 建立测绘成果与文件的 关联关系
+                CfFileDescPo cfFileDescPo = new CfFileDescPo();
+                cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
+                cfFileDescPo.setFileStoreId(Constants.FAST_DFS_PREFIX + storeId);
+                cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
+                cfFileDescPo.setFileSize(new BigDecimal(imgImagesPo.getImage().length));
+                cfFileDescPo.setFileName(imgImagesPo.getId().toString());
+                cfFileDescPo.setExtName(fileExe);
+                cfFileDescPo.setIsUse((short) 1);
+                cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
+                cfFileDescPo.setBusinessTable(null);
+                cfFileDescPo.setBusinessUuid(imgImagesPo.getUuid());
+                fileTypeName = imgImagesPo.getImgstyle();
+                cfFileDescPo.setBusinessName(fileTypeName);
+                if (fileTypeName != null && !"".equals(fileTypeName.trim())) {
+                    Map<String, Object> queryMap = new HashMap<>();
+                    queryMap.put("fileTypeName", fileTypeName);
+                    CfDictPo cfDictPo = cfDictPoMapper.selectByMapParame(queryMap);
+                    if (cfDictPo != null) {
+                        cfFileDescPo.setBusinessType(cfDictPo.getUuid());
+                    }
+                }
+                cfFileDescPo.setStatus((short) 1);
+                cfFileDescPo.setCreateTime(imgImagesPo.getRegidate());
+                cfFileDescPo.setCreatorId("程序迁入");
+                cfFileDescPoMapper.insertSelective(cfFileDescPo);
+
+                fileMoveRecordPo.setFileUuid(cfFileDescPo.getUuid());
+                fileMoveRecordPo.setFileStoreId(cfFileDescPo.getFileStoreId());
+                fileMoveRecordPo.setFileSize(cfFileDescPo.getFileSize());
+                fileMoveRecordPo.setMoveStatus("迁移成功");
+                fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                System.out.println("迁移件：" + imgImagesPo.getId() + "迁移完成;文件storeId" + storeId);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }

@@ -2,6 +2,8 @@ package com.funi.filemove.dao;
 
 import com.funi.filemove.po.MgDoorImgPo;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 public interface MgDoorImgPoMapper {
     int deleteByPrimaryKey(BigDecimal id);
@@ -17,4 +19,6 @@ public interface MgDoorImgPoMapper {
     int updateByPrimaryKeyWithBLOBs(MgDoorImgPo record);
 
     int updateByPrimaryKey(MgDoorImgPo record);
+
+    List<MgDoorImgPo> selectListDoorImg(Map<String, Object> queryMap);
 }

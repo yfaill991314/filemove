@@ -648,7 +648,7 @@
     where not exists (select r.bizid from survey.file_move_record r where r.bizid = m.id)
     </select>
 
-    <select id="selectListFigure" parameterType="map" resultMap="ResultMapWithBLOBs" useCache="false" flushCache="true">
+    <select id="selectListFigure" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
         select
         <include refid="Base_Column_List"/>
         from SURVEY.MGMAPFIGURE m

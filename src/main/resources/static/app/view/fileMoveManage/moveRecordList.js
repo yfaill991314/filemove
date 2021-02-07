@@ -168,6 +168,7 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                         {'name': '迁移成功', 'value': '迁移成功'},
                                         {'name': '迁移失败', 'value': '迁移失败'},
                                         {'name': '不迁移', 'value': '不迁移'},
+                                        {'name': '已入中心库', 'value': '已入中心库'}
                                     ]
                                 },
                                 editable: false,
@@ -317,6 +318,7 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
             params: params,
             method: 'POST',
             // async: false,
+            timeout: 600000,
             success: function (response, options) {
                 myMask.hide();
                 var response = JSON.parse(response.responseText);
@@ -342,6 +344,7 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
             params: params,
             method: 'POST',
             // async: false,
+            timeout: 600000,
             success: function (response, options) {
                 myMask.hide();
                 var response = JSON.parse(response.responseText);

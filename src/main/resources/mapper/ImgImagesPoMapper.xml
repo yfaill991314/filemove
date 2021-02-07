@@ -11,10 +11,16 @@
     <result column="UUID" jdbcType="VARCHAR" property="uuid" />
     <result column="LOCAL_DATA_SOURCE" jdbcType="VARCHAR" property="localDataSource" />
   </resultMap>
+
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.funi.filemove.po.ImgImagesPo">
     <result column="IMAGE" jdbcType="BLOB" property="image" />
     <result column="IMGAGE_PIC" jdbcType="BLOB" property="imgagePic" />
   </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, IMGSTYLE,PROPERTY,IMGMARK,REGIDATE,NOTE,UUID,LOCAL_DATA_SOURCE
+  </sql>
+
   <sql id="Blob_Column_List">
     IMAGE, IMGAGE_PIC
   </sql>
@@ -95,4 +101,25 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectListImgImages" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
+    select
+    <include refid="Base_Column_List"/>
+    from ESTATE.IMGIMAGES i
+    <where>
+      <if test="id !=null and id !=''">
+        and i.id=#{id,jdbcType=DECIMAL}
+      </if>
+    </where>
+    order by i.id
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ESTATE.IMGIMAGES i
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
 </mapper>
