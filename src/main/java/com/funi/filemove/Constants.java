@@ -47,9 +47,9 @@ public final class Constants {
 
     static {
         dataSourceList=new ArrayList<Map<String,String>>(){{
-//            add(new HashMap<String,String>() {{ put("dataSourceName","cd");put("dataSource","510100");}});
+            add(new HashMap<String,String>() {{ put("dataSourceName","cd");put("dataSource","510100");}});
 //            add(new HashMap<String,String>() {{ put("dataSourceName","tfxq");put("dataSource","510142");}});
-            add(new HashMap<String,String>() {{ put("dataSourceName","lq");put("dataSource","510112");}});
+//            add(new HashMap<String,String>() {{ put("dataSourceName","lq");put("dataSource","510112");}});
 //            add(new HashMap<String,String>() {{ put("dataSourceName","sl");put("dataSource","510122");}});
 //            add(new HashMap<String,String>() {{ put("dataSourceName","qbj");put("dataSource","510113");}});
 //            add(new HashMap<String,String>() {{ put("dataSourceName","wj");put("dataSource","510115");}});
@@ -69,8 +69,8 @@ public final class Constants {
 
         tableNameList=new ArrayList<Map<String,String>>(){{
             add(new HashMap<String,String>() {{ put("tableName",Constants.MG_MAP_FIGURE);}});
-//            add(new HashMap<String,String>() {{ put("tableName",Constants.MG_DOOR_IMG);}});
-//            add(new HashMap<String,String>() {{ put("tableName",Constants.IMG_IMAGES);}});
+            add(new HashMap<String,String>() {{ put("tableName",Constants.MG_DOOR_IMG);}});
+            add(new HashMap<String,String>() {{ put("tableName",Constants.IMG_IMAGES);}});
         }};
 
 

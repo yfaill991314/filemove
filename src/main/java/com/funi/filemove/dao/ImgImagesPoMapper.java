@@ -14,4 +14,6 @@ public interface ImgImagesPoMapper {
     List<ImgImagesPo> selectListImgImages(Map<String, Object> queryMap);
 
     ImgImagesPo selectByPrimaryKey(BigDecimal bigDecimal);
+
+    List<ImgImagesPo> selectListImgImagesByMinId(Map<String, Object> queryMap);
 }

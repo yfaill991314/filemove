@@ -114,6 +114,18 @@
     order by i.id
   </select>
 
+
+  <select id="selectListImgImagesByMinId" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
+    select
+    <include refid="Base_Column_List"/>
+    from (select i2.*,
+    rownum rn from (select i.*
+    from ESTATE.IMGIMAGES i
+    where i.id > #{minId,jdbcType=DECIMAL}
+    order by i.id) i2) i3
+    where i3.rn &lt;= #{pageSize,jdbcType=INTEGER}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />

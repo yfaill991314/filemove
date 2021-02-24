@@ -21,4 +21,6 @@ public interface MgDoorImgPoMapper {
     int updateByPrimaryKey(MgDoorImgPo record);
 
     List<MgDoorImgPo> selectListDoorImg(Map<String, Object> queryMap);
+
+    List<MgDoorImgPo> selectListDoorImgByMinId(Map<String, Object> queryMap);
 }

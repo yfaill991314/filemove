@@ -152,8 +152,6 @@ public class MgMapResultPo {
 
     private String parentRecUuid;
 
-    private byte[] tmpimage;
-
     public BigDecimal getId() {
         return id;
     }
@@ -744,13 +742,5 @@ public class MgMapResultPo {
 
     public void setParentRecUuid(String parentRecUuid) {
         this.parentRecUuid = parentRecUuid == null ? null : parentRecUuid.trim();
-    }
-
-    public byte[] getTmpimage() {
-        return tmpimage;
-    }
-
-    public void setTmpimage(byte[] tmpimage) {
-        this.tmpimage = tmpimage;
     }
 }

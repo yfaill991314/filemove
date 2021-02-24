@@ -25,4 +25,6 @@ public interface MgMapFigurePoMapper {
     int selectUnfinishCount();
 
     List<MgMapFigurePo> selectListFigure(Map<String, Object> queryMap);
+
+    List<MgMapFigurePo> selectListFigureByMinId(Map<String, Object> queryMap);
 }

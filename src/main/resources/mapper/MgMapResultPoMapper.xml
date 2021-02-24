@@ -77,9 +77,7 @@
     <result column="DECLARE_DEPT" jdbcType="VARCHAR" property="declareDept" />
     <result column="PARENT_REC_UUID" jdbcType="VARCHAR" property="parentRecUuid" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.funi.filemove.po.MgMapResultPo">
-    <result column="TMPIMAGE" jdbcType="BLOB" property="tmpimage" />
-  </resultMap>
+
   <sql id="Base_Column_List">
     ID, PROJNAME, REGIONCODE, MAPCODE, IMAGESELFNO, BUILDCODE, FORECASTMARK, MAPSOFTMARK, 
     MGSTATUS, REGITYPE, INMAN, REGIDATE, CORRECTRESULT, CORRECTNOTE, NOTE, CORRECTDATE, 
@@ -92,14 +90,10 @@
     PARENT_REG_UUID, BIZ_UUID, ISSTATIC, RESULT_STATUS, VIRTUAL_REGION, START_WORK_LICENSE_KEY, 
     REVIEW_ITEM_NUM, BUILD_LINKMAN, BUILD_LINKMAN_NUM, DECLARE_DEPT, PARENT_REC_UUID
   </sql>
-  <sql id="Blob_Column_List">
-    TMPIMAGE
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
+
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from SURVEY.MGMAPRESULTS
     where ID = #{id,jdbcType=DECIMAL}
   </select>
@@ -132,7 +126,7 @@
       PARENT_REG_UUID, BIZ_UUID, ISSTATIC, 
       RESULT_STATUS, VIRTUAL_REGION, START_WORK_LICENSE_KEY, 
       REVIEW_ITEM_NUM, BUILD_LINKMAN, BUILD_LINKMAN_NUM, 
-      DECLARE_DEPT, PARENT_REC_UUID, TMPIMAGE
+      DECLARE_DEPT, PARENT_REC_UUID
       )
     values (#{id,jdbcType=DECIMAL}, #{projname,jdbcType=VARCHAR}, #{regioncode,jdbcType=DECIMAL}, 
       #{mapcode,jdbcType=VARCHAR}, #{imageselfno,jdbcType=VARCHAR}, #{buildcode,jdbcType=VARCHAR}, 
@@ -158,7 +152,7 @@
       #{parentRegUuid,jdbcType=VARCHAR}, #{bizUuid,jdbcType=VARCHAR}, #{isstatic,jdbcType=VARCHAR}, 
       #{resultStatus,jdbcType=DECIMAL}, #{virtualRegion,jdbcType=VARCHAR}, #{startWorkLicenseKey,jdbcType=VARCHAR}, 
       #{reviewItemNum,jdbcType=VARCHAR}, #{buildLinkman,jdbcType=VARCHAR}, #{buildLinkmanNum,jdbcType=VARCHAR}, 
-      #{declareDept,jdbcType=VARCHAR}, #{parentRecUuid,jdbcType=VARCHAR}, #{tmpimage,jdbcType=BLOB}
+      #{declareDept,jdbcType=VARCHAR}, #{parentRecUuid,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.funi.filemove.po.MgMapResultPo">
@@ -386,9 +380,6 @@
       <if test="parentRecUuid != null">
         PARENT_REC_UUID,
       </if>
-      <if test="tmpimage != null">
-        TMPIMAGE,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -612,9 +603,6 @@
       </if>
       <if test="parentRecUuid != null">
         #{parentRecUuid,jdbcType=VARCHAR},
-      </if>
-      <if test="tmpimage != null">
-        #{tmpimage,jdbcType=BLOB},
       </if>
     </trim>
   </insert>
@@ -840,88 +828,7 @@
       <if test="parentRecUuid != null">
         PARENT_REC_UUID = #{parentRecUuid,jdbcType=VARCHAR},
       </if>
-      <if test="tmpimage != null">
-        TMPIMAGE = #{tmpimage,jdbcType=BLOB},
-      </if>
     </set>
-    where ID = #{id,jdbcType=DECIMAL}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.funi.filemove.po.MgMapResultPo">
-    update SURVEY.MGMAPRESULTS
-    set PROJNAME = #{projname,jdbcType=VARCHAR},
-      REGIONCODE = #{regioncode,jdbcType=DECIMAL},
-      MAPCODE = #{mapcode,jdbcType=VARCHAR},
-      IMAGESELFNO = #{imageselfno,jdbcType=VARCHAR},
-      BUILDCODE = #{buildcode,jdbcType=VARCHAR},
-      FORECASTMARK = #{forecastmark,jdbcType=VARCHAR},
-      MAPSOFTMARK = #{mapsoftmark,jdbcType=VARCHAR},
-      MGSTATUS = #{mgstatus,jdbcType=DECIMAL},
-      REGITYPE = #{regitype,jdbcType=VARCHAR},
-      INMAN = #{inman,jdbcType=VARCHAR},
-      REGIDATE = #{regidate,jdbcType=DATE},
-      CORRECTRESULT = #{correctresult,jdbcType=VARCHAR},
-      CORRECTNOTE = #{correctnote,jdbcType=VARCHAR},
-      NOTE = #{note,jdbcType=VARCHAR},
-      CORRECTDATE = #{correctdate,jdbcType=DATE},
-      CORRECTOR = #{corrector,jdbcType=VARCHAR},
-      FLAG = #{flag,jdbcType=DECIMAL},
-      LAYOUTNOS = #{layoutnos,jdbcType=VARCHAR},
-      REPORTAREA = #{reportarea,jdbcType=DECIMAL},
-      CHGCOUNT = #{chgcount,jdbcType=DECIMAL},
-      PROJECTINFO = #{projectinfo,jdbcType=VARCHAR},
-      SURVEYTYPE = #{surveytype,jdbcType=DECIMAL},
-      DEALUSER = #{dealuser,jdbcType=VARCHAR},
-      FTRIALUSER = #{ftrialuser,jdbcType=VARCHAR},
-      REVIEWUSER = #{reviewuser,jdbcType=VARCHAR},
-      CORUSER = #{coruser,jdbcType=VARCHAR},
-      FTRIALDAYS = #{ftrialdays,jdbcType=DECIMAL},
-      REVIEWDAYS = #{reviewdays,jdbcType=DECIMAL},
-      CORDAYS = #{cordays,jdbcType=DECIMAL},
-      FTRIALRELDAYS = #{ftrialreldays,jdbcType=DECIMAL},
-      REVIEWRELDAYS = #{reviewreldays,jdbcType=DECIMAL},
-      CORRELDAYS = #{correldays,jdbcType=DECIMAL},
-      AFTERCOR = #{aftercor,jdbcType=DECIMAL},
-      KEEPDATE = #{keepdate,jdbcType=DATE},
-      KEEPUSER = #{keepuser,jdbcType=VARCHAR},
-      CREATER = #{creater,jdbcType=VARCHAR},
-      CREATETIME = #{createtime,jdbcType=DATE},
-      UPDATER = #{updater,jdbcType=VARCHAR},
-      UPDATETIME = #{updatetime,jdbcType=DATE},
-      MOVETIME = #{movetime,jdbcType=DATE},
-      CONTACT = #{contact,jdbcType=VARCHAR},
-      PROJREACH = #{projreach,jdbcType=VARCHAR},
-      PHONE = #{phone,jdbcType=VARCHAR},
-      PHASE = #{phase,jdbcType=VARCHAR},
-      ADDRESS = #{address,jdbcType=VARCHAR},
-      TMPRESULTSID = #{tmpresultsid,jdbcType=DECIMAL},
-      TMPIMAGENAME = #{tmpimagename,jdbcType=VARCHAR},
-      TMPIMAGETYPE = #{tmpimagetype,jdbcType=VARCHAR},
-      TMPIMGSTYLE = #{tmpimgstyle,jdbcType=VARCHAR},
-      TMPIMGFI01 = #{tmpimgfi01,jdbcType=DECIMAL},
-      TMPPID = #{tmppid,jdbcType=VARCHAR},
-      TMPNOTE = #{tmpnote,jdbcType=VARCHAR},
-      STATUSNO = #{statusno,jdbcType=DECIMAL},
-      MGMAPER = #{mgmaper,jdbcType=VARCHAR},
-      MGMAPERPHONE = #{mgmaperphone,jdbcType=VARCHAR},
-      DOCNO = #{docno,jdbcType=VARCHAR},
-      ACCEPSALECHECK = #{accepsalecheck,jdbcType=VARCHAR},
-      PROJNO = #{projno,jdbcType=VARCHAR},
-      INSPECTIONDATE = #{inspectiondate,jdbcType=DATE},
-      UUID = #{uuid,jdbcType=VARCHAR},
-      LOCAL_DATA_SOURCE = #{localDataSource,jdbcType=VARCHAR},
-      PARENT_REG_ID = #{parentRegId,jdbcType=DECIMAL},
-      PARENT_REG_UUID = #{parentRegUuid,jdbcType=VARCHAR},
-      BIZ_UUID = #{bizUuid,jdbcType=VARCHAR},
-      ISSTATIC = #{isstatic,jdbcType=VARCHAR},
-      RESULT_STATUS = #{resultStatus,jdbcType=DECIMAL},
-      VIRTUAL_REGION = #{virtualRegion,jdbcType=VARCHAR},
-      START_WORK_LICENSE_KEY = #{startWorkLicenseKey,jdbcType=VARCHAR},
-      REVIEW_ITEM_NUM = #{reviewItemNum,jdbcType=VARCHAR},
-      BUILD_LINKMAN = #{buildLinkman,jdbcType=VARCHAR},
-      BUILD_LINKMAN_NUM = #{buildLinkmanNum,jdbcType=VARCHAR},
-      DECLARE_DEPT = #{declareDept,jdbcType=VARCHAR},
-      PARENT_REC_UUID = #{parentRecUuid,jdbcType=VARCHAR},
-      TMPIMAGE = #{tmpimage,jdbcType=BLOB}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.funi.filemove.po.MgMapResultPo">

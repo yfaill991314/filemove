@@ -1,5 +1,7 @@
 package com.funi.filemove.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,6 +14,7 @@ public class ImgImagesPo {
 
     private String imgmark;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date regidate;
 
     private String note;
@@ -23,6 +26,8 @@ public class ImgImagesPo {
     private byte[] image;
 
     private byte[] imgagePic;
+
+    private String dataSource;
 
     public BigDecimal getId() {
         return id;
@@ -102,5 +107,13 @@ public class ImgImagesPo {
 
     public void setImgagePic(byte[] imgagePic) {
         this.imgagePic = imgagePic;
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
     }
 }

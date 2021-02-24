@@ -111,6 +111,23 @@
             </if>
         </trim>
     </insert>
+
+    <insert id="insertAll" parameterType="com.funi.filemove.po.FileMoveRecordPo" >
+        INSERT INTO SURVEY.FILE_MOVE_RECORD r (UUID,BIZID,TABLENAME,DATA_SOURCE,MOVE_STATUS)
+        <foreach collection="fileMoveRecordPoList" item="fileMoveRecordPo" index="index" separator="UNION ALL">
+            SELECT #{fileMoveRecordPo.uuid},#{fileMoveRecordPo.bizid},#{fileMoveRecordPo.tablename},#{fileMoveRecordPo.dataSource},
+            #{fileMoveRecordPo.moveStatus}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <select id="selectMaxBizIdByParams" parameterType="map" resultType="java.math.BigDecimal" useCache="false" flushCache="true">
+    select max(to_number(r.bizid))
+        from survey.file_move_record r
+    where r.data_source = #{dataSource,jdbcType=VARCHAR}
+        and r.tablename = #{tableName,jdbcType=VARCHAR}
+    </select>
+
     <update id="updateByPrimaryKeySelective" parameterType="com.funi.filemove.po.FileMoveRecordPo">
         update SURVEY.FILE_MOVE_RECORD
         <set>

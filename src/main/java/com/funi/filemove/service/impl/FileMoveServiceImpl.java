@@ -340,14 +340,9 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
+                //默认全部为dwg格式
+                fileExe = "dwg";
 
-                fileExe = mgDoorImgPo.getProperty();
-                if (fileExe != null) {
-                    int lc = fileExe.lastIndexOf(".");
-                    if (lc >= 0) {
-                        fileExe = fileExe.substring(lc + 1);
-                    }
-                }
 
                 for (int retry = 1; retry <= Constants.MAX_RETRY_TIMES; retry++) {
                     try {
@@ -389,16 +384,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
                 cfFileDescPo.setBusinessTable(null);
                 cfFileDescPo.setBusinessUuid(mgDoorImgPo.getUuid());
-                fileTypeName = mgDoorImgPo.getImgstyle();
-                cfFileDescPo.setBusinessName(fileTypeName);
-                if (fileTypeName != null && !"".equals(fileTypeName.trim())) {
-                    Map<String, Object> queryMap = new HashMap<>();
-                    queryMap.put("fileTypeName", fileTypeName);
-                    CfDictPo cfDictPo = cfDictPoMapper.selectByMapParame(queryMap);
-                    if (cfDictPo != null) {
-                        cfFileDescPo.setBusinessType(cfDictPo.getUuid());
-                    }
-                }
+                cfFileDescPo.setBusinessName("分层分户图");
                 cfFileDescPo.setStatus(mgDoorImgPo.getStatus().shortValueExact());
                 cfFileDescPo.setCreateTime(mgDoorImgPo.getRegidate());
                 cfFileDescPo.setCreatorId(mgDoorImgPo.getCreater());

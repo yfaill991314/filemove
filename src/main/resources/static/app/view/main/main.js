@@ -115,7 +115,10 @@
                             var feature1={"uuid":"65b6341e57aa11e9b98500163e0ed0cd","id":"10004","url":"app.view.fileMoveManage.fileList","name":"文件管理列表","leaf":1,"parentId":10003,"children":""};
                             var feature2={"uuid":"65b6341e57aa11e9b98500163e0ed6cd","id":"10005","url":"app.view.fileMoveManage.moveRecordList","name":"任务管理列表","leaf":1,"parentId":10003,"children":""};
                             var feature3={"uuid":"65b6341e57aa11e9b98500163e0ed7cd","id":"10006","url":"app.view.fileMoveManage.mgmapfigureList","name":"mgMapFigure管理列表","leaf":1,"parentId":10003,"children":""};
-                            var module={"uuid":"b0ebede857a711e9b98500163e0ed0cd","id":"10003","url":"","name":"文件迁移管理","leaf":0,"parentId":0,"children":[feature1,feature2,feature3]};
+                            var feature4={"uuid":"65b6341e57aa11e9b98500163e0ed8cd","id":"10007","url":"app.view.fileMoveManage.mgdoorimgList","name":"mgdoorimg管理列表","leaf":1,"parentId":10003,"children":""};
+                            var feature5={"uuid":"65b6341e57aa11e9b98500163e0ed9cd","id":"10008","url":"app.view.fileMoveManage.imgimagesList","name":"imgimages管理列表","leaf":1,"parentId":10003,"children":""};
+
+                            var module={"uuid":"b0ebede857a711e9b98500163e0ed0cd","id":"10003","url":"","name":"文件迁移管理","leaf":0,"parentId":0,"children":[feature1,feature2,feature3,feature4,feature5]};
                             var result = [module];
                             result.forEach(function (item, index, arr) {
                                 item.children.forEach(function (citem, index, arr) {

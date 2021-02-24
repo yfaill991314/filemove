@@ -663,4 +663,15 @@
         order by m.id
     </select>
 
+    <select id="selectListFigureByMinId" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
+        select
+        <include refid="Base_Column_List"/>
+        from (select m2.*,
+        rownum rn from (select m.*
+        from SURVEY.MGMAPFIGURE m
+        where m.id > #{minId,jdbcType=DECIMAL}
+        order by m.id) m2) m3
+        where m3.rn &lt;= #{pageSize,jdbcType=INTEGER}
+    </select>
+
 </mapper>

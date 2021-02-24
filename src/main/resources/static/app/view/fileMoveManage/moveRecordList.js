@@ -311,16 +311,13 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
     },
     importTaskTable: function (params) {
         var me = this;
-        var myMask = new Ext.LoadMask(me,{msg:"请稍等,操作正在进行..."});
-        myMask.show();
+        Ext.Msg.alert('提示','任务导入已开始');
         Ext.Ajax.request({
             url: 'fileMoveRecord/importTaskTable',
             params: params,
             method: 'POST',
-            // async: false,
-            timeout: 600000,
+            timeout: 0,
             success: function (response, options) {
-                myMask.hide();
                 var response = JSON.parse(response.responseText);
                 if (response.code==200) {
                     Ext.Msg.alert("系统提示", response.message);
@@ -330,7 +327,6 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                 }
             },
             failure: function (response) {
-                myMask.hide();
                 Ext.Msg.alert("系统提示", "请求超时");
             }
         });

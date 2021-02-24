@@ -222,127 +222,95 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
         List<Map<String, String>> dataSourceList = Constants.dataSourceList;
 
         for (Map<String, String> tableNameItem : tableNameList) {
+            if(!tableNameItem.get("tableName").equals(queryParams.get("tableName"))) {
+                continue;
+            }
             for (Map<String, String> dataSourceItem : dataSourceList) {
+                if(!dataSourceItem.get("dataSource").equals(queryParams.get("dataSource"))) {
+                    continue;
+                }
                 this.importCurrentTable(tableNameItem,dataSourceItem);
             }
         }
     }
 
     private void importCurrentTable(Map<String, String> tableNameItem,Map<String, String> dataSourceItem){
-        int pageNum = 1;
-        int pageSize=20;
+        int pageSize=100;
 
+        long startTime=0;
+        long endTime=0;
 
+        startTime = System.currentTimeMillis();
+        while (true) {
+            ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
+            Map<String,Object> recordQueryMap=new HashMap<>();
+            recordQueryMap.put("dataSource",dataSourceItem.get("dataSource"));
+            recordQueryMap.put("tableName",tableNameItem.get("tableName"));
+            BigDecimal bizId=fileMoveRecordPoMapper.selectMaxBizIdByParams(recordQueryMap);
+            if (bizId==null){
+                bizId=new BigDecimal(0);
+            }
+
+            ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
+            Map<String, Object> queryMap = new HashMap<>();
+            queryMap.put("minId",bizId);
+            queryMap.put("pageSize",pageSize);
+            List<FileMoveRecordPo> fileMoveRecordPos = this.getFileMoveRecordPos(tableNameItem, dataSourceItem, queryMap);
+            if (fileMoveRecordPos == null || fileMoveRecordPos.size() <= 0) {
+                System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"任务导入完毕！");
+                break;
+            }
+
+            ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
+            fileMoveRecordPoMapper.insertAll(fileMoveRecordPos);
+            System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+fileMoveRecordPos.get(0).getBizid().toString()+"至"+fileMoveRecordPos.get(fileMoveRecordPos.size()-1).getBizid().toString()+"共计:"+fileMoveRecordPos.size()+"条，---导入完成");
+        }
+        endTime = System.currentTimeMillis();
+        System.out.println("总运行时间：" + (endTime - startTime)/1000 + "s");
+    }
+
+    private List<FileMoveRecordPo> getFileMoveRecordPos(Map<String, String> tableNameItem,Map<String, String> dataSourceItem,Map<String,Object> queryMap){
+        List<FileMoveRecordPo> fileMoveRecordPoList  =new ArrayList<>();
         if ("mgmapfigure".equals(tableNameItem.get("tableName"))) {
-            while (true) {
-                ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
-                Map<String, Object> queryMap = new HashMap<>();
-                PageHelper.startPage(pageNum++, pageSize);
-
-                List<MgMapFigurePo> mgMapFigurePos = mgMapFigurePoMapper.selectListFigure(queryMap);
-                if (mgMapFigurePos == null || mgMapFigurePos.size() <= 0) {
-                    System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"任务导入完毕！");
-                    break;
-                }
-
-                ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
-                for (MgMapFigurePo mgMapFigurePo : mgMapFigurePos) {
-                    Map<String,Object> taskQueryMap=new HashMap<>();
-                    taskQueryMap.put("dataSource",dataSourceItem.get("dataSource"));
-                    taskQueryMap.put("tableName",tableNameItem.get("tableName"));
-                    taskQueryMap.put("bizid",mgMapFigurePo.getId().toString());
-                    List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(taskQueryMap);
-                    if (fileMoveRecordPos!=null && fileMoveRecordPos.size()>0){
-                        System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+mgMapFigurePo.getId().toString()+"---已存在跳过此条");
-                        continue;
-                    }
-
-                    FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
-                    fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
-                    fileMoveRecordPo.setBizid(mgMapFigurePo.getId().toString());
-                    fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
-                    fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
-                    fileMoveRecordPo.setMoveStatus(Constants.MOVE_RECORD_STATUS);
-                    fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
-                    System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+mgMapFigurePo.getId().toString()+"---导入完成");
-                }
+            List<MgMapFigurePo> mgMapFigurePos = mgMapFigurePoMapper.selectListFigureByMinId(queryMap);
+            for (MgMapFigurePo mgMapFigurePo : mgMapFigurePos) {
+                FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
+                fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
+                fileMoveRecordPo.setBizid(mgMapFigurePo.getId().toString());
+                fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
+                fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
+                fileMoveRecordPo.setMoveStatus(Constants.MOVE_RECORD_STATUS);
+                fileMoveRecordPoList.add(fileMoveRecordPo);
             }
         }
         else if ("mgdoorimg".equals(tableNameItem.get("tableName"))) {
-            while (true) {
-                ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
-                Map<String, Object> queryMap = new HashMap<>();
-                PageHelper.startPage(pageNum++, pageSize);
-
-
-                List<MgDoorImgPo> mgDoorImgPoList = mgDoorImgPoMapper.selectListDoorImg(queryMap);
-                if (mgDoorImgPoList == null || mgDoorImgPoList.size() <= 0) {
-                    System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"任务导入完毕！");
-                    break;
-                }
-
-                ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
-
-                for (MgDoorImgPo mgDoorImgPo : mgDoorImgPoList) {
-                    Map<String,Object> taskQueryMap=new HashMap<>();
-                    taskQueryMap.put("dataSource",dataSourceItem.get("dataSource"));
-                    taskQueryMap.put("tableName",tableNameItem.get("tableName"));
-                    taskQueryMap.put("bizid",mgDoorImgPo.getId().toString());
-                    List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(taskQueryMap);
-                    if (fileMoveRecordPos!=null && fileMoveRecordPos.size()>0){
-                        System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+mgDoorImgPo.getId().toString()+"---已存在跳过此条");
-                        continue;
-                    }
-
-                    FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
-                    fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
-                    fileMoveRecordPo.setBizid(mgDoorImgPo.getId().toString());
-                    fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
-                    fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
-                    fileMoveRecordPo.setMoveStatus(Constants.MOVE_RECORD_STATUS);
-                    fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
-                    System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+mgDoorImgPo.getId().toString()+"---导入完成");
-                }
+            List<MgDoorImgPo> mgDoorImgPoList = mgDoorImgPoMapper.selectListDoorImgByMinId(queryMap);
+            for (MgDoorImgPo mgDoorImgPo : mgDoorImgPoList) {
+                FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
+                fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
+                fileMoveRecordPo.setBizid(mgDoorImgPo.getId().toString());
+                fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
+                fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
+                fileMoveRecordPo.setMoveStatus(Constants.MOVE_RECORD_STATUS);
+                fileMoveRecordPoList.add(fileMoveRecordPo);
             }
         }
         else if ("imgimages".equals(tableNameItem.get("tableName"))) {
-            while (true) {
-                ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
-                Map<String, Object> queryMap = new HashMap<>();
-                PageHelper.startPage(pageNum++, pageSize);
-
-                List<ImgImagesPo> imgImagesPoList = imgImagesPoMapper.selectListImgImages(queryMap);
-                if (imgImagesPoList == null || imgImagesPoList.size() <= 0) {
-                    System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"任务导入完毕！");
-                    break;
-                }
-
-                ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
-                for (ImgImagesPo imgImagesPo : imgImagesPoList) {
-                    Map<String,Object> taskQueryMap=new HashMap<>();
-                    taskQueryMap.put("dataSource",dataSourceItem.get("dataSource"));
-                    taskQueryMap.put("tableName",tableNameItem.get("tableName"));
-                    taskQueryMap.put("bizid",imgImagesPo.getId().toString());
-                    List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(taskQueryMap);
-                    if (fileMoveRecordPos!=null && fileMoveRecordPos.size()>0){
-                        System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+imgImagesPo.getId().toString()+"---已存在跳过此条");
-                        continue;
-                    }
-
-                    FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
-                    fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
-                    fileMoveRecordPo.setBizid(imgImagesPo.getId().toString());
-                    fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
-                    fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
-                    fileMoveRecordPo.setMoveStatus(Constants.MOVE_RECORD_STATUS);
-                    fileMoveRecordPoMapper.insertSelective(fileMoveRecordPo);
-                    System.out.println("数据源:"+dataSourceItem.get("dataSource")+"--数据表:"+tableNameItem.get("tableName")+"---业务件"+imgImagesPo.getId().toString()+"---导入完成");
-                }
+            List<ImgImagesPo> imgImagesPoList = imgImagesPoMapper.selectListImgImagesByMinId(queryMap);
+            for (ImgImagesPo imgImagesPo : imgImagesPoList) {
+                FileMoveRecordPo fileMoveRecordPo = new FileMoveRecordPo();
+                fileMoveRecordPo.setUuid(commonMapper.selectSystemUUid());
+                fileMoveRecordPo.setBizid(imgImagesPo.getId().toString());
+                fileMoveRecordPo.setTablename(tableNameItem.get("tableName"));
+                fileMoveRecordPo.setDataSource(dataSourceItem.get("dataSource"));
+                fileMoveRecordPo.setMoveStatus(Constants.MOVE_RECORD_STATUS);
+                fileMoveRecordPoList.add(fileMoveRecordPo);
             }
         }
         else {
             System.out.println("未匹配的数据表");
         }
+        return fileMoveRecordPoList;
     }
 
     @Override
