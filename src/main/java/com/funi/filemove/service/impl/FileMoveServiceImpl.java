@@ -8,6 +8,7 @@ import com.funi.filemove.movethread.MyThreadFacthory;
 import com.funi.filemove.po.*;
 import com.funi.filemove.service.FileMoveContext;
 import com.funi.filemove.service.FileMoveService;
+import com.funi.filemove.utils.MyUtils;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.jta.JtaTransactionManager;
@@ -118,8 +119,8 @@ public class FileMoveServiceImpl implements FileMoveService {
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                 Map<String, Object> queryParams = new HashMap<>();
                 //减1才能查询到 模为0的数据
-                queryParams.put("theadId", Integer.valueOf(theadId) - 1);
-                queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
+//                queryParams.put("theadId", Integer.valueOf(theadId) - 1);
+//                queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
                 queryParams.put("dataSource", fileMoveCurrentContext.getCurMoveDataSource());
                 queryParams.put("tableName", fileMoveCurrentContext.getCurMovetableName());
                 queryParams.put("MoveStatus", fileMoveCurrentContext.getMoveStatus());
@@ -228,7 +229,7 @@ public class FileMoveServiceImpl implements FileMoveService {
 
                 // 建立测绘成果与文件的 关联关系
                 CfFileDescPo cfFileDescPo = new CfFileDescPo();
-                cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
+                cfFileDescPo.setUuid(MyUtils.getUuid36());
                 cfFileDescPo.setFileStoreId(Constants.FAST_DFS_PREFIX + storeId);
                 cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
                 cfFileDescPo.setFileSize(new BigDecimal(mgMapFigurePo.getImage().length));
@@ -254,12 +255,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                     }
                 }
 
-                if ((new BigDecimal(-999)).equals(mgMapFigurePo.getMgstatus())) {
-                    cfFileDescPo.setStatus((short) -9);
-                } else {
-                    cfFileDescPo.setStatus(mgMapFigurePo.getMgstatus().shortValueExact());
-                }
-
+                cfFileDescPo.setStatus(mgMapFigurePo.getMgstatus().shortValueExact());
                 cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
                 cfFileDescPo.setCreatorId(mgMapFigurePo.getCreater());
                 cfFileDescPoMapper.insertSelective(cfFileDescPo);
@@ -289,21 +285,26 @@ public class FileMoveServiceImpl implements FileMoveService {
     public void moveMgDoorImgTable(FileMoveCurrentContext fileMoveCurrentContext) {
         String theadId = Thread.currentThread().getName();
         String fileExe = "";
-        String fileTypeName = "";
         String storeId = null;
         MgDoorImgPo mgDoorImgPo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
         //文件服务器文件上传连续失败次数，计数，如大于该次数推出当前迁移线程
         int FastUpLoadContinuousFailureCount = 0;
 
+        long startTime=0;
+        long endTime=0;
+
         while (FileMoveServiceImpl.inMoveTime) {
+
+            startTime = System.currentTimeMillis();
+
             try {
                 //设置中间库主数据源
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                 Map<String, Object> queryParams = new HashMap<>();
                 //减1才能查询到 模为0的数据
-                queryParams.put("theadId", Integer.valueOf(theadId) - 1);
-                queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
+//                queryParams.put("theadId", Integer.valueOf(theadId) - 1);
+//                queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
                 queryParams.put("dataSource", fileMoveCurrentContext.getCurMoveDataSource());
                 queryParams.put("tableName", fileMoveCurrentContext.getCurMovetableName());
                 queryParams.put("MoveStatus", fileMoveCurrentContext.getMoveStatus());
@@ -313,11 +314,19 @@ public class FileMoveServiceImpl implements FileMoveService {
                     return;
                 }
 
+                endTime = System.currentTimeMillis();
+                System.out.println("查询任务段运行时间：" + (endTime - startTime) + "ms");
+                startTime = System.currentTimeMillis();
+
 //              默认当前迁移任务失败，迁移完成后修改为成功， 保证不再查询到该数据，防止异常数据阻塞迁移线程
                 fileMoveRecordPo.setCreatetime(new Date());
                 fileMoveRecordPo.setThreadId(theadId);
                 fileMoveRecordPo.setMoveStatus("迁移失败");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+
+                endTime = System.currentTimeMillis();
+                System.out.println("修改任务段运行时间：" + (endTime - startTime) + "ms");
+                startTime = System.currentTimeMillis();
 
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
                 mgDoorImgPo = mgDoorImgPoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
@@ -342,6 +351,10 @@ public class FileMoveServiceImpl implements FileMoveService {
                 }
                 //默认全部为dwg格式
                 fileExe = "dwg";
+
+                endTime = System.currentTimeMillis();
+                System.out.println("读取大字段运行时间：" + (endTime - startTime) + "ms");
+                startTime = System.currentTimeMillis();
 
 
                 for (int retry = 1; retry <= Constants.MAX_RETRY_TIMES; retry++) {
@@ -372,9 +385,13 @@ public class FileMoveServiceImpl implements FileMoveService {
                     FastUpLoadContinuousFailureCount = 0;
                 }
 
+                endTime = System.currentTimeMillis();
+                System.out.println("文件上传段运行时间：" + (endTime - startTime) + "ms");
+                startTime = System.currentTimeMillis();
+
                 // 建立测绘成果与文件的 关联关系
                 CfFileDescPo cfFileDescPo = new CfFileDescPo();
-                cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
+                cfFileDescPo.setUuid(MyUtils.getUuid36());
                 cfFileDescPo.setFileStoreId(Constants.FAST_DFS_PREFIX + storeId);
                 cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
                 cfFileDescPo.setFileSize(new BigDecimal(mgDoorImgPo.getImage().length));
@@ -395,6 +412,10 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setFileSize(cfFileDescPo.getFileSize());
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+
+                endTime = System.currentTimeMillis();
+                System.out.println("关联关系段运行时间：" + (endTime - startTime) + "ms");
+
                 System.out.println("迁移件：" + mgDoorImgPo.getId() + "迁移完成;文件storeId" + storeId);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
@@ -412,7 +433,6 @@ public class FileMoveServiceImpl implements FileMoveService {
     public void moveImgimagesTable(FileMoveCurrentContext fileMoveCurrentContext) {
         String theadId = Thread.currentThread().getName();
         String fileExe = "";
-        String fileTypeName = "";
         String storeId = null;
         ImgImagesPo imgImagesPo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
@@ -425,8 +445,8 @@ public class FileMoveServiceImpl implements FileMoveService {
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                 Map<String, Object> queryParams = new HashMap<>();
                 //减1才能查询到 模为0的数据
-                queryParams.put("theadId", Integer.valueOf(theadId) - 1);
-                queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
+//                queryParams.put("theadId", Integer.valueOf(theadId) - 1);
+//                queryParams.put("theadSum", Constants.CPU_CORE_SIZE_IO);
                 queryParams.put("dataSource", fileMoveCurrentContext.getCurMoveDataSource());
                 queryParams.put("tableName", fileMoveCurrentContext.getCurMovetableName());
                 queryParams.put("MoveStatus", fileMoveCurrentContext.getMoveStatus());
@@ -452,26 +472,13 @@ public class FileMoveServiceImpl implements FileMoveService {
                     continue;
                 }
 
-//                if (imgImagesPo.getStatus() == null) {
-//                    fileMoveRecordPo.setRemark("mgDoorImgPo--mgstatus文件状态为空");
-//                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-//                    continue;
-//                }
-
                 if (imgImagesPo.getImage()== null || imgImagesPo.getImage().length == 0) {
                     fileMoveRecordPo.setRemark("mgDoorImgPo--Image字段为空");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
 
-                fileExe = imgImagesPo.getProperty();
-                if (fileExe != null) {
-                    int lc = fileExe.lastIndexOf(".");
-                    if (lc >= 0) {
-                        fileExe = fileExe.substring(lc + 1);
-                    }
-                }
-
+                fileExe = "dwg";
                 for (int retry = 1; retry <= Constants.MAX_RETRY_TIMES; retry++) {
                     try {
                         storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(imgImagesPo.getImage()), fileExe);
@@ -502,7 +509,7 @@ public class FileMoveServiceImpl implements FileMoveService {
 
                 // 建立测绘成果与文件的 关联关系
                 CfFileDescPo cfFileDescPo = new CfFileDescPo();
-                cfFileDescPo.setUuid(commonMapper.selectSystemUUid());
+                cfFileDescPo.setUuid(MyUtils.getUuid36());
                 cfFileDescPo.setFileStoreId(Constants.FAST_DFS_PREFIX + storeId);
                 cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
                 cfFileDescPo.setFileSize(new BigDecimal(imgImagesPo.getImage().length));
@@ -512,16 +519,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
                 cfFileDescPo.setBusinessTable(null);
                 cfFileDescPo.setBusinessUuid(imgImagesPo.getUuid());
-                fileTypeName = imgImagesPo.getImgstyle();
-                cfFileDescPo.setBusinessName(fileTypeName);
-                if (fileTypeName != null && !"".equals(fileTypeName.trim())) {
-                    Map<String, Object> queryMap = new HashMap<>();
-                    queryMap.put("fileTypeName", fileTypeName);
-                    CfDictPo cfDictPo = cfDictPoMapper.selectByMapParame(queryMap);
-                    if (cfDictPo != null) {
-                        cfFileDescPo.setBusinessType(cfDictPo.getUuid());
-                    }
-                }
+                cfFileDescPo.setBusinessName("分层分户图");
                 cfFileDescPo.setStatus((short) 1);
                 cfFileDescPo.setCreateTime(imgImagesPo.getRegidate());
                 cfFileDescPo.setCreatorId("程序迁入");

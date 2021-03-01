@@ -325,13 +325,12 @@
 
   <select id="selectListDoorImgByMinId" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
     select
-    <include refid="Base_Column_List"/>
-    from (select d2.*,
-    rownum rn from (select d.*
-    from SURVEY.MGDOORIMG d
-    where d.id > #{minId,jdbcType=DECIMAL}
-    order by d.id) d2) d3
-    where d3.rn &lt;= #{pageSize,jdbcType=INTEGER}
+       id
+    from (select id
+        from SURVEY.MGDOORIMG d
+        where d.id > #{minId,jdbcType=DECIMAL}
+        order by d.id)
+    where rownum &lt;= #{pageSize,jdbcType=INTEGER}
   </select>
 
 </mapper>

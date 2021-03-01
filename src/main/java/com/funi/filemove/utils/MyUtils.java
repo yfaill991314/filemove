@@ -4,6 +4,7 @@ import com.funi.filemove.Constants;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @ClassName Utils
@@ -22,5 +23,9 @@ public class MyUtils {
             }
         }
         return null;
+    }
+
+    public static String getUuid36(){
+        return UUID.randomUUID().toString();
     }
 }

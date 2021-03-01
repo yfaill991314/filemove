@@ -82,7 +82,15 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                                 scope: me,
                                 itemId: 'bt_clearData',
                                 handler: function () {
+                                    var dataSource = me.queryById("dataSourceId").getValue();
+                                    var tableName = me.queryById("tableNameId").getValue();
                                     var params = {};
+                                    if (dataSource!=null && dataSource!=''){
+                                        params.dataSource = dataSource;
+                                    }
+                                    if (tableName!=null && tableName!=''){
+                                        params.tableName = tableName;
+                                    }
                                     me.clearData(params);
                                 }
                             },

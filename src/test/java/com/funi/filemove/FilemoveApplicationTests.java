@@ -25,16 +25,16 @@ class FilemoveApplicationTests {
     private FileMoveRecordPoMapper fileMoveRecordPoMapper;
 
 
-//    @Test
-//    void startMove() {
-//        System.out.println(df.format(System.currentTimeMillis())+"---迁移开始");
-//        fileMoveService.startMove();
-//        try {
-//            System.in.read();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Test
+    void startMove() {
+        System.out.println(df.format(System.currentTimeMillis())+"---迁移开始");
+        fileMoveService.startMove();
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 //    @Test
 //    void createTaskDataTest(){

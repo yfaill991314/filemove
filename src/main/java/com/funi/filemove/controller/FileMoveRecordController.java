@@ -1,5 +1,6 @@
 package com.funi.filemove.controller;
 
+import com.funi.filemove.Constants;
 import com.funi.filemove.po.ResultVO;
 import com.funi.filemove.service.FastFileService;
 import com.funi.filemove.service.FileMoveRecordService;
@@ -37,8 +38,17 @@ public class FileMoveRecordController {
 
     @RequestMapping("remigrate")
     public ResultVO remigrate(@RequestParam Map<String,Object> queryParams) {
-        fileMoveRecordService.remigrate(queryParams);
         ResultVO resultVO =new ResultVO(200,"手动迁移成功");
+        if (Constants.MG_MAP_FIGURE.equals(queryParams.get("tableName"))){
+            fileMoveRecordService.remigrateMgMapFigure(queryParams);
+        }else if (Constants.MG_DOOR_IMG.equals(queryParams.get("tableName"))){
+            fileMoveRecordService.remigrateMgDoorImg(queryParams);
+        }else if(Constants.IMG_IMAGES.equals(queryParams.get("tableName"))){
+            fileMoveRecordService.remigrateImgimages(queryParams);
+        }else {
+            resultVO =new ResultVO(-1,"手动迁移失败未找到对应的表名");
+        }
+
         return resultVO;
     }
 

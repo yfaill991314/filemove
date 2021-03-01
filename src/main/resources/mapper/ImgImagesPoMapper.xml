@@ -117,13 +117,12 @@
 
   <select id="selectListImgImagesByMinId" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
     select
-    <include refid="Base_Column_List"/>
-    from (select i2.*,
-    rownum rn from (select i.*
-    from ESTATE.IMGIMAGES i
-    where i.id > #{minId,jdbcType=DECIMAL}
-    order by i.id) i2) i3
-    where i3.rn &lt;= #{pageSize,jdbcType=INTEGER}
+        id
+    from (select id
+        from ESTATE.IMGIMAGES i
+        where i.id > #{minId,jdbcType=DECIMAL}
+        order by i.id)
+    where rownum &lt;= #{pageSize,jdbcType=INTEGER}
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">

@@ -112,16 +112,18 @@
         </trim>
     </insert>
 
-    <insert id="insertAll" parameterType="com.funi.filemove.po.FileMoveRecordPo" >
+    <insert id="insertAll" parameterType="com.funi.filemove.po.FileMoveRecordPo">
         INSERT INTO SURVEY.FILE_MOVE_RECORD r (UUID,BIZID,TABLENAME,DATA_SOURCE,MOVE_STATUS)
         <foreach collection="fileMoveRecordPoList" item="fileMoveRecordPo" index="index" separator="UNION ALL">
-            SELECT #{fileMoveRecordPo.uuid},#{fileMoveRecordPo.bizid},#{fileMoveRecordPo.tablename},#{fileMoveRecordPo.dataSource},
+            SELECT
+            #{fileMoveRecordPo.uuid},#{fileMoveRecordPo.bizid},#{fileMoveRecordPo.tablename},#{fileMoveRecordPo.dataSource},
             #{fileMoveRecordPo.moveStatus}
             FROM dual
         </foreach>
     </insert>
 
-    <select id="selectMaxBizIdByParams" parameterType="map" resultType="java.math.BigDecimal" useCache="false" flushCache="true">
+    <select id="selectMaxBizIdByParams" parameterType="map" resultType="java.math.BigDecimal" useCache="false"
+            flushCache="true">
     select max(to_number(r.bizid))
         from survey.file_move_record r
     where r.data_source = #{dataSource,jdbcType=VARCHAR}
@@ -231,29 +233,25 @@
             flushCache="true">
         select
         <include refid="Base_Column_List"/>
-        from (
-            select
-            r.*, rownum rn
-            from SURVEY.FILE_MOVE_RECORD r
-            <where>
-                <if test="uuid != null and uuid !=''">
-                    and r.UUID=#{uuid,jdbcType=VARCHAR}
-                </if>
-                <if test="theadSum != null and theadId != null">
-                    and Mod(r.BIZID, #{theadSum,jdbcType=DECIMAL}) = #{theadId,jdbcType=DECIMAL}
-                </if>
-                <if test="dataSource != null">
-                    and r.DATA_SOURCE = #{dataSource,jdbcType=VARCHAR}
-                </if>
-                <if test="tableName != null">
-                    and r.TABLENAME = #{tableName,jdbcType=VARCHAR}
-                </if>
-                <if test="MoveStatus != null">
-                    and r.MOVE_STATUS = #{MoveStatus,jdbcType=VARCHAR}
-                </if>
-            </where>
-        ) re
-        where re.rn = 1
+        from SURVEY.FILE_MOVE_RECORD r
+        <where>
+            rownum = 1
+            <if test="uuid != null and uuid !=''">
+                and r.UUID=#{uuid,jdbcType=VARCHAR}
+            </if>
+            <if test="theadSum != null and theadId != null">
+                and Mod(r.BIZID, #{theadSum,jdbcType=DECIMAL}) = #{theadId,jdbcType=DECIMAL}
+            </if>
+            <if test="dataSource != null">
+                and r.DATA_SOURCE = #{dataSource,jdbcType=VARCHAR}
+            </if>
+            <if test="tableName != null">
+                and r.TABLENAME = #{tableName,jdbcType=VARCHAR}
+            </if>
+            <if test="MoveStatus != null">
+                and r.MOVE_STATUS = #{MoveStatus,jdbcType=VARCHAR}
+            </if>
+        </where>
     </select>
 
 </mapper>
