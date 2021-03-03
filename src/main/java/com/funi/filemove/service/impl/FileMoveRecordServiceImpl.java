@@ -258,6 +258,17 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                 return null;
             }
 
+            if (mgMapFigurePo.getImagename() == null) {
+                fileMoveRecordPo.setRemark("mgMapFigurePo--Imagename文件名称为空");
+                fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                return null;
+            }
+            if (mgMapFigurePo.getImgstyle() == null) {
+                fileMoveRecordPo.setRemark("mgMapFigurePo--Imgstyle文件后缀为空");
+                fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                return null;
+            }
+
             //根据mgMapFigurePo 查询对应的成果
             ContextSynchronizationManager.bindResource("datasource", dataSorceName);
             mgMapResultPo = mgMapResultPoMapper.selectByPrimaryKey(mgMapFigurePo.getResultsid());
@@ -377,6 +388,13 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                 return null;
             }
+
+            if (mgDoorImgPo.getImgfilename() == null) {
+                fileMoveRecordPo.setRemark("mgDoorImgPo--Imgfilename文件名称为空");
+                fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                return null;
+            }
+
             //默认全部为dwg格式
             fileExe = "dwg";
 
