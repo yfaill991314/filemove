@@ -30,4 +30,8 @@ public interface FileMoveRecordPoMapper {
     void insertAll(@Param("fileMoveRecordPoList") List<FileMoveRecordPo> fileMoveRecordPoList);
 
     BigDecimal selectMaxBizIdByParams(Map<String, Object> recordQueryMap);
+
+    List<FileMoveRecordPo> selectMoveTaskListByQueryParams(Map<String, Object> taskQueryParams);
+
+    int updateAll(@Param("fileMoveRecordPoList") List<FileMoveRecordPo> fileMoveRecordPoList);
 }

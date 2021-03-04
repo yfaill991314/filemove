@@ -254,4 +254,50 @@
         </where>
     </select>
 
+
+    <select id="selectMoveTaskListByQueryParams" parameterType="map" resultMap="BaseResultMap" useCache="false"
+            flushCache="true">
+        select
+        <include refid="Base_Column_List"/>
+        from SURVEY.FILE_MOVE_RECORD r
+        <where>
+            <if test="uuid != null and uuid !=''">
+                and r.UUID=#{uuid,jdbcType=VARCHAR}
+            </if>
+            <if test="theadSum != null and theadId != null">
+                and Mod(r.BIZID, #{theadSum,jdbcType=DECIMAL}) = #{theadId,jdbcType=DECIMAL}
+            </if>
+            <if test="dataSource != null">
+                and r.DATA_SOURCE = #{dataSource,jdbcType=VARCHAR}
+            </if>
+            <if test="tableName != null">
+                and r.TABLENAME = #{tableName,jdbcType=VARCHAR}
+            </if>
+            <if test="MoveStatus != null">
+                and r.MOVE_STATUS = #{MoveStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="taskSize !=null">
+                and rownum &lt;= #{taskSize,jdbcType=DECIMAL}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateAll" parameterType="map">
+        UPDATE SURVEY.FILE_MOVE_RECORD r
+        SET(FILE_STORE_ID,FILE_UUID,BIZID,TABLENAME,DATA_SOURCE,CREATETIME,MOVE_STATUS,REMARK,THREAD_ID,FILE_SIZE)
+        =(SELECT FILESTOREID,FILEUUID,BIZID,TABLENAME,DATASOURCE,CREATETIME,MOVESTATUS,REMARK,THREADID,FILESIZE
+        FROM
+            <foreach collection="fileMoveRecordPoList" item="fileMoveRecordPo" index="index" open="(" separator="UNION ALL" close=")" >
+            SELECT #{fileMoveRecordPo.uuid,jdbcType=VARCHAR} UUID,#{fileMoveRecordPo.fileStoreId,jdbcType=VARCHAR} FILESTOREID, #{fileMoveRecordPo.fileUuid,jdbcType=VARCHAR} FILEUUID,
+                #{fileMoveRecordPo.bizid,jdbcType=VARCHAR} BIZID, #{fileMoveRecordPo.tablename,jdbcType=VARCHAR} TABLENAME, #{fileMoveRecordPo.dataSource,jdbcType=VARCHAR} DATASOURCE,
+                #{fileMoveRecordPo.createtime,jdbcType=TIMESTAMP} CREATETIME, #{fileMoveRecordPo.moveStatus,jdbcType=VARCHAR} MOVESTATUS, #{fileMoveRecordPo.remark,jdbcType=VARCHAR} REMARK,
+                #{fileMoveRecordPo.threadId,jdbcType=VARCHAR} THREADID, #{fileMoveRecordPo.fileSize,jdbcType=DECIMAL} FILESIZE
+            FROM dual
+            </foreach> r1
+        WHERE r1.UUID = r.uuid)
+        WHERE r.uuid in
+        <foreach collection="fileMoveRecordPoList" item="fileMoveRecordPo" index="index" open="(" separator="," close=")">
+            #{fileMoveRecordPo.uuid,jdbcType=VARCHAR}
+        </foreach>
+    </update>
 </mapper>

@@ -305,4 +305,31 @@
     f.create_time desc
   </select>
 
+  <insert id="insertAll" parameterType="com.funi.filemove.po.CfFileDescPo">
+    INSERT INTO SURVEY.CF_FILE_DESC f
+    (UUID, FILE_STORE_ID, STORE_TYPE, FILE_SIZE, FILE_NAME, EXT_NAME, IS_USE, SYSTEM_CODE,
+    BUSINESS_TABLE, BUSINESS_UUID, STATUS, CREATE_TIME, CREATOR_ID, UPDATE_TIME, UPDATER_ID,
+    DELETE_TIME, DELETER_ID, BUSINESS_DESC, BUSINESS_TYPE, BUSINESS_NAME)
+    <foreach collection="cfFileDescPoList" item="cfFileDescPo" index="index" separator="UNION ALL">
+      SELECT
+      #{cfFileDescPo.uuid,jdbcType=VARCHAR}, #{cfFileDescPo.fileStoreId,jdbcType=VARCHAR}, #{cfFileDescPo.storeType,jdbcType=DECIMAL},
+      #{cfFileDescPo.fileSize,jdbcType=DECIMAL}, #{cfFileDescPo.fileName,jdbcType=VARCHAR}, #{cfFileDescPo.extName,jdbcType=VARCHAR},
+      #{cfFileDescPo.isUse,jdbcType=DECIMAL}, #{cfFileDescPo.systemCode,jdbcType=VARCHAR}, #{cfFileDescPo.businessTable,jdbcType=VARCHAR},
+      #{cfFileDescPo.businessUuid,jdbcType=VARCHAR}, #{cfFileDescPo.status,jdbcType=DECIMAL}, #{cfFileDescPo.createTime,jdbcType=TIMESTAMP},
+      #{cfFileDescPo.creatorId,jdbcType=VARCHAR}, #{cfFileDescPo.updateTime,jdbcType=DATE}, #{cfFileDescPo.updaterId,jdbcType=VARCHAR},
+      #{cfFileDescPo.deleteTime,jdbcType=TIMESTAMP}, #{cfFileDescPo.deleterId,jdbcType=VARCHAR}, #{cfFileDescPo.businessDesc,jdbcType=VARCHAR},
+      #{cfFileDescPo.businessType,jdbcType=VARCHAR}, #{cfFileDescPo.businessName,jdbcType=VARCHAR}
+      FROM dual
+    </foreach>
+  </insert>
+
+
+  <select id="findFileListNotInRecord" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
+    select
+    <include refid="Base_Column_List"></include>
+     from survey.cf_file_desc f
+    where not exists (select 1 from survey.file_move_record r where r.file_uuid=f.uuid)
+    and rownum &lt;= #{pageSize,jdbcType=INTEGER}
+  </select>
+
 </mapper>

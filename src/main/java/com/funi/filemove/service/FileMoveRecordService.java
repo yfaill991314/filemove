@@ -10,7 +10,7 @@ public interface FileMoveRecordService {
 
     void importTaskTable(Map<String, Object> queryParams);
 
-    void clearData(Map<String, Object> queryParams);
+    void cfFileDescClear();
 
     Map<String, Object> remigrateMgDoorImg(Map<String, Object> queryParams);
 

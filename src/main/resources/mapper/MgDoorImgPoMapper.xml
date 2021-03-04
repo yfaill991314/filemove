@@ -35,12 +35,12 @@
     IMAGE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from SURVEY.MGDOORIMG
-    where ID = #{id,jdbcType=DECIMAL}
+    select /*+ PARALLEL(SURVEY.MGDOORIMG,5) */
+    t.ID, t.PROPERTY, t.IMGSTYLE, t.IMGDES, t.STATUS, t.INMAN, t.REGIDATE, t.IMGFILENAME, t.IMGFILESIZE,
+    t.TEMPID, t.FILENAME, t.DESCRIPTION, t.CREATER, t.CREATETIME, t.NOTE, t.ISDELE, t.RESULSID, t.UUID,
+    t.LOCAL_DATA_SOURCE, t.RESULTS_UUID, t.IMAGE
+    from SURVEY.MGDOORIMG t
+    where t.ID = #{id,jdbcType=DECIMAL}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
     delete from SURVEY.MGDOORIMG
@@ -333,4 +333,15 @@
     where rownum &lt;= #{pageSize,jdbcType=INTEGER}
   </select>
 
+  <select id="selectMgDoorImgPoListByID" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from SURVEY.MGDOORIMG
+    where ID in
+    <foreach collection="fileMoveRecordPoList" item="fileMoveRecordPo" index="index" open="(" separator="," close=")">
+      #{fileMoveRecordPo.bizid,jdbcType=DECIMAL}
+    </foreach>
+  </select>
 </mapper>

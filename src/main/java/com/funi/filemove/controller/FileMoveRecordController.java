@@ -59,9 +59,9 @@ public class FileMoveRecordController {
         return resultVO;
     }
 
-    @RequestMapping("clearData")
-    public ResultVO clearData(@RequestParam Map<String,Object> queryParams) {
-        fileMoveRecordService.clearData(queryParams);
+    @RequestMapping("cfFileDescClear")
+    public ResultVO cfFileDescClear() {
+        fileMoveRecordService.cfFileDescClear();
         ResultVO resultVO =new ResultVO(200,"清理成功");
         return resultVO;
     }

@@ -78,20 +78,11 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
                             },
                             {
                                 xtype: 'button',
-                                text: '清除数据',
+                                text: '清除CfFile',
                                 scope: me,
-                                itemId: 'bt_clearData',
+                                itemId: 'bt_clearCfFile',
                                 handler: function () {
-                                    var dataSource = me.queryById("dataSourceId").getValue();
-                                    var tableName = me.queryById("tableNameId").getValue();
-                                    var params = {};
-                                    if (dataSource!=null && dataSource!=''){
-                                        params.dataSource = dataSource;
-                                    }
-                                    if (tableName!=null && tableName!=''){
-                                        params.tableName = tableName;
-                                    }
-                                    me.clearData(params);
+                                    me.cfFileDescClear();
                                 }
                             },
                             {
@@ -339,13 +330,12 @@ Ext.define('app.view.fileMoveManage.moveRecordList', {
             }
         });
     },
-    clearData: function (params) {
+    cfFileDescClear: function () {
         var me = this;
         var myMask = new Ext.LoadMask(me,{msg:"请稍等,操作正在进行..."});
         myMask.show();
         Ext.Ajax.request({
-            url: 'fileMoveRecord/clearData',
-            params: params,
+            url: 'fileMoveRecord/cfFileDescClear',
             method: 'POST',
             // async: false,
             timeout: 600000,

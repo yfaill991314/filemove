@@ -168,39 +168,24 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
     }
 
     @Override
-    public void clearData(Map<String, Object> queryParams) {
-//        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
+    public void cfFileDescClear() {
+        Integer pageSize=300;
         ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
         while (true) {
             try {
 //                userTransaction.begin();
                 Map<String, Object> queryMap = new HashMap<>();
-                PageHelper.startPage(1, 20);
-                List<String> MoveStatusList = new ArrayList<String>() {{
-                    add("迁移失败");
-                    add("迁移成功");
-                }};
-                queryMap.put("moveStatusList", MoveStatusList);
-                queryMap.put("dataSource",queryParams.get("dataSource"));
-                queryMap.put("tableName",queryParams.get("tableName"));
-                List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(queryMap);
-                if (fileMoveRecordPos == null || fileMoveRecordPos.size() <= 0) {
+                queryMap.put("pageSize",pageSize);
+                List<CfFileDescPo> cfFileDescPos=cfFileDescPoMapper.findFileListNotInRecord(queryMap);
+                if (cfFileDescPos == null || cfFileDescPos.size() <= 0) {
                     break;
                 }
-                for (FileMoveRecordPo fileMoveRecordPo : fileMoveRecordPos) {
-                    if ("迁移成功".equals(fileMoveRecordPo.getMoveStatus())) {
-                        cfFileDescPoMapper.deleteByPrimaryKey(fileMoveRecordPo.getFileUuid());
-                        int i = fastDfsFileUpload.fileDelete(fileMoveRecordPo.getFileStoreId());
+                for (CfFileDescPo cfFileDescPo : cfFileDescPos) {
+                    if (cfFileDescPo.getFileStoreId() !=null) {
+                        int i = fastDfsFileUpload.fileDelete(cfFileDescPo.getFileStoreId());
                     }
-                    System.out.println("任务:" + fileMoveRecordPo.getUuid() + "--清理前状态:"+fileMoveRecordPo.getMoveStatus()+"--文件Uuid:" +fileMoveRecordPo.getFileUuid() + "--已删除");
-                    fileMoveRecordPo.setFileStoreId(null);
-                    fileMoveRecordPo.setFileUuid(null);
-                    fileMoveRecordPo.setCreatetime(null);
-                    fileMoveRecordPo.setMoveStatus("未迁移");
-                    fileMoveRecordPo.setRemark(null);
-                    fileMoveRecordPo.setThreadId(null);
-                    fileMoveRecordPo.setFileSize(null);
-                    fileMoveRecordPoMapper.updateByPrimaryKey(fileMoveRecordPo);
+                    cfFileDescPoMapper.deleteByPrimaryKey(cfFileDescPo.getUuid());
+                    System.out.println("文件:" + cfFileDescPo.getUuid() + "--StoreId:"+cfFileDescPo.getFileStoreId()+"--已删除");
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.funi.filemove.dao;
 
 import com.funi.filemove.po.CfFileDescPo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -21,4 +22,8 @@ public interface CfFileDescPoMapper {
     List<CfFileDescPo> selectFileListByFileQuery(Map<String, Object> queryParams);
 
     CfFileDescPo selectFileListByFigIdAndBusUuid(Map<String, Object> fileQueryParams);
+
+    void insertAll(@Param("cfFileDescPoList") List<CfFileDescPo> cfFileDescPoList);
+
+    List<CfFileDescPo> findFileListNotInRecord(Map<String, Object> queryMap);
 }
