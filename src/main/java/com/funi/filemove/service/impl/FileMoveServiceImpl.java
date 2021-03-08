@@ -61,7 +61,6 @@ public class FileMoveServiceImpl implements FileMoveService {
 
     private static volatile boolean inMoveTime = false;
     private static ExecutorService executorService = null;
-    private AtomicInteger atomicInteger = new AtomicInteger(0);
 
     /**
      * @return void
@@ -112,14 +111,8 @@ public class FileMoveServiceImpl implements FileMoveService {
         //文件服务器文件上传连续失败次数，计数，如大于该次数推出当前迁移线程
         int FastUpLoadContinuousFailureCount = 0;
 
-        long startTime = 0;
-        long endTime = 0;
-
         while (FileMoveServiceImpl.inMoveTime) {
             try {
-
-                startTime = System.currentTimeMillis();
-
                 //设置中间库主数据源
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                 Map<String, Object> queryParams = new HashMap<>();
@@ -139,10 +132,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setThreadId(theadId);
                 fileMoveRecordPo.setMoveStatus("迁移失败");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-
-                endTime = System.currentTimeMillis();
-                System.out.println("查询任务段运行时间：" + (endTime - startTime) + "ms");
-                startTime = System.currentTimeMillis();
+                System.out.println("BizId:"+fileMoveRecordPo.getBizid());
 
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
                 mgMapFigurePo = mgMapFigurePoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
@@ -180,10 +170,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                     continue;
                 }
 
-                endTime = System.currentTimeMillis();
-                System.out.println("读取大字段运行时间：" + (endTime - startTime) + "ms");
-                startTime = System.currentTimeMillis();
-
                 //根据mgMapFigurePo 查询对应的成果
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
                 mgMapResultPo = mgMapResultPoMapper.selectByPrimaryKey(mgMapFigurePo.getResultsid());
@@ -207,10 +193,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                         fileExe = fileExe.substring(lc + 1);
                     }
                 }
-
-                endTime = System.currentTimeMillis();
-                System.out.println("查询成果段运行时间：" + (endTime - startTime) + "ms");
-                startTime = System.currentTimeMillis();
 
                 for (int retry = 1; retry <= Constants.MAX_RETRY_TIMES; retry++) {
                     try {
@@ -239,10 +221,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                 } else {
                     FastUpLoadContinuousFailureCount = 0;
                 }
-
-                endTime = System.currentTimeMillis();
-                System.out.println("文件上传段运行时间：" + (endTime - startTime) + "ms");
-                startTime = System.currentTimeMillis();
 
                 // 建立测绘成果与文件的 关联关系
                 CfFileDescPo cfFileDescPo = new CfFileDescPo();
@@ -283,9 +261,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                 System.out.println("成果号" + mgMapResultPo.getId() + "迁移件：" + mgMapFigurePo.getId() + "迁移完成;文件storeId" + storeId);
-
-                endTime = System.currentTimeMillis();
-                System.out.println("关联关系段运行时间：" + (endTime - startTime) + "ms");
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
@@ -308,13 +283,7 @@ public class FileMoveServiceImpl implements FileMoveService {
         //文件服务器文件上传连续失败次数，计数，如大于该次数推出当前迁移线程
         int FastUpLoadContinuousFailureCount = 0;
 
-        long startTime = 0;
-        long endTime = 0;
-
         while (FileMoveServiceImpl.inMoveTime) {
-
-            startTime = System.currentTimeMillis();
-
             try {
                 //设置中间库主数据源
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
@@ -331,29 +300,15 @@ public class FileMoveServiceImpl implements FileMoveService {
                     return;
                 }
 
-                endTime = System.currentTimeMillis();
-                System.out.println("查询任务段运行时间：" + (endTime - startTime) + "ms");
-                startTime = System.currentTimeMillis();
-
 //              默认当前迁移任务失败，迁移完成后修改为成功， 保证不再查询到该数据，防止异常数据阻塞迁移线程
                 fileMoveRecordPo.setCreatetime(new Date());
                 fileMoveRecordPo.setThreadId(theadId);
                 fileMoveRecordPo.setMoveStatus("迁移失败");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                System.out.println("BizId:"+fileMoveRecordPo.getBizid());
 
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
-
-                endTime = System.currentTimeMillis();
-                System.out.println("修改任务段运行时间：" + (endTime - startTime) + "ms");
-                startTime = System.currentTimeMillis();
-
-                System.out.println("BizId:"+fileMoveRecordPo.getBizid());
                 mgDoorImgPo = mgDoorImgPoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
-
-                endTime = System.currentTimeMillis();
-                System.out.println("读取大字段运行时间：" + (endTime - startTime) + "ms");
-                startTime = System.currentTimeMillis();
-
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getTransitionDBName());
                 if (mgDoorImgPo == null) {
                     fileMoveRecordPo.setRemark("未查找到对应的被迁移文件");
@@ -408,10 +363,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                     FastUpLoadContinuousFailureCount = 0;
                 }
 
-                endTime = System.currentTimeMillis();
-                System.out.println("文件上传段运行时间：" + (endTime - startTime) + "ms");
-                startTime = System.currentTimeMillis();
-
                 // 建立测绘成果与文件的 关联关系
                 CfFileDescPo cfFileDescPo = new CfFileDescPo();
                 cfFileDescPo.setUuid(MyUtils.getUuid36());
@@ -435,10 +386,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setFileSize(cfFileDescPo.getFileSize());
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-
-                endTime = System.currentTimeMillis();
-                System.out.println("关联关系段运行时间：" + (endTime - startTime) + "ms");
-
                 System.out.println("迁移件：" + mgDoorImgPo.getId() + "迁移完成;文件storeId" + storeId);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
@@ -652,6 +599,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setThreadId(theadId);
                 fileMoveRecordPo.setMoveStatus("迁移失败");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
+                System.out.println("BizId:"+fileMoveRecordPo.getBizid());
 
                 ContextSynchronizationManager.bindResource("datasource", fileMoveCurrentContext.getCurMoveDataSourceName());
                 imgImagesPo = imgImagesPoMapper.selectByPrimaryKey(new BigDecimal(fileMoveRecordPo.getBizid()));
@@ -664,7 +612,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 }
 
                 if (imgImagesPo.getImage() == null || imgImagesPo.getImage().length == 0) {
-                    fileMoveRecordPo.setRemark("mgDoorImgPo--Image字段为空");
+                    fileMoveRecordPo.setRemark("imgImages--Image字段为空");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
