@@ -44,11 +44,6 @@ class FilemoveApplicationTests {
     }
 
 //    @Test
-//    void createTaskDataTest(){
-//        fileMoveService.createTaskData();
-//    }
-
-//    @Test
 //    void contextLoads2() {
 //        Map<String, Object> queryMap = new HashMap<>();
 //        PageHelper.startPage(1, 20);
@@ -76,8 +71,8 @@ class FilemoveApplicationTests {
 //
 //    }
 
-
-    public void clearData(Map<String, Object> queryParams) {
+    @Test
+    public void clearData() {
 //        UserTransaction userTransaction = jtaTransactionManager.getUserTransaction();
         ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
         while (true) {
@@ -90,16 +85,15 @@ class FilemoveApplicationTests {
                     add("迁移成功");
                 }};
                 queryMap.put("moveStatusList", MoveStatusList);
-                queryMap.put("dataSource",queryParams.get("dataSource"));
-                queryMap.put("tableName",queryParams.get("tableName"));
                 List<FileMoveRecordPo> fileMoveRecordPos = fileMoveRecordPoMapper.selectListRecord(queryMap);
                 if (fileMoveRecordPos == null || fileMoveRecordPos.size() <= 0) {
                     break;
                 }
-                for (FileMoveRecordPo fileMoveRecordPo : fileMoveRecordPos) {
+                for (int i=0;i<fileMoveRecordPos.size();i++) {
+                    FileMoveRecordPo fileMoveRecordPo=fileMoveRecordPos.get(i);
                     if ("迁移成功".equals(fileMoveRecordPo.getMoveStatus())) {
                         cfFileDescPoMapper.deleteByPrimaryKey(fileMoveRecordPo.getFileUuid());
-                        int i = fastDfsFileUpload.fileDelete(fileMoveRecordPo.getFileStoreId());
+                        fastDfsFileUpload.fileDelete(fileMoveRecordPo.getFileStoreId());
                     }
                     System.out.println("任务:" + fileMoveRecordPo.getUuid() + "--清理前状态:"+fileMoveRecordPo.getMoveStatus()+"--文件Uuid:" +fileMoveRecordPo.getFileUuid() + "--已删除");
                     fileMoveRecordPo.setFileStoreId(null);

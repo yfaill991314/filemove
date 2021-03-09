@@ -331,7 +331,7 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
 
     @Override
     public Map<String, Object> remigrateMgDoorImg(Map<String, Object> queryParams) {
-        String fileExe = "";
+        String fileExe = "dwg";
         String storeId = null;
         MgDoorImgPo mgDoorImgPo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
@@ -375,13 +375,8 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             }
 
             if (mgDoorImgPo.getImgfilename() == null) {
-                fileMoveRecordPo.setRemark("mgDoorImgPo--Imgfilename文件名称为空");
-                fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                return null;
+                mgDoorImgPo.setImgfilename(mgDoorImgPo.getId()+"."+fileExe);
             }
-
-            //默认全部为dwg格式
-            fileExe = "dwg";
 
             storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(mgDoorImgPo.getImage()), fileExe);
             if (storeId == null) {

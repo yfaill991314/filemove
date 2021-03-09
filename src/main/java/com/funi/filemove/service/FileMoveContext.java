@@ -1,5 +1,7 @@
 package com.funi.filemove.service;
 
+import com.funi.filemove.po.FileMoveCurrentContext;
+
 /**
  * @ClassName FileMoveService
  * @Description TODO
@@ -8,6 +10,5 @@ package com.funi.filemove.service;
  * @Version 1.0
  */
 public interface FileMoveContext {
-    void setCurrentFileMoveContextInfo();
-
+    FileMoveCurrentContext getCurrentFileMoveContextInfo(String tableName);
 }

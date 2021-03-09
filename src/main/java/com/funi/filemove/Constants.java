@@ -25,7 +25,7 @@ public final class Constants {
 
 //    private static final int CPU_CORE_SIZE=Runtime.getRuntime().availableProcessors();
 
-    public static final int CPU_CORE_SIZE_IO=1;
+    public static final int CPU_CORE_SIZE_IO=3;
 
     public static final String SYSTEM_CODE="surveyInner";
 
