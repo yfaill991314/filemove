@@ -320,7 +320,6 @@
         and d.id=#{id,jdbcType=DECIMAL}
       </if>
     </where>
-    order by d.id
   </select>
 
   <select id="selectListDoorImgByMinId" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">

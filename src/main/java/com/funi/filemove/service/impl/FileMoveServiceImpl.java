@@ -119,11 +119,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
-                if (mgMapFigurePo.getMgstatus() == null) {
-                    fileMoveRecordPo.setRemark("mgMapFigurePo--mgstatus文件状态为空");
-                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                    continue;
-                }
 
                 if (mgMapFigurePo.getImage() == null || mgMapFigurePo.getImage().length == 0) {
                     fileMoveRecordPo.setRemark("mgMapFigurePo--Image字段为空");
@@ -221,11 +216,20 @@ public class FileMoveServiceImpl implements FileMoveService {
                         cfFileDescPo.setBusinessType(cfDictPo.getUuid());
                     }
                 }
-                if ((new BigDecimal(-999)).equals(mgMapFigurePo.getMgstatus())) {
-                    cfFileDescPo.setStatus((short) -9);
-                } else {
-                    cfFileDescPo.setStatus(mgMapFigurePo.getMgstatus().shortValueExact());
+
+                BigDecimal mgstatus = mgMapFigurePo.getMgstatus();
+                if (mgstatus==null){
+                    cfFileDescPo.setStatus((short) 1);
+                }else {
+                    if (mgstatus.compareTo(new BigDecimal(10)) == -1&&mgstatus.compareTo(new BigDecimal(-10)) == 1){
+                        cfFileDescPo.setStatus(mgstatus.shortValueExact());
+                    }else if (mgstatus.compareTo(new BigDecimal(-999)) == 0){
+                        cfFileDescPo.setStatus((short) -9);
+                    }else {
+                        cfFileDescPo.setStatus((short) 1);
+                    }
                 }
+
                 cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
                 cfFileDescPo.setCreatorId(mgMapFigurePo.getCreater());
                 cfFileDescPoMapper.insertSelective(cfFileDescPo);
@@ -296,12 +300,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                     continue;
                 }
 
-                if (mgDoorImgPo.getStatus() == null) {
-                    fileMoveRecordPo.setRemark("mgDoorImgPo--mgstatus文件状态为空");
-                    fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                    continue;
-                }
-
                 if (mgDoorImgPo.getImage() == null || mgDoorImgPo.getImage().length == 0) {
                     fileMoveRecordPo.setRemark("mgDoorImgPo--Image字段为空");
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
@@ -353,6 +351,20 @@ public class FileMoveServiceImpl implements FileMoveService {
                 cfFileDescPo.setBusinessTable(Constants.MG_DOOR_IMG);
                 cfFileDescPo.setBusinessUuid(mgDoorImgPo.getUuid());
                 cfFileDescPo.setBusinessName("分层分户图");
+
+                BigDecimal status = mgDoorImgPo.getStatus();
+                if (status==null){
+                    cfFileDescPo.setStatus((short) 1);
+                }else {
+                    if (status.compareTo(new BigDecimal(10)) == -1&&status.compareTo(new BigDecimal(-10)) == 1){
+                        cfFileDescPo.setStatus(status.shortValueExact());
+                    }else if (status.compareTo(new BigDecimal(-999)) == 0){
+                        cfFileDescPo.setStatus((short) -9);
+                    }else {
+                        cfFileDescPo.setStatus((short) 1);
+                    }
+                }
+
                 cfFileDescPo.setStatus(mgDoorImgPo.getStatus().shortValueExact());
                 cfFileDescPo.setCreateTime(mgDoorImgPo.getRegidate());
                 cfFileDescPo.setCreatorId(mgDoorImgPo.getCreater());

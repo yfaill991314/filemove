@@ -16,7 +16,7 @@ Ext.define('app.view.fileMoveManage.imgimagesList', {
         var me = this;
         var newstore = Ext.create('Ext.data.Store', {
             id: 'simpsonsStore',
-            autoLoad: true,
+            autoLoad: false,
             pageSize: 20, // 每页的条目数量
             proxy: {
                 type: 'ajax',

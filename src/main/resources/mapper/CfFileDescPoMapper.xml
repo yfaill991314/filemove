@@ -285,8 +285,6 @@
         and FILE_STORE_ID like #{fileStoreIdLike,jdbcType=VARCHAR}
       </if>
     </where>
-    order by
-    f.create_time desc
   </select>
 
   <select id="selectFileListByFigIdAndBusUuid" parameterType="map" resultMap="BaseResultMap">

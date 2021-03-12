@@ -660,7 +660,6 @@
                 and m.RESULTSID=#{resultsid,jdbcType=DECIMAL}
             </if>
         </where>
-        order by m.id
     </select>
 
     <select id="selectListFigureByMinId" parameterType="map" resultMap="BaseResultMap" useCache="false" flushCache="true">
