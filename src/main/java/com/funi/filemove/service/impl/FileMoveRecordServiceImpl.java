@@ -313,6 +313,19 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                     cfFileDescPo.setBusinessType(cfDictPo.getUuid());
                 }
             }
+
+            BigDecimal mgstatus = mgMapFigurePo.getMgstatus();
+            if (mgstatus==null){
+                cfFileDescPo.setStatus((short) 1);
+            }else {
+                if (mgstatus.compareTo(new BigDecimal(10)) == -1&&mgstatus.compareTo(new BigDecimal(-10)) == 1){
+                    cfFileDescPo.setStatus(mgstatus.shortValueExact());
+                }else if (mgstatus.compareTo(new BigDecimal(-999)) == 0){
+                    cfFileDescPo.setStatus((short) -9);
+                }else {
+                    cfFileDescPo.setStatus((short) 1);
+                }
+            }
             cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
             cfFileDescPo.setCreatorId(mgMapFigurePo.getCreater());
             cfFileDescPoMapper.insertSelective(cfFileDescPo);
@@ -399,7 +412,18 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             cfFileDescPo.setBusinessTable(null);
             cfFileDescPo.setBusinessUuid(mgDoorImgPo.getUuid());
             cfFileDescPo.setBusinessName("分层分户图");
-            cfFileDescPo.setStatus(mgDoorImgPo.getStatus().shortValueExact());
+            BigDecimal status = mgDoorImgPo.getStatus();
+            if (status==null){
+                cfFileDescPo.setStatus((short) 1);
+            }else {
+                if (status.compareTo(new BigDecimal(10)) == -1&&status.compareTo(new BigDecimal(-10)) == 1){
+                    cfFileDescPo.setStatus(status.shortValueExact());
+                }else if (status.compareTo(new BigDecimal(-999)) == 0){
+                    cfFileDescPo.setStatus((short) -9);
+                }else {
+                    cfFileDescPo.setStatus((short) 1);
+                }
+            }
             cfFileDescPo.setCreateTime(mgDoorImgPo.getRegidate());
             cfFileDescPo.setCreatorId(mgDoorImgPo.getCreater());
             cfFileDescPoMapper.insertSelective(cfFileDescPo);

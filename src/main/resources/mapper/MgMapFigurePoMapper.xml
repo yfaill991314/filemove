@@ -61,7 +61,7 @@
     IMAGE
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
-        select
+        select /*+ PARALLEL(SURVEY.MGMAPFIGURE,5) */
         <include refid="Base_Column_List"/>
         ,
         <include refid="Blob_Column_List"/>

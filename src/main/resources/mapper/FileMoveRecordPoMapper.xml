@@ -235,7 +235,6 @@
         <include refid="Base_Column_List"/>
         from SURVEY.FILE_MOVE_RECORD r
         <where>
-            rownum = 1
             <if test="uuid != null and uuid !=''">
                 and r.UUID=#{uuid,jdbcType=VARCHAR}
             </if>
@@ -251,6 +250,7 @@
             <if test="MoveStatus != null">
                 and r.MOVE_STATUS = #{MoveStatus,jdbcType=VARCHAR}
             </if>
+            and rownum = 1
         </where>
     </select>
 

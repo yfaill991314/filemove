@@ -229,7 +229,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                         cfFileDescPo.setStatus((short) 1);
                     }
                 }
-
                 cfFileDescPo.setCreateTime(mgMapFigurePo.getRegidate());
                 cfFileDescPo.setCreatorId(mgMapFigurePo.getCreater());
                 cfFileDescPoMapper.insertSelective(cfFileDescPo);
@@ -351,7 +350,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                 cfFileDescPo.setBusinessTable(Constants.MG_DOOR_IMG);
                 cfFileDescPo.setBusinessUuid(mgDoorImgPo.getUuid());
                 cfFileDescPo.setBusinessName("分层分户图");
-
                 BigDecimal status = mgDoorImgPo.getStatus();
                 if (status==null){
                     cfFileDescPo.setStatus((short) 1);
@@ -364,8 +362,6 @@ public class FileMoveServiceImpl implements FileMoveService {
                         cfFileDescPo.setStatus((short) 1);
                     }
                 }
-
-                cfFileDescPo.setStatus(mgDoorImgPo.getStatus().shortValueExact());
                 cfFileDescPo.setCreateTime(mgDoorImgPo.getRegidate());
                 cfFileDescPo.setCreatorId(mgDoorImgPo.getCreater());
                 cfFileDescPoMapper.insertSelective(cfFileDescPo);
