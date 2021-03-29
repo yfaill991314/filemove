@@ -238,7 +238,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setFileSize(cfFileDescPo.getFileSize());
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                System.out.println(Constants.MG_MAP_FIGURE+"表--迁移件：" + mgMapFigurePo.getId() + "迁移完成;文件storeId" + storeId);
+                System.out.println(fileMoveCurrentContext.getCurMoveDataSourceName()+"--"+Constants.MG_MAP_FIGURE+"表--迁移件：" + mgMapFigurePo.getId() + "迁移完成;文件storeId" + storeId);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
@@ -254,7 +254,7 @@ public class FileMoveServiceImpl implements FileMoveService {
      **/
     public void moveMgDoorImgTable() {
         String theadId = Thread.currentThread().getName();
-        String fileExe = "dwg";
+        String fileExe;
         String storeId = null;
         MgDoorImgPo mgDoorImgPo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
@@ -304,6 +304,8 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
+
+                fileExe=MyUtils.getFileExe(mgDoorImgPo.getImgstyle(),mgDoorImgPo.getProperty());
 
                 if (mgDoorImgPo.getImgfilename() == null) {
                     mgDoorImgPo.setImgfilename(mgDoorImgPo.getId()+"."+fileExe);
@@ -371,7 +373,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setFileSize(cfFileDescPo.getFileSize());
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                System.out.println(Constants.MG_DOOR_IMG+"表--迁移件：" + mgDoorImgPo.getId() + "迁移完成;文件storeId" + storeId);
+                System.out.println(fileMoveCurrentContext.getCurMoveDataSourceName()+"--"+Constants.MG_DOOR_IMG+"表--迁移件：" + mgDoorImgPo.getId() + "迁移完成;文件storeId" + storeId);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
@@ -387,7 +389,7 @@ public class FileMoveServiceImpl implements FileMoveService {
      **/
     public void moveImgimagesTable() {
         String theadId = Thread.currentThread().getName();
-        String fileExe = "dwg";
+        String fileExe;
         String storeId = null;
         ImgImagesPo imgImagesPo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
@@ -438,6 +440,8 @@ public class FileMoveServiceImpl implements FileMoveService {
                     fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
                     continue;
                 }
+
+                fileExe=MyUtils.getFileExe(imgImagesPo.getImgstyle(),imgImagesPo.getProperty());
 
                 for (int retry = 1; retry <= Constants.MAX_RETRY_TIMES; retry++) {
                     try {
@@ -490,7 +494,7 @@ public class FileMoveServiceImpl implements FileMoveService {
                 fileMoveRecordPo.setFileSize(cfFileDescPo.getFileSize());
                 fileMoveRecordPo.setMoveStatus("迁移成功");
                 fileMoveRecordPoMapper.updateByPrimaryKeySelective(fileMoveRecordPo);
-                System.out.println(Constants.IMG_IMAGES+"表--迁移件：" + imgImagesPo.getId() + "迁移完成;文件storeId" + storeId);
+                System.out.println(fileMoveCurrentContext.getCurMoveDataSourceName()+"--"+Constants.IMG_IMAGES+"表--迁移件：" + imgImagesPo.getId() + "迁移完成;文件storeId" + storeId);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }

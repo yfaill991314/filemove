@@ -296,7 +296,7 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             cfFileDescPo.setExtName(fileExe);
             cfFileDescPo.setIsUse((short) 1);
             cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
-            cfFileDescPo.setBusinessTable(null);
+            cfFileDescPo.setBusinessTable(Constants.MG_MAP_FIGURE);
             cfFileDescPo.setBusinessUuid(mgMapResultPo.getUuid());
             fileTypeName = mgMapFigurePo.getImagetype();
             if ("地块及楼栋图".equals(fileTypeName)) {
@@ -344,7 +344,7 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
 
     @Override
     public Map<String, Object> remigrateMgDoorImg(Map<String, Object> queryParams) {
-        String fileExe = "dwg";
+        String fileExe ;
         String storeId = null;
         MgDoorImgPo mgDoorImgPo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
@@ -387,6 +387,8 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                 return null;
             }
 
+            fileExe=MyUtils.getFileExe(mgDoorImgPo.getImgstyle(),mgDoorImgPo.getProperty());
+
             if (mgDoorImgPo.getImgfilename() == null) {
                 mgDoorImgPo.setImgfilename(mgDoorImgPo.getId()+"."+fileExe);
             }
@@ -409,7 +411,7 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             cfFileDescPo.setExtName(fileExe);
             cfFileDescPo.setIsUse((short) 1);
             cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
-            cfFileDescPo.setBusinessTable(null);
+            cfFileDescPo.setBusinessTable(Constants.MG_DOOR_IMG);
             cfFileDescPo.setBusinessUuid(mgDoorImgPo.getUuid());
             cfFileDescPo.setBusinessName("分层分户图");
             BigDecimal status = mgDoorImgPo.getStatus();
@@ -442,7 +444,7 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
 
     @Override
     public Map<String, Object> remigrateImgimages(Map<String, Object> queryParams) {
-        String fileExe = "";
+        String fileExe ;
         String storeId = null;
         ImgImagesPo imgImagesPo = null;
         FileMoveRecordPo fileMoveRecordPo = null;
@@ -477,7 +479,8 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                 return null;
             }
 
-            fileExe = "dwg";
+            fileExe=MyUtils.getFileExe(imgImagesPo.getImgstyle(),imgImagesPo.getProperty());
+
             storeId = fastDfsFileUpload.fileUpload(new ByteArrayInputStream(imgImagesPo.getImage()), fileExe);
             if (storeId == null) {
                 fileMoveRecordPo.setRemark("上传文件失败,storeId为空。(请确认文件服务器工作状态)");
@@ -492,11 +495,11 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
             cfFileDescPo.setFileStoreId(Constants.FAST_DFS_PREFIX + storeId);
             cfFileDescPo.setStoreType((short) 2);//2表明该文件 是fastdfs文件
             cfFileDescPo.setFileSize(new BigDecimal(imgImagesPo.getImage().length));
-            cfFileDescPo.setFileName(imgImagesPo.getId().toString());
+            cfFileDescPo.setFileName(imgImagesPo.getId().toString()+'.'+fileExe);
             cfFileDescPo.setExtName(fileExe);
             cfFileDescPo.setIsUse((short) 1);
             cfFileDescPo.setSystemCode(Constants.SYSTEM_CODE);
-            cfFileDescPo.setBusinessTable(null);
+            cfFileDescPo.setBusinessTable(Constants.IMG_IMAGES);
             cfFileDescPo.setBusinessUuid(imgImagesPo.getUuid());
             cfFileDescPo.setBusinessName("分层分户图");
             cfFileDescPo.setStatus((short) 1);
