@@ -513,7 +513,8 @@ public class FileMoveServiceImpl implements FileMoveService {
         //立即停止
         if (executorService != null && !executorService.isShutdown()) {
             FileMoveServiceImpl.inMoveTime = false;
-            executorService.shutdown();
+//            executorService.shutdown();
+            executorService.shutdownNow();
             executorService = null;
         }
         return true;

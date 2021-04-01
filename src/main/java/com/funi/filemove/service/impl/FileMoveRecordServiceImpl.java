@@ -87,20 +87,20 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
 
         long startTime = 0;
         long endTime = 0;
-
         startTime = System.currentTimeMillis();
+
+
+        ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
+        Map<String, Object> recordQueryMap = new HashMap<>();
+        recordQueryMap.put("dataSource", dataSourceItem.get("dataSource"));
+        recordQueryMap.put("tableName", tableNameItem.get("tableName"));
+        BigDecimal bizId = fileMoveRecordPoMapper.selectMaxBizIdByParams(recordQueryMap);
+        if (bizId == null) {
+            bizId = new BigDecimal(0);
+        }
+
         while (true) {
             System.out.println(df.format(new Date()));
-            ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);
-            Map<String, Object> recordQueryMap = new HashMap<>();
-            recordQueryMap.put("dataSource", dataSourceItem.get("dataSource"));
-            recordQueryMap.put("tableName", tableNameItem.get("tableName"));
-            BigDecimal bizId = fileMoveRecordPoMapper.selectMaxBizIdByParams(recordQueryMap);
-            if (bizId == null) {
-                bizId = new BigDecimal(0);
-            }
-            System.out.println(df.format(new Date()));
-
             ContextSynchronizationManager.bindResource("datasource", dataSourceItem.get("dataSourceName"));
             Map<String, Object> queryMap = new HashMap<>();
             queryMap.put("minId", bizId);
@@ -110,6 +110,8 @@ public class FileMoveRecordServiceImpl implements FileMoveRecordService {
                 System.out.println("数据源:" + dataSourceItem.get("dataSource") + "--数据表:" + tableNameItem.get("tableName") + "任务导入完毕！");
                 break;
             }
+
+            bizId=new BigDecimal(fileMoveRecordPos.get(fileMoveRecordPos.size()-1).getBizid());
             System.out.println(df.format(new Date()));
 
             ContextSynchronizationManager.bindResource("datasource", Constants.DEFAULT_DATA_SOURCE_NAME);

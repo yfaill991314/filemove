@@ -35,22 +35,22 @@ dynamic:
 #      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbqbj
 #      username: sysdeerp
 #      password: qbjyc$2012
-    wj:
-      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbwj
-      username: sysdeerp
-      password: wjyc$2012
-    px:
-      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbpx
-      username: sysdeerp
-      password: pxyc$2012
-    xd:
-      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbxd
-      username: sysdeerp
-      password: xdyc$2012
-    jy:
-      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbjy
-      username: sysdeerp
-      password: nvhg1234#$
+#    wj:
+#      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbwj
+#      username: sysdeerp
+#      password: wjyc$2012
+#    px:
+#      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbpx
+#      username: sysdeerp
+#      password: pxyc$2012
+#    xd:
+#      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbxd
+#      username: sysdeerp
+#      password: xdyc$2012
+#    jy:
+#      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbjy
+#      username: sysdeerp
+#      password: nvhg1234#$
 #    cz:
 #      url: jdbc:oracle:thin:@172.25.17.29:1521/pdbcz
 #      username: sysdeerp
